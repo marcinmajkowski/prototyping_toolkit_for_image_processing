@@ -5,6 +5,7 @@
 
 class QAction;
 class QMenu;
+class QTabWidget;
 
 class MainWindow : public QMainWindow
 {
@@ -22,6 +23,8 @@ private:
     void createActions();
     void createMenus();
     void updateActions();
+
+    QTabWidget *tabWidget;
 
     QAction *openAct;
     QAction *exitAct;

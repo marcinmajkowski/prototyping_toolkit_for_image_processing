@@ -5,9 +5,15 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
+    tabWidget = new QTabWidget;
+    tabWidget->addTab(new QWidget(), "TAB 1"); //TODO
+    tabWidget->addTab(new QWidget(), "TAB 2"); //TODO
+    setCentralWidget(tabWidget);
 
     createActions();
     createMenus();
+
+    resize(QGuiApplication::primaryScreen()->availableSize() * 3 / 5);
 }
 
 MainWindow::~MainWindow()
