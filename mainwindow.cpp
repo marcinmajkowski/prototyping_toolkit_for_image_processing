@@ -34,6 +34,11 @@ void MainWindow::open()
 
 }
 
+void MainWindow::undo()
+{
+
+}
+
 void MainWindow::about() //TODO
 {
     QMessageBox::about(this,
@@ -46,12 +51,17 @@ void MainWindow::about() //TODO
 void MainWindow::createActions()
 {
     openAct = new QAction(tr("&Open..."), this);
-    openAct->setShortcut(tr("Ctrl+O"));
+    openAct->setShortcuts(QKeySequence::Open);
     connect(openAct, SIGNAL(triggered()), this, SLOT(open()));
 
     exitAct = new QAction(tr("E&xit"), this);
-    exitAct->setShortcut(tr("Ctrl+Q"));
+    exitAct->setShortcuts(QKeySequence::Quit);
     connect(exitAct, SIGNAL(triggered()), this, SLOT(close()));
+
+    undoAct = new QAction(tr("&Undo"), this);
+    undoAct->setShortcuts(QKeySequence::Undo);
+    undoAct->setStatusTip(tr("Undo the last editing action"));
+    connect(undoAct, SIGNAL(triggered()), this, SLOT(undo()));
 
     aboutAct = new QAction(tr("&About"), this);
     connect(aboutAct, SIGNAL(triggered()), this, SLOT(about()));
@@ -68,6 +78,7 @@ void MainWindow::createMenus()
     fileMenu->addAction(exitAct);
 
     editMenu = new QMenu(tr("&Edit"), this);
+    editMenu->addAction(undoAct);
 
     viewMenu = new QMenu(tr("&View"), this);
 
@@ -83,7 +94,10 @@ void MainWindow::createMenus()
 
 void MainWindow::createToolBars()
 {
+    fileToolBar = addToolBar(tr("File"));
 
+    editToolBar = addToolBar(tr("Edit"));
+    editToolBar->addAction(undoAct);
 }
 
 void MainWindow::createStatusBar()

@@ -6,6 +6,7 @@
 class QAction;
 class QMenu;
 class QTabWidget;
+class QToolBar;
 class CodeTabWidget;
 
 class MainWindow : public QMainWindow
@@ -18,6 +19,7 @@ public:
 
 private slots:
     void open();
+    void undo();
     void about();
 
 private:
@@ -34,6 +36,7 @@ private:
 
     QAction *openAct;
     QAction *exitAct;
+    QAction *undoAct;
     QAction *aboutAct;
     QAction *aboutQtAct;
 
@@ -41,6 +44,9 @@ private:
     QMenu *editMenu;
     QMenu *viewMenu;
     QMenu *helpMenu;
+
+    QToolBar *fileToolBar;
+    QToolBar *editToolBar;
 };
 
 #endif // MAINWINDOW_H
