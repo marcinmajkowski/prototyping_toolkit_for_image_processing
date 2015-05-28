@@ -102,7 +102,7 @@ void MainWindow::createToolBars()
 
 void MainWindow::createStatusBar()
 {
-
+    statusBar()->showMessage(tr("Ready"));
 }
 
 void MainWindow::createDockWindows()
