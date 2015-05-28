@@ -19,6 +19,8 @@ MainWindow::MainWindow(QWidget *parent)
     createStatusBar();
     createDockWindows();
 
+    setWindowTitle("Prototyping Toolkit for Image Processing");
+
     resize(QGuiApplication::primaryScreen()->availableSize() * 3 / 5);
 }
 
