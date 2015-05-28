@@ -7,7 +7,7 @@ class QAction;
 class QMenu;
 class QTabWidget;
 class QToolBar;
-class CodeTabWidget;
+class CodeWidget;
 
 class MainWindow : public QMainWindow
 {
@@ -32,7 +32,7 @@ private:
 
     QTabWidget *tabWidget;
 
-    CodeTabWidget *codeTabWidget;
+    CodeWidget *codeWidget;
 
     QAction *openAct;
     QAction *exitAct;
