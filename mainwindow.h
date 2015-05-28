@@ -35,6 +35,7 @@ private:
     QAction *aboutQtAct;
 
     QMenu *fileMenu;
+    QMenu *editMenu;
     QMenu *viewMenu;
     QMenu *helpMenu;
 };

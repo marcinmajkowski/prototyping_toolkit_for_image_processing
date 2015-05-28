@@ -62,6 +62,8 @@ void MainWindow::createMenus()
     fileMenu->addSeparator();
     fileMenu->addAction(exitAct);
 
+    editMenu = new QMenu(tr("&Edit"), this);
+
     viewMenu = new QMenu(tr("&View"), this);
 
     helpMenu = new QMenu(tr("&Help"), this);
@@ -69,6 +71,7 @@ void MainWindow::createMenus()
     helpMenu->addAction(aboutQtAct);
 
     menuBar()->addMenu(fileMenu);
+    menuBar()->addMenu(editMenu);
     menuBar()->addMenu(viewMenu);
     menuBar()->addMenu(helpMenu);
 }
