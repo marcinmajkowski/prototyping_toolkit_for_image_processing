@@ -8,6 +8,7 @@ class QMenu;
 class QTabWidget;
 class QToolBar;
 class CodeWidget;
+class PipelineWidget;
 
 class MainWindow : public QMainWindow
 {
@@ -33,6 +34,7 @@ private:
     QTabWidget *tabWidget;
 
     CodeWidget *codeWidget;
+    PipelineWidget *pipelineWidget;
 
     QAction *openAct;
     QAction *exitAct;

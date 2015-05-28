@@ -2,11 +2,13 @@
 
 #include "mainwindow.h"
 #include "codewidget.h"
+#include "pipelinewidget.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     codeWidget = new CodeWidget;
+    pipelineWidget = new PipelineWidget;
 
     tabWidget = new QTabWidget;
     tabWidget->addTab(new QWidget(), "Image"); //TODO
@@ -108,7 +110,11 @@ void MainWindow::createStatusBar()
 
 void MainWindow::createDockWindows()
 {
-
+    QDockWidget *dock = new QDockWidget(tr("Pipeline"), this);
+    dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea); //TODO
+    dock->setWidget(pipelineWidget);
+    addDockWidget(Qt::LeftDockWidgetArea, dock);
+    viewMenu->addAction(dock->toggleViewAction());
 }
 
 void MainWindow::updateActions()

@@ -14,10 +14,12 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    codewidget.cpp
+    codewidget.cpp \
+    pipelinewidget.cpp
 
 HEADERS  += mainwindow.h \
-    codewidget.h
+    codewidget.h \
+    pipelinewidget.h
 
 win32 {
     INCLUDEPATH += "D:\\OpenCV2.4.9\\build\\include" \
