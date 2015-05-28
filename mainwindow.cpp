@@ -15,6 +15,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     createActions();
     createMenus();
+    createToolBars();
+    createStatusBar();
+    createDockWindows();
 
     resize(QGuiApplication::primaryScreen()->availableSize() * 3 / 5);
 }
@@ -74,6 +77,21 @@ void MainWindow::createMenus()
     menuBar()->addMenu(editMenu);
     menuBar()->addMenu(viewMenu);
     menuBar()->addMenu(helpMenu);
+}
+
+void MainWindow::createToolBars()
+{
+
+}
+
+void MainWindow::createStatusBar()
+{
+
+}
+
+void MainWindow::createDockWindows()
+{
+
 }
 
 void MainWindow::updateActions()

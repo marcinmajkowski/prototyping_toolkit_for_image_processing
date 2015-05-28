@@ -23,6 +23,9 @@ private slots:
 private:
     void createActions();
     void createMenus();
+    void createToolBars();
+    void createStatusBar();
+    void createDockWindows();
     void updateActions();
 
     QTabWidget *tabWidget;
