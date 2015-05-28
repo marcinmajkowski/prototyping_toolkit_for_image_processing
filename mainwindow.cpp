@@ -56,6 +56,7 @@ void MainWindow::createActions()
 
     exitAct = new QAction(tr("E&xit"), this);
     exitAct->setShortcuts(QKeySequence::Quit);
+    exitAct->setStatusTip(tr("Exit the application"));
     connect(exitAct, SIGNAL(triggered()), this, SLOT(close()));
 
     undoAct = new QAction(tr("&Undo"), this);
