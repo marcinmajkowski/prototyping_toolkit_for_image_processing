@@ -6,8 +6,8 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     tabWidget = new QTabWidget;
-    tabWidget->addTab(new QWidget(), "TAB 1"); //TODO
-    tabWidget->addTab(new QWidget(), "TAB 2"); //TODO
+    tabWidget->addTab(new QWidget(), "Image"); //TODO
+    tabWidget->addTab(new QWidget(), "Code"); //TODO
     setCentralWidget(tabWidget);
 
     createActions();
