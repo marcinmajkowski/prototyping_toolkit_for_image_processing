@@ -1,13 +1,16 @@
 #include <QtWidgets>
 
 #include "mainwindow.h"
+#include "codetabwidget.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
+    codeTabWidget = new CodeTabWidget;
+
     tabWidget = new QTabWidget;
     tabWidget->addTab(new QWidget(), "Image"); //TODO
-    tabWidget->addTab(new QWidget(), "Code"); //TODO
+    tabWidget->addTab(codeTabWidget, "Code"); //TODO
     setCentralWidget(tabWidget);
 
     createActions();
