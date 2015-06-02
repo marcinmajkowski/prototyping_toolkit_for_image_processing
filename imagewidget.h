@@ -11,6 +11,9 @@ class ImageWidget : public QScrollArea
     Q_OBJECT
 public:
     explicit ImageWidget(QWidget *parent = 0);
+
+/* loadFile() is a member of ImageWidget class since this widget
+ * knows the best what files it can handle. */
     bool loadFile(const QString &filename);
 
 signals:
