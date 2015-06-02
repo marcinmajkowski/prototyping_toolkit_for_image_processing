@@ -29,6 +29,7 @@ private:
     void createMenus();
     void createToolBars();
     void createStatusBar();
+    void createTabs();
     void createDockWindows();
     void updateActions();
 

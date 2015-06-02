@@ -8,17 +8,11 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
-    codeWidget = new CodeWidget;
-
-    tabWidget = new QTabWidget;
-    tabWidget->addTab(new QWidget(), "Image"); //TODO
-    tabWidget->addTab(codeWidget, "Code"); //TODO
-    setCentralWidget(tabWidget);
-
     createActions();
     createMenus();
     createToolBars();
     createStatusBar();
+    createTabs();
     createDockWindows();
 
     setWindowTitle("Prototyping Toolkit for Image Processing");
@@ -108,9 +102,21 @@ void MainWindow::createStatusBar()
     statusBar()->showMessage(tr("Ready"));
 }
 
+void MainWindow::createTabs()
+{
+    codeWidget = new CodeWidget;
+
+    tabWidget = new QTabWidget;
+    tabWidget->addTab(new QWidget(), "Image"); //TODO
+    tabWidget->addTab(codeWidget, "Code"); //TODO
+    setCentralWidget(tabWidget);
+
+}
+
 void MainWindow::createDockWindows()
 {
     filtersWidget = new FiltersWidget;
+
     QDockWidget *dock = new QDockWidget(tr("Filters"), this);
     dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea); //TODO
     dock->setWidget(filtersWidget);
@@ -118,6 +124,7 @@ void MainWindow::createDockWindows()
     viewMenu->addAction(dock->toggleViewAction());
 
     pipelineWidget = new PipelineWidget;
+
     dock = new QDockWidget(tr("Pipeline"), this);
     dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea); //TODO
     dock->setWidget(pipelineWidget);
