@@ -26,7 +26,12 @@ MainWindow::~MainWindow()
 
 }
 
-void MainWindow::open()
+void MainWindow::openProject()
+{
+
+}
+
+void MainWindow::openImage()
 {
 
 }
@@ -47,9 +52,9 @@ void MainWindow::about() //TODO
 
 void MainWindow::createActions()
 {
-    openAct = new QAction(tr("&Open..."), this);
+    openAct = new QAction(tr("&Open Project..."), this);
     openAct->setShortcuts(QKeySequence::Open);
-    connect(openAct, SIGNAL(triggered()), this, SLOT(open()));
+    connect(openAct, SIGNAL(triggered()), this, SLOT(openProject()));
 
     exitAct = new QAction(tr("E&xit"), this);
     exitAct->setShortcuts(QKeySequence::Quit);

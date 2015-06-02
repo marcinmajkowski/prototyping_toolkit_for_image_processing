@@ -4,12 +4,14 @@
 #include <QScrollArea>
 
 class QLabel;
+class QString;
 
 class ImageWidget : public QScrollArea
 {
     Q_OBJECT
 public:
     explicit ImageWidget(QWidget *parent = 0);
+    bool loadFile(const QString &filename);
 
 signals:
 

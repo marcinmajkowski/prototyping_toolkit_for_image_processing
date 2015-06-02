@@ -21,7 +21,8 @@ public:
     ~MainWindow();
 
 private slots:
-    void open();
+    void openProject();
+    void openImage();
     void undo();
     void about();
 

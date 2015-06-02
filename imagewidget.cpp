@@ -7,6 +7,11 @@ ImageWidget::ImageWidget(QWidget *parent) :
 {
 }
 
+bool ImageWidget::loadFile(const QString &filename)
+{
+
+}
+
 void ImageWidget::zoomIn()
 {
 
