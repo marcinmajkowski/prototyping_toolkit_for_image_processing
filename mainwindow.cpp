@@ -92,6 +92,8 @@ void MainWindow::createMenus()
 
     viewMenu = new QMenu(tr("&View"), this);
 
+    windowMenu = new QMenu(tr("&Window"), this);
+
     helpMenu = new QMenu(tr("&Help"), this);
     helpMenu->addAction(aboutAct);
     helpMenu->addAction(aboutQtAct);
@@ -99,6 +101,7 @@ void MainWindow::createMenus()
     menuBar()->addMenu(fileMenu);
     menuBar()->addMenu(editMenu);
     menuBar()->addMenu(viewMenu);
+    menuBar()->addMenu(windowMenu);
     menuBar()->addMenu(helpMenu);
 }
 
@@ -135,7 +138,7 @@ void MainWindow::createDockWindows()
     dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea); //TODO
     dock->setWidget(filtersWidget);
     addDockWidget(Qt::LeftDockWidgetArea, dock);
-    viewMenu->addAction(dock->toggleViewAction());
+    windowMenu->addAction(dock->toggleViewAction());
 
     pipelineWidget = new PipelineWidget;
 
@@ -143,7 +146,7 @@ void MainWindow::createDockWindows()
     dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea); //TODO
     dock->setWidget(pipelineWidget);
     addDockWidget(Qt::LeftDockWidgetArea, dock);
-    viewMenu->addAction(dock->toggleViewAction());
+    windowMenu->addAction(dock->toggleViewAction());
 }
 
 void MainWindow::updateActions()
