@@ -41,6 +41,27 @@ void MainWindow::undo()
 
 }
 
+void MainWindow::zoomIn()
+{
+
+}
+
+void MainWindow::zoomOut()
+{
+
+}
+
+void MainWindow::normalSize()
+{
+
+}
+
+void MainWindow::fitToWindow()
+{
+
+}
+
+
 void MainWindow::about() //TODO
 {
     QMessageBox::about(this,
@@ -72,6 +93,27 @@ void MainWindow::createActions()
     undoAct->setStatusTip(tr("Undo the last editing action"));
     connect(undoAct, SIGNAL(triggered()), this, SLOT(undo()));
 
+    zoomInAct = new QAction(tr("Zoom &In (25%)"), this);
+    zoomInAct->setShortcut(tr("Ctrl++"));
+    zoomInAct->setEnabled(false);
+    connect(zoomInAct, SIGNAL(triggered()), this, SLOT(zoomIn()));
+
+    zoomOutAct = new QAction(tr("Zoom &Out (25%)"), this);
+    zoomOutAct->setShortcut(tr("Ctrl+-"));
+    zoomOutAct->setEnabled(false);
+    connect(zoomOutAct, SIGNAL(triggered()), this, SLOT(zoomOut()));
+
+    normalSizeAct = new QAction(tr("&Normal Size"), this);
+    //TODO setShortcut
+    normalSizeAct->setEnabled(false);
+    connect(normalSizeAct, SIGNAL(triggered()), this, SLOT(normalSize()));
+
+    fitToWindowAct = new QAction(tr("&Fit to Window"), this);
+    fitToWindowAct->setEnabled(false);
+    fitToWindowAct->setCheckable(true);
+    fitToWindowAct->setShortcut(tr("Ctrl+F")); //TODO setShortcut
+    connect(fitToWindowAct, SIGNAL(triggered()), this, SLOT(fitToWindow()));
+
     aboutAct = new QAction(tr("&About"), this);
     connect(aboutAct, SIGNAL(triggered()), this, SLOT(about()));
 
@@ -91,6 +133,11 @@ void MainWindow::createMenus()
     editMenu->addAction(undoAct);
 
     viewMenu = new QMenu(tr("&View"), this);
+    viewMenu->addAction(zoomInAct);
+    viewMenu->addAction(zoomOutAct);
+    viewMenu->addAction(normalSizeAct);
+    viewMenu->addSeparator();
+    viewMenu->addAction(fitToWindowAct);
 
     windowMenu = new QMenu(tr("&Window"), this);
 

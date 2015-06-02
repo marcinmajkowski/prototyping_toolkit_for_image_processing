@@ -24,6 +24,10 @@ private slots:
     void openProject();
     void openImage();
     void undo();
+    void zoomIn();
+    void zoomOut();
+    void normalSize();
+    void fitToWindow();
     void about();
 
 private:
@@ -46,6 +50,10 @@ private:
     QAction *openImageAct;
     QAction *exitAct;
     QAction *undoAct;
+    QAction *zoomInAct;
+    QAction *zoomOutAct;
+    QAction *normalSizeAct;
+    QAction *fitToWindowAct;
     QAction *aboutAct;
     QAction *aboutQtAct;
 
