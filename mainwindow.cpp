@@ -200,3 +200,8 @@ void MainWindow::updateActions()
 {
 
 }
+
+bool MainWindow::loadImageFile(const QString &fileName)
+{
+
+}

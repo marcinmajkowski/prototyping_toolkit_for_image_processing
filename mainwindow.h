@@ -38,6 +38,7 @@ private:
     void createCentralWidget();
     void createDockWindows();
     void updateActions();
+    bool loadImageFile(const QString &fileName);
 
     QTabWidget *tabWidget;
 
