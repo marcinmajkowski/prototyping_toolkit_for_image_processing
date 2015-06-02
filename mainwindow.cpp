@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent)
     createMenus();
     createToolBars();
     createStatusBar();
-    createTabs();
+    createCentralWidget();
     createDockWindows();
 
     setWindowTitle("Prototyping Toolkit for Image Processing");
@@ -103,7 +103,7 @@ void MainWindow::createStatusBar()
     statusBar()->showMessage(tr("Ready"));
 }
 
-void MainWindow::createTabs()
+void MainWindow::createCentralWidget()
 {
     imageWidget = new ImageWidget;
     codeWidget = new CodeWidget;

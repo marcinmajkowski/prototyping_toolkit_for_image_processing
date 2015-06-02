@@ -30,7 +30,7 @@ private:
     void createMenus();
     void createToolBars();
     void createStatusBar();
-    void createTabs();
+    void createCentralWidget();
     void createDockWindows();
     void updateActions();
 
