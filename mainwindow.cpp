@@ -4,6 +4,7 @@
 #include "codewidget.h"
 #include "pipelinewidget.h"
 #include "filterswidget.h"
+#include "imagewidget.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -104,13 +105,14 @@ void MainWindow::createStatusBar()
 
 void MainWindow::createTabs()
 {
+    imageWidget = new ImageWidget;
     codeWidget = new CodeWidget;
 
     tabWidget = new QTabWidget;
-    tabWidget->addTab(new QWidget(), "Image"); //TODO
+    tabWidget->addTab(imageWidget, "Image"); //TODO
     tabWidget->addTab(codeWidget, "Code"); //TODO
-    setCentralWidget(tabWidget);
 
+    setCentralWidget(tabWidget);
 }
 
 void MainWindow::createDockWindows()

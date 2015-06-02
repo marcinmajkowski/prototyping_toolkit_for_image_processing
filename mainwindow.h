@@ -7,6 +7,7 @@ class QAction;
 class QMenu;
 class QTabWidget;
 class QToolBar;
+class ImageWidget;
 class CodeWidget;
 class PipelineWidget;
 class FiltersWidget;
@@ -35,6 +36,7 @@ private:
 
     QTabWidget *tabWidget;
 
+    ImageWidget *imageWidget;
     CodeWidget *codeWidget;
     PipelineWidget *pipelineWidget;
     FiltersWidget *filtersWidget;
