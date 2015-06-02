@@ -42,7 +42,8 @@ private:
     PipelineWidget *pipelineWidget;
     FiltersWidget *filtersWidget;
 
-    QAction *openAct;
+    QAction *openProjectAct;
+    QAction *openImageAct;
     QAction *exitAct;
     QAction *undoAct;
     QAction *aboutAct;

@@ -52,9 +52,15 @@ void MainWindow::about() //TODO
 
 void MainWindow::createActions()
 {
-    openAct = new QAction(tr("&Open Project..."), this);
-    openAct->setShortcuts(QKeySequence::Open);
-    connect(openAct, SIGNAL(triggered()), this, SLOT(openProject()));
+    openProjectAct = new QAction(tr("&Open Project..."), this);
+    openProjectAct->setShortcuts(QKeySequence::Open);
+    //TODO setStatusTip
+    connect(openProjectAct, SIGNAL(triggered()), this, SLOT(openProject()));
+
+    openImageAct = new QAction(tr("&Open Image..."), this);
+    //TODO setShortcut
+    //TODO setStatusTip
+    connect(openImageAct, SIGNAL(triggered()), this, SLOT(openImage()));
 
     exitAct = new QAction(tr("E&xit"), this);
     exitAct->setShortcuts(QKeySequence::Quit);
@@ -76,7 +82,8 @@ void MainWindow::createActions()
 void MainWindow::createMenus()
 {
     fileMenu = new QMenu(tr("&File"), this);
-    fileMenu->addAction(openAct);
+    fileMenu->addAction(openProjectAct);
+    fileMenu->addAction(openImageAct);
     fileMenu->addSeparator();
     fileMenu->addAction(exitAct);
 
