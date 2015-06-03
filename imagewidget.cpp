@@ -24,7 +24,12 @@ void ImageWidget::setFitToWindow(bool value)
 {
     m_fitToWindow = value;
 
-    //TODO insert here what was in fitToWindow function
+    setWidgetResizable(m_fitToWindow);
+    if (!m_fitToWindow) {
+        // this is normalSize() call from the example
+        imageLabel->adjustSize();
+        m_scaleFactor = 1.0;
+    }
 }
 
 bool ImageWidget::fitToWindow() const

@@ -50,8 +50,6 @@ void MainWindow::openImage()
     while (dialog.exec() == QDialog::Accepted &&
            !loadImageFile(dialog.selectedFiles().first())) {
     }
-
-    //TODO update actions? rather in loadImageFile
 }
 
 void MainWindow::undo()
@@ -76,7 +74,9 @@ void MainWindow::normalSize()
 
 void MainWindow::fitToWindow()
 {
-
+    bool fitToWindow = fitToWindowAct->isChecked();
+    imageWidget->setFitToWindow(fitToWindow);
+    updateActions();
 }
 
 
@@ -216,7 +216,9 @@ void MainWindow::createDockWindows()
 
 void MainWindow::updateActions()
 {
-
+    zoomInAct->setEnabled(!fitToWindowAct->isChecked());
+    zoomOutAct->setEnabled(!fitToWindowAct->isChecked());
+    normalSizeAct->setEnabled(!fitToWindowAct->isChecked());
 }
 
 bool MainWindow::loadImageFile(const QString &fileName)
@@ -232,5 +234,9 @@ bool MainWindow::loadImageFile(const QString &fileName)
     imageWidget->setPixmap(QPixmap::fromImage(image));
 
     setWindowFilePath(fileName);
+
+    fitToWindowAct->setEnabled(true);
+    updateActions();
+
     return true;
 }
