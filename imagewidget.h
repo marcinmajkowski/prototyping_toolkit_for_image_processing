@@ -16,7 +16,7 @@ public:
     void setFitToWindow(bool fitToWindow);
     bool fitToWindow() const;
 
-    void setScaleFactor(double scaleFactor);
+    void setScaleFactor(double newScaleFactor);
     double scaleFactor() const;
 
 public slots:

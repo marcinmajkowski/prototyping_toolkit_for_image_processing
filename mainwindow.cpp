@@ -59,17 +59,25 @@ void MainWindow::undo()
 
 void MainWindow::zoomIn()
 {
+    double newScaleFactor = imageWidget->scaleFactor() * 1.25;
+    imageWidget->setScaleFactor(newScaleFactor);
 
+    updateActions();
 }
 
 void MainWindow::zoomOut()
 {
+    double newScaleFactor = imageWidget->scaleFactor() * 0.8;
+    imageWidget->setScaleFactor(newScaleFactor);
 
+    updateActions();
 }
 
 void MainWindow::normalSize()
 {
+    imageWidget->setScaleFactor(1.0);
 
+    updateActions();
 }
 
 void MainWindow::fitToWindow()
@@ -217,8 +225,9 @@ void MainWindow::createDockWindows()
 
 void MainWindow::updateActions()
 {
-    zoomInAct->setEnabled(!fitToWindowAct->isChecked());
-    zoomOutAct->setEnabled(!fitToWindowAct->isChecked());
+    double scaleFactor = imageWidget->scaleFactor();
+    zoomInAct->setEnabled(!fitToWindowAct->isChecked() && scaleFactor < 3.0);
+    zoomOutAct->setEnabled(!fitToWindowAct->isChecked() && scaleFactor > 0.333);
     normalSizeAct->setEnabled(!fitToWindowAct->isChecked());
 }
 

@@ -37,12 +37,17 @@ bool ImageWidget::fitToWindow() const
     return m_fitToWindow;
 }
 
-void ImageWidget::setScaleFactor(double value)
+void ImageWidget::setScaleFactor(double newScaleFactor)
 {
-    m_scaleFactor = value;
+    Q_ASSERT(imageLabel->pixmap());
 
-    //TODO insert here what was in zoomIn and zoomOut
-    //TODO and in scalelImage()
+    double factor = newScaleFactor / m_scaleFactor;
+    m_scaleFactor = newScaleFactor;
+
+    imageLabel->resize(newScaleFactor * imageLabel->pixmap()->size());
+
+    adjustScrollBar(horizontalScrollBar(), factor);
+    adjustScrollBar(verticalScrollBar(), factor);
 }
 
 double ImageWidget::scaleFactor() const
@@ -62,11 +67,13 @@ void ImageWidget::setPixmap(const QPixmap &pixmap)
 
 void ImageWidget::setMat(const cv::Mat)
 {
-
+    //TODO mat -> pixmap and then setPixmap
 }
 
 
 void ImageWidget::adjustScrollBar(QScrollBar *scrollBar, double factor)
 {
-    //TODO
+    //TODO possible not perfect
+    scrollBar->setValue(int(factor * scrollBar->value()
+                            + ((factor - 1) * scrollBar->pageStep() / 2)));
 }
