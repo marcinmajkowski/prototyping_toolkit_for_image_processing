@@ -203,5 +203,17 @@ void MainWindow::updateActions()
 
 bool MainWindow::loadImageFile(const QString &fileName)
 {
+    QImage image(fileName);
+    if (image.isNull()) {
+        QMessageBox::information(this, QGuiApplication::applicationDisplayName(),
+                                 tr("Cannot load %1").arg(QDir::toNativeSeparators(fileName)));
+        setWindowFilePath(QString());
+        imageWidget->setPixmap(QPixmap());
+        return false;
+    }
+    imageWidget->setPixmap(QPixmap::fromImage(image));
+    imageWidget->setScaleFactor(1.0);
 
+    setWindowFilePath(fileName);
+    return true;
 }

@@ -13,12 +13,6 @@ class ImageWidget : public QScrollArea
 public:
     explicit ImageWidget(QWidget *parent = 0);
 
-/* loadFile() is a member of ImageWidget class since this widget
- * knows the best what files it can handle. */
-    //TODO it was stupid since it can handle QImage/QPixmap
-    //TODO move it out from here
-    bool loadFile(const QString &fileName);
-
     void setFitToWindow(bool fitToWindow);
     bool fitToWindow() const;
 
