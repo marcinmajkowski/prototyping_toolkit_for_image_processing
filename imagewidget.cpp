@@ -45,10 +45,14 @@ double ImageWidget::scaleFactor() const
     return m_scaleFactor;
 }
 
-void ImageWidget::setPixmap(const QPixmap &)
+void ImageWidget::setPixmap(const QPixmap &pixmap)
 {
-    //imageLabel setPixmap
-    //TODO if not fitToWindow adjust size
+    imageLabel->setPixmap(pixmap);
+    m_scaleFactor = 1.0;
+
+    if (!m_fitToWindow) {
+        imageLabel->adjustSize();
+    }
 }
 
 void ImageWidget::setMat(const cv::Mat)

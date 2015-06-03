@@ -230,7 +230,6 @@ bool MainWindow::loadImageFile(const QString &fileName)
         return false;
     }
     imageWidget->setPixmap(QPixmap::fromImage(image));
-    imageWidget->setScaleFactor(1.0);
 
     setWindowFilePath(fileName);
     return true;

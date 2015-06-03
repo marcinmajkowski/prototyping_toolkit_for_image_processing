@@ -20,7 +20,7 @@ public:
     double scaleFactor() const;
 
 public slots:
-    void setPixmap(const QPixmap &);
+    void setPixmap(const QPixmap &pixmap);
     void setMat(const cv::Mat);
 
 private:
