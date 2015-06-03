@@ -181,6 +181,7 @@ void MainWindow::createToolBars()
 void MainWindow::createStatusBar()
 {
     statusBar()->showMessage(tr("Ready"));
+    statusBar()->setSizeGripEnabled(false); //TODO just try to fix Ubuntu bug
 }
 
 void MainWindow::createCentralWidget()
