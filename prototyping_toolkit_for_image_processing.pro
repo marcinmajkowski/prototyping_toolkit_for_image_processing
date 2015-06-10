@@ -17,13 +17,15 @@ SOURCES += main.cpp\
     codewidget.cpp \
     pipelinewidget.cpp \
     filterswidget.cpp \
-    imagewidget.cpp
+    imagewidget.cpp \
+    filter.cpp
 
 HEADERS  += mainwindow.h \
     codewidget.h \
     pipelinewidget.h \
     filterswidget.h \
-    imagewidget.h
+    imagewidget.h \
+    filter.h
 
 win32 {
     INCLUDEPATH += "D:\\OpenCV2.4.9\\build\\include" \
