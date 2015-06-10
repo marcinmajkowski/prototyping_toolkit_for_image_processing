@@ -2,9 +2,9 @@ INCLUDEPATH += $PWD
 DEPENDPATH += $PWD
 
 HEADERS += \
-    filters/filter.h \
-    filters/adaptivethresholdfilter.h
+    Filters/filter.h \
+    Filters/adaptivethresholdfilter.h
 
 SOURCES += \
-    filters/filter.cpp \
-    filters/adaptivethresholdfilter.cpp
+    Filters/filter.cpp \
+    Filters/adaptivethresholdfilter.cpp
