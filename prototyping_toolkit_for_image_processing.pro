@@ -11,7 +11,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = prototyping_toolkit_for_image_processing
 TEMPLATE = app
 
-include(filters/filters.pri)
+include(Filters/Filters.pri)
 
 SOURCES += main.cpp\
         mainwindow.cpp \
