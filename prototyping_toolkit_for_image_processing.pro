@@ -11,6 +11,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = prototyping_toolkit_for_image_processing
 TEMPLATE = app
 
+include(filters/filters.pri)
 
 SOURCES += main.cpp\
         mainwindow.cpp \
@@ -18,14 +19,12 @@ SOURCES += main.cpp\
     pipelinewidget.cpp \
     filterswidget.cpp \
     imagewidget.cpp \
-    filter.cpp
 
 HEADERS  += mainwindow.h \
     codewidget.h \
     pipelinewidget.h \
     filterswidget.h \
     imagewidget.h \
-    filter.h
 
 win32 {
     INCLUDEPATH += "D:\\OpenCV2.4.9\\build\\include" \
