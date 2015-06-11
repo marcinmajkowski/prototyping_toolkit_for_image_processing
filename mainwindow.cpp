@@ -54,11 +54,6 @@ void MainWindow::openImage()
     }
 }
 
-void MainWindow::undo()
-{
-
-}
-
 void MainWindow::zoomIn()
 {
     double newScaleFactor = imageWidget->scaleFactor() * 1.25;
@@ -116,10 +111,14 @@ void MainWindow::createActions()
     exitAct->setStatusTip(tr("Exit the application"));
     connect(exitAct, SIGNAL(triggered()), this, SLOT(close()));
 
-    undoAct = new QAction(tr("&Undo"), this);
+    undoAct = undoStack->createUndoAction(this, tr("&Undo"));
     undoAct->setShortcuts(QKeySequence::Undo);
     undoAct->setStatusTip(tr("Undo the last editing action"));
-    connect(undoAct, SIGNAL(triggered()), this, SLOT(undo()));
+
+    redoAct = undoStack->createRedoAction(this, tr("&Redo"));
+    redoAct->setShortcuts(QKeySequence::Redo);
+    //TODO setStatusTip
+//    redoAct->setStatusTip(tr("Undo the last editing action"));
 
     zoomInAct = new QAction(tr("Zoom &In (25%)"), this);
     zoomInAct->setShortcut(tr("Ctrl++"));
@@ -159,6 +158,7 @@ void MainWindow::createMenus()
 
     editMenu = new QMenu(tr("&Edit"), this);
     editMenu->addAction(undoAct);
+    editMenu->addAction(redoAct);
 
     viewMenu = new QMenu(tr("&View"), this);
     viewMenu->addAction(zoomInAct);
