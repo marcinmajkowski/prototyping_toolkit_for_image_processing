@@ -9,6 +9,8 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
+    undoStack = new QUndoStack(this);
+
     createActions();
     createMenus();
     createToolBars();

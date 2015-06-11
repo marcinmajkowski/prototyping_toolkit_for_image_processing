@@ -7,6 +7,7 @@ class QAction;
 class QMenu;
 class QTabWidget;
 class QToolBar;
+class QUndoStack;
 class ImageWidget;
 class CodeWidget;
 class PipelineWidget;
@@ -46,6 +47,8 @@ private:
     CodeWidget *codeWidget;
     PipelineWidget *pipelineWidget;
     FiltersWidget *filtersWidget;
+
+    QUndoStack *undoStack;
 
     QAction *openProjectAct;
     QAction *openImageAct;
