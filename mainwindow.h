@@ -8,6 +8,7 @@ class QMenu;
 class QTabWidget;
 class QToolBar;
 class QUndoStack;
+class QUndoView;
 class ImageWidget;
 class CodeWidget;
 class PipelineWidget;
@@ -37,6 +38,7 @@ private:
     void createStatusBar();
     void createCentralWidget();
     void createDockWindows();
+    void createUndoView();
     void updateActions();
     bool loadImageFile(const QString &fileName);
 
@@ -48,6 +50,7 @@ private:
     FiltersWidget *filtersWidget;
 
     QUndoStack *undoStack;
+    QUndoView *undoView;
 
     QAction *openProjectAct;
     QAction *openImageAct;

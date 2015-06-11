@@ -17,6 +17,9 @@ MainWindow::MainWindow(QWidget *parent)
     createStatusBar();
     createCentralWidget();
     createDockWindows();
+#ifndef QT_NO_DEBUG
+    createUndoView();
+#endif
 
     setWindowTitle("Prototyping Toolkit for Image Processing");
 
@@ -223,6 +226,14 @@ void MainWindow::createDockWindows()
     dock->setWidget(pipelineWidget);
     addDockWidget(Qt::LeftDockWidgetArea, dock);
     windowMenu->addAction(dock->toggleViewAction());
+}
+
+void MainWindow::createUndoView()
+{
+    undoView = new QUndoView(undoStack);
+    undoView->setWindowTitle(tr("Command List"));
+    undoView->show();
+    undoView->setAttribute(Qt::WA_QuitOnClose, false);
 }
 
 void MainWindow::updateActions()
