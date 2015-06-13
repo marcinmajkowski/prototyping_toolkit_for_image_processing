@@ -13,6 +13,7 @@ class ImageWidget;
 class CodeWidget;
 class PipelineWidget;
 class FiltersWidget;
+class Filter;
 
 class MainWindow : public QMainWindow
 {
@@ -41,6 +42,7 @@ private:
     void createUndoView();
     void updateActions();
     bool loadImageFile(const QString &fileName);
+    QSharedPointer<Filter> createFilter(const QString &filterName);
 
     QTabWidget *tabWidget;
 

@@ -1,10 +1,12 @@
 #include <QtWidgets>
+#include <QDebug>
 
 #include "mainwindow.h"
 #include "codewidget.h"
 #include "pipelinewidget.h"
 #include "filterswidget.h"
 #include "imagewidget.h"
+#include "Filters/filters.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -262,4 +264,13 @@ bool MainWindow::loadImageFile(const QString &fileName)
     updateActions();
 
     return true;
+}
+
+QSharedPointer<Filter> MainWindow::createFilter(const QString &filterName)
+{
+    if (filterName == "Adaptive threshold") {
+        return QSharedPointer<Filter>(new AdaptiveThresholdFilter);
+    }
+
+    return QSharedPointer<Filter>();
 }

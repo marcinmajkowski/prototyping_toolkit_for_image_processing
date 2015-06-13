@@ -10,6 +10,7 @@ class Filter
 {
 public:
     Filter();
+    virtual ~Filter();
 
     QWidget *getWidget();
     QString getSignature();

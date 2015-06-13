@@ -3,3 +3,8 @@
 Filter::Filter()
 {
 }
+
+Filter::~Filter()
+{
+
+}

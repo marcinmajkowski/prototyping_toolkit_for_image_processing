@@ -7,6 +7,7 @@ class AdaptiveThresholdFilter : public Filter
 {
 public:
     AdaptiveThresholdFilter();
+    ~AdaptiveThresholdFilter();
 };
 
 #endif // ADAPTIVETHRESHOLDFILTER_H
