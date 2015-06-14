@@ -100,6 +100,11 @@ void MainWindow::about() //TODO
                           "<p>It's not finished yet...</p>"));
 }
 
+void MainWindow::appendToPipeline(QTreeWidgetItem *item, int /*column*/)
+{
+
+}
+
 void MainWindow::createActions()
 {
     openProjectAct = new QAction(tr("&Open Project..."), this);
