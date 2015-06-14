@@ -2,6 +2,7 @@
 #include "adaptivethresholdfilter.h"
 
 AdaptiveThresholdFilter::AdaptiveThresholdFilter()
+    : Filter("Adaptive threshold")
 {
     qDebug() << "Adaptive threshold filter constructor.";
 }
