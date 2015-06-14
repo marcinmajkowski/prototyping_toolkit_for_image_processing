@@ -227,7 +227,7 @@ void MainWindow::createDockWindows()
     addDockWidget(Qt::LeftDockWidgetArea, dock);
     windowMenu->addAction(dock->toggleViewAction());
 
-    pipelineModel = new PipelineModel;
+    pipelineModel = new PipelineModel(this);
     pipelineView = new PipelineView;
     pipelineView->setModel(pipelineModel);
 

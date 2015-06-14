@@ -2,6 +2,10 @@
 #define PIPELINEMODEL_H
 
 #include <QAbstractListModel>
+#include <QSharedPointer>
+#include <QVector>
+
+#include "Filters/filters.h"
 
 class PipelineModel : public QAbstractListModel
 {
@@ -16,6 +20,8 @@ signals:
 
 public slots:
 
+protected:
+    QVector<QSharedPointer<Filter> > m_filters;
 };
 
 #endif // PIPELINEMODEL_H

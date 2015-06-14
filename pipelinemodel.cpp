@@ -5,11 +5,15 @@
 PipelineModel::PipelineModel(QObject *parent) :
     QAbstractListModel(parent)
 {
+    //TODO below only testing
+    m_filters.push_back(QSharedPointer<Filter>(new AdaptiveThresholdFilter));
+    m_filters.push_back(QSharedPointer<Filter>(new AdaptiveThresholdFilter));
+    m_filters.push_back(QSharedPointer<Filter>(new AdaptiveThresholdFilter));
 }
 
 int PipelineModel::rowCount(const QModelIndex &/*parent*/) const
 {
-    return 5;
+    return m_filters.size();
 }
 
 QVariant PipelineModel::data(const QModelIndex &index, int role) const
@@ -18,9 +22,7 @@ QVariant PipelineModel::data(const QModelIndex &index, int role) const
 
     switch (role) {
     case Qt::DisplayRole:
-        result = QString("Row %1, Column %2")
-                .arg(index.row() + 1)
-                .arg(index.column() + 1);
+        result = m_filters[index.row()]->name();
         break;
     case Qt::BackgroundRole:
         if (index.row() % 2) {
