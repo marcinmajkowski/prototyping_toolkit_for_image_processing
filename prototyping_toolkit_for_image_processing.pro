@@ -16,15 +16,17 @@ include(Filters/Filters.pri)
 SOURCES += main.cpp\
         mainwindow.cpp \
     codewidget.cpp \
-    pipelinewidget.cpp \
     filterswidget.cpp \
     imagewidget.cpp \
+    pipelineview.cpp \
+    pipelinemodel.cpp
 
 HEADERS  += mainwindow.h \
     codewidget.h \
-    pipelinewidget.h \
     filterswidget.h \
     imagewidget.h \
+    pipelineview.h \
+    pipelinemodel.h
 
 win32 {
     INCLUDEPATH += "D:\\OpenCV2.4.9\\build\\include" \

@@ -3,7 +3,8 @@
 
 #include "mainwindow.h"
 #include "codewidget.h"
-#include "pipelinewidget.h"
+#include "pipelineview.h"
+#include "pipelinemodel.h"
 #include "filterswidget.h"
 #include "imagewidget.h"
 #include "Filters/filters.h"
@@ -221,11 +222,13 @@ void MainWindow::createDockWindows()
     addDockWidget(Qt::LeftDockWidgetArea, dock);
     windowMenu->addAction(dock->toggleViewAction());
 
-    pipelineWidget = new PipelineWidget;
+    pipelineModel = new PipelineModel;
+    pipelineView = new PipelineView;
+    pipelineView->setModel(pipelineModel);
 
     dock = new QDockWidget(tr("Pipeline"), this);
     dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea); //TODO
-    dock->setWidget(pipelineWidget);
+    dock->setWidget(pipelineView);
     addDockWidget(Qt::LeftDockWidgetArea, dock);
     windowMenu->addAction(dock->toggleViewAction());
 }

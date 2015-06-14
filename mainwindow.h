@@ -11,7 +11,8 @@ class QUndoStack;
 class QUndoView;
 class ImageWidget;
 class CodeWidget;
-class PipelineWidget;
+class PipelineView;
+class PipelineModel;
 class FiltersWidget;
 class Filter;
 
@@ -48,7 +49,8 @@ private:
 
     ImageWidget *imageWidget;
     CodeWidget *codeWidget;
-    PipelineWidget *pipelineWidget;
+    PipelineView *pipelineView;
+    PipelineModel *pipelineModel;
     FiltersWidget *filtersWidget;
 
     QUndoStack *undoStack;
