@@ -9,6 +9,8 @@ PipelineModel::PipelineModel(QObject *parent) :
     m_filters.push_back(QSharedPointer<Filter>(new AdaptiveThresholdFilter));
     m_filters.push_back(QSharedPointer<Filter>(new AdaptiveThresholdFilter));
     m_filters.push_back(QSharedPointer<Filter>(new AdaptiveThresholdFilter));
+//    m_filters.insert(m_filters.size(), 3, QSharedPointer<Filter>());
+//    insertRow(rowCount());
 }
 
 int PipelineModel::rowCount(const QModelIndex &/*parent*/) const
@@ -22,7 +24,11 @@ QVariant PipelineModel::data(const QModelIndex &index, int role) const
 
     switch (role) {
     case Qt::DisplayRole:
-        result = m_filters[index.row()]->name();
+        if (m_filters[index.row()]) {
+            result = m_filters[index.row()]->name();
+        } else {
+            result = "[EMPTY]";
+        }
         break;
     case Qt::BackgroundRole:
         if (index.row() % 2) {
@@ -33,4 +39,16 @@ QVariant PipelineModel::data(const QModelIndex &index, int role) const
     }
 
     return result;
+}
+
+bool PipelineModel::insertRows(int row, int count, const QModelIndex &parent)
+{
+    if (row < 0 || row > m_filters.size()) {
+        return false;
+    }
+
+    beginInsertRows(parent, row, row + count - 1);
+    m_filters.insert(row, count, QSharedPointer<Filter>());
+    endInsertRows();
+    return true;
 }
