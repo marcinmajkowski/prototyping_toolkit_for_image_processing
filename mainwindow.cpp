@@ -102,7 +102,6 @@ void MainWindow::about() //TODO
 
 void MainWindow::appendToPipeline(QTreeWidgetItem *item, int /*column*/)
 {
-
 }
 
 void MainWindow::createActions()
@@ -220,6 +219,15 @@ void MainWindow::createCentralWidget()
 void MainWindow::createDockWindows()
 {
     filtersWidget = new FiltersWidget;
+
+    //TODO move adding filters somewhere else
+    QTreeWidgetItem *treeItem;
+    treeItem = new QTreeWidgetItem(filtersWidget, QStringList("Image transformations"));
+    new QTreeWidgetItem(treeItem, QStringList("Adaptive threshold"));
+
+    treeItem = new QTreeWidgetItem(filtersWidget, QStringList("Others"));
+    new QTreeWidgetItem(treeItem, QStringList("Other filter"));
+    //
 
     QDockWidget *dock = new QDockWidget(tr("Filters"), this);
     dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea); //TODO
