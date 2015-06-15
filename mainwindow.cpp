@@ -102,8 +102,14 @@ void MainWindow::about() //TODO
 
 void MainWindow::appendToPipeline(QTreeWidgetItem *item, int /*column*/)
 {
-    qDebug() << "appendToPipeline() called!";
-    qDebug() << item->childCount() << "children";
+    if (item->childCount() != 0) {
+        return;
+    }
+
+    int index = pipelineModel->rowCount();
+    pipelineModel->insertRow(index);
+    QVariant filterName = item->data(0, Qt::DisplayRole); //TODO DisplayRole?
+    pipelineModel->setData(pipelineModel->index(index), filterName);
 }
 
 void MainWindow::createActions()
