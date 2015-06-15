@@ -102,6 +102,8 @@ void MainWindow::about() //TODO
 
 void MainWindow::appendToPipeline(QTreeWidgetItem *item, int /*column*/)
 {
+    qDebug() << "appendToPipeline() called!";
+    qDebug() << item->childCount() << "children";
 }
 
 void MainWindow::createActions()
@@ -219,6 +221,8 @@ void MainWindow::createCentralWidget()
 void MainWindow::createDockWindows()
 {
     filtersWidget = new FiltersWidget;
+    connect(filtersWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)),
+            this, SLOT(appendToPipeline(QTreeWidgetItem*,int)));
 
     //TODO move adding filters somewhere else
     QTreeWidgetItem *treeItem;
