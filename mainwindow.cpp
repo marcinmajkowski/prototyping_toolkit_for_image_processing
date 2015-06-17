@@ -112,6 +112,11 @@ void MainWindow::appendToPipeline(QTreeWidgetItem *item, int /*column*/)
     pipelineModel->setData(pipelineModel->index(index), filterName);
 }
 
+void MainWindow::showFilterWidget(const QModelIndex &index)
+{
+    //TODO
+}
+
 void MainWindow::createActions()
 {
     openProjectAct = new QAction(tr("&Open Project..."), this);
@@ -227,6 +232,7 @@ void MainWindow::createCentralWidget()
 void MainWindow::createDockWindows()
 {
     filtersWidget = new FiltersWidget;
+
     connect(filtersWidget, SIGNAL(itemActivated(QTreeWidgetItem*,int)),
             this, SLOT(appendToPipeline(QTreeWidgetItem*,int)));
 
@@ -248,6 +254,9 @@ void MainWindow::createDockWindows()
     pipelineModel = new PipelineModel(this);
     pipelineView = new PipelineView;
     pipelineView->setModel(pipelineModel);
+
+    connect(pipelineView, SIGNAL(activated(QModelIndex)),
+            this, SLOT(showFilterWidget(QModelIndex)));
 
     dock = new QDockWidget(tr("Pipeline"), this);
     dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea); //TODO

@@ -34,6 +34,7 @@ private slots:
     void fitToWindow();
     void about();
     void appendToPipeline(QTreeWidgetItem *item, int column);
+    void showFilterWidget(const QModelIndex &index);
 
 private:
     void createActions();
