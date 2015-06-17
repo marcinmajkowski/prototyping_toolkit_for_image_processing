@@ -77,5 +77,7 @@ bool PipelineModel::setData(const QModelIndex &index, const QVariant &value, int
         m_filters[row] = QSharedPointer<Filter>();
     }
 
+    emit dataChanged(index, index);
+
     return true;
 }
