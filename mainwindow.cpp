@@ -227,7 +227,7 @@ void MainWindow::createCentralWidget()
 void MainWindow::createDockWindows()
 {
     filtersWidget = new FiltersWidget;
-    connect(filtersWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)),
+    connect(filtersWidget, SIGNAL(itemActivated(QTreeWidgetItem*,int)),
             this, SLOT(appendToPipeline(QTreeWidgetItem*,int)));
 
     //TODO move adding filters somewhere else
