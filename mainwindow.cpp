@@ -114,7 +114,10 @@ void MainWindow::appendToPipeline(QTreeWidgetItem *item, int /*column*/)
 
 void MainWindow::showFilterWidget(const QModelIndex &index)
 {
-    //TODO
+    QWidget *widget = index.data(PipelineModel::WidgetRole).value<QWidget *>();
+    if (widget) {
+        widget->show();
+    }
 }
 
 void MainWindow::createActions()

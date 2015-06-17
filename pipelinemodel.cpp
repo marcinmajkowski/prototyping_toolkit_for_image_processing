@@ -1,4 +1,5 @@
 #include <QBrush>
+#include <QWidget>
 
 #include "pipelinemodel.h"
 
@@ -26,6 +27,7 @@ QVariant PipelineModel::data(const QModelIndex &index, int role) const
 
     switch (role) {
     case Qt::DisplayRole:
+        //TODO move these ifs to the top
         if (m_filters[index.row()]) {
             result = m_filters[index.row()]->name();
         } else {
@@ -36,6 +38,16 @@ QVariant PipelineModel::data(const QModelIndex &index, int role) const
         if (index.row() % 2) {
             QBrush redBackground(Qt::red);
             result = redBackground;
+        }
+        break;
+    case WidgetRole:
+        //TODO
+        if (m_filters[index.row()]) {
+            QWidget *widget = m_filters[index.row()]->widget();
+            result = QVariant::fromValue(widget);
+        } else {
+            //TODO
+            result = QVariant::fromValue(0);
         }
         break;
     }
