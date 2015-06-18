@@ -116,7 +116,8 @@ void MainWindow::showFilterWidget(const QModelIndex &index)
 {
     QDialog *dialog = index.data(PipelineModel::DialogRole).value<QDialog *>();
     if (dialog) {
-        dialog->show();
+        dialog->exec();
+        qDebug() << "after exec" << dialog->parent();
     }
 }
 
@@ -307,7 +308,7 @@ bool MainWindow::loadImageFile(const QString &fileName)
 QSharedPointer<Filter> MainWindow::createFilter(const QString &filterName)
 {
     if (filterName == "Adaptive threshold") {
-        return QSharedPointer<Filter>(new AdaptiveThresholdFilter);
+        return QSharedPointer<Filter>(new AdaptiveThresholdFilter(this));
     }
 
     return QSharedPointer<Filter>();

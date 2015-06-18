@@ -11,7 +11,7 @@ class Filter
 {
 public:
     Filter();
-    Filter(const QString &name);
+    Filter(const QString &name, QWidget *parent);
     virtual ~Filter();
 
     QDialog *dialog();
@@ -20,8 +20,9 @@ public:
     cv::Mat process(cv::Mat);
 
 protected:
-    QString m_name;
+    QWidget *m_parent;
     QDialog *m_dialog;
+    QString m_name;
 };
 
 #endif // FILTER_H

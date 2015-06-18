@@ -1,13 +1,23 @@
+#include <QVBoxLayout>
+#include <QPushButton>
+
 #include "filter.h"
 
 Filter::Filter()
 {
 }
 
-Filter::Filter(const QString &name)
-    : m_name(name)
-    , m_dialog(new QDialog()) //TODO temporary
+Filter::Filter(const QString &name, QWidget *parent)
+    : m_parent(parent)
+    , m_dialog(new QDialog(parent)) //TODO temporary
+    , m_name(name)
 {
+    QLayout *layout = new QVBoxLayout();
+    QWidget *button = new QPushButton("Test");
+    QWidget *button2 = new QPushButton("test2");
+    layout->addWidget(button);
+    layout->addWidget(button2);
+    m_dialog->setLayout(layout);
 }
 
 Filter::~Filter()

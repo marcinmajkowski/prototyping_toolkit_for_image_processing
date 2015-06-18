@@ -84,7 +84,7 @@ bool PipelineModel::setData(const QModelIndex &index, const QVariant &value, int
 
     //TODO use factory here
     if (filterName == "Adaptive threshold") {
-        m_filters[row] = QSharedPointer<Filter>(new AdaptiveThresholdFilter);
+        m_filters[row] = QSharedPointer<Filter>(new AdaptiveThresholdFilter((QWidget *)parent()));
     } else {
         m_filters[row] = QSharedPointer<Filter>();
     }
