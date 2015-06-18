@@ -40,11 +40,11 @@ QVariant PipelineModel::data(const QModelIndex &index, int role) const
             result = redBackground;
         }
         break;
-    case WidgetRole:
+    case DialogRole:
         //TODO
         if (m_filters[index.row()]) {
-            QWidget *widget = m_filters[index.row()]->widget();
-            result = QVariant::fromValue(widget);
+            QDialog *dialog = m_filters[index.row()]->dialog();
+            result = QVariant::fromValue(dialog);
         } else {
             //TODO
             result = QVariant::fromValue(0);

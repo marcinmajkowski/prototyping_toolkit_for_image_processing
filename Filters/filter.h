@@ -2,7 +2,7 @@
 #define FILTER_H
 
 #include <QString>
-#include <QWidget>
+#include <QDialog>
 #include <opencv2/core/core.hpp>
 
 class QWidget;
@@ -14,14 +14,14 @@ public:
     Filter(const QString &name);
     virtual ~Filter();
 
-    QWidget *widget();
+    QDialog *dialog();
     QString getSignature();
     QString name();
     cv::Mat process(cv::Mat);
 
 protected:
     QString m_name;
-    QWidget *m_widget;
+    QDialog *m_dialog;
 };
 
 #endif // FILTER_H
