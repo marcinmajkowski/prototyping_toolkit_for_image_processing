@@ -5,7 +5,8 @@
 #include <QSharedPointer>
 #include <QVector>
 
-#include "filterfactory.h"
+class FilterFactory;
+class Filter;
 
 class PipelineModel : public QAbstractListModel
 {

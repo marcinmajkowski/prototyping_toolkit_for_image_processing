@@ -2,10 +2,9 @@
 #define FILTER_H
 
 #include <QString>
-#include <QDialog>
 #include <opencv2/core/core.hpp>
 
-class QWidget;
+class QDialog;
 
 class Filter
 {

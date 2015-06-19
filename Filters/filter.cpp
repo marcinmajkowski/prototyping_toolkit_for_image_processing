@@ -1,5 +1,4 @@
-#include <QVBoxLayout>
-#include <QPushButton>
+#include <QDialog>
 
 #include "filter.h"
 

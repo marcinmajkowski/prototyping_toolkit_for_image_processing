@@ -1,7 +1,10 @@
 #include <QBrush>
 #include <QWidget>
+#include <QDialog>
 
 #include "pipelinemodel.h"
+#include "filterfactory.h"
+#include "Filters/filter.h"
 
 PipelineModel::PipelineModel(QObject *parent) :
     QAbstractListModel(parent)
