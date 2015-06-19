@@ -3,8 +3,7 @@ DEPENDPATH += $PWD
 
 HEADERS += \
     Filters/filter.h \
-    Filters/adaptivethresholdfilter.h \
-    Filters/filters.h
+    Filters/adaptivethresholdfilter.h
 
 SOURCES += \
     Filters/filter.cpp \

@@ -3,6 +3,9 @@
 
 #include <QObject>
 
+#include "Filters/filter.h"
+#include "Filters/adaptivethresholdfilter.h"
+
 class FilterFactory : public QObject
 {
     Q_OBJECT
