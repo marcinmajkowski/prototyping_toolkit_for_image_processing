@@ -2,6 +2,8 @@
 
 #include "filterfactory.h"
 
+#include "Filters/adaptivethresholdfilter.h"
+
 FilterFactory::FilterFactory(QObject *parent) :
     QObject(parent)
 {
