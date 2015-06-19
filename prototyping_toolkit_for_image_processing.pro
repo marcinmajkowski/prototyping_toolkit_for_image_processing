@@ -19,14 +19,16 @@ SOURCES += main.cpp\
     filterswidget.cpp \
     imagewidget.cpp \
     pipelineview.cpp \
-    pipelinemodel.cpp
+    pipelinemodel.cpp \
+    filterfactory.cpp
 
 HEADERS  += mainwindow.h \
     codewidget.h \
     filterswidget.h \
     imagewidget.h \
     pipelineview.h \
-    pipelinemodel.h
+    pipelinemodel.h \
+    filterfactory.h
 
 win32 {
     INCLUDEPATH += "D:\\OpenCV2.4.9\\build\\include" \
