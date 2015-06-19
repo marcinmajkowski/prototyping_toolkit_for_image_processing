@@ -6,6 +6,7 @@
 PipelineModel::PipelineModel(QObject *parent) :
     QAbstractListModel(parent)
 {
+    filterFactory = new FilterFactory(this);
     //TODO below only testing
 //    m_filters.push_back(QSharedPointer<Filter>(new AdaptiveThresholdFilter));
 //    m_filters.push_back(QSharedPointer<Filter>(new AdaptiveThresholdFilter));
@@ -80,14 +81,9 @@ bool PipelineModel::setData(const QModelIndex &index, const QVariant &value, int
         return false;
     }
 
-    QString filterName = value.toString();
+    QString filterType = value.toString();
 
-    //TODO use factory here
-    if (filterName == "Adaptive threshold") {
-        m_filters[row] = QSharedPointer<Filter>(new AdaptiveThresholdFilter((QWidget *)parent()));
-    } else {
-        m_filters[row] = QSharedPointer<Filter>();
-    }
+    m_filters[row] = QSharedPointer<Filter>(filterFactory->create(filterType));
 
     emit dataChanged(index, index);
 

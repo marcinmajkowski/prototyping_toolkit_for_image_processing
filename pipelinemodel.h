@@ -26,6 +26,7 @@ public slots:
 
 protected:
     QVector<QSharedPointer<Filter> > m_filters;
+    FilterFactory *filterFactory;
 };
 
 #endif // PIPELINEMODEL_H

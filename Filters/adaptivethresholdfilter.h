@@ -6,7 +6,7 @@
 class AdaptiveThresholdFilter : public Filter
 {
 public:
-    AdaptiveThresholdFilter(QWidget *parent);
+    AdaptiveThresholdFilter();
     ~AdaptiveThresholdFilter();
 };
 

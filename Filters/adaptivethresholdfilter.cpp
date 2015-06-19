@@ -1,8 +1,8 @@
 #include <QDebug>
 #include "adaptivethresholdfilter.h"
 
-AdaptiveThresholdFilter::AdaptiveThresholdFilter(QWidget *parent)
-    : Filter("Adaptive threshold", parent)
+AdaptiveThresholdFilter::AdaptiveThresholdFilter()
+    : Filter("Adaptive threshold")
 {
     qDebug() << "Adaptive threshold filter constructor.";
 }
