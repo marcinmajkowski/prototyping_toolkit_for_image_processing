@@ -304,12 +304,3 @@ bool MainWindow::loadImageFile(const QString &fileName)
 
     return true;
 }
-
-QSharedPointer<Filter> MainWindow::createFilter(const QString &filterName)
-{
-    if (filterName == "Adaptive threshold") {
-        return QSharedPointer<Filter>(new AdaptiveThresholdFilter(this));
-    }
-
-    return QSharedPointer<Filter>();
-}
