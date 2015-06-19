@@ -7,7 +7,6 @@
 #include "pipelinemodel.h"
 #include "filterswidget.h"
 #include "imagewidget.h"
-#include "filterfactory.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)

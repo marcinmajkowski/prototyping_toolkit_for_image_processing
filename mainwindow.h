@@ -15,7 +15,6 @@ class CodeWidget;
 class PipelineView;
 class PipelineModel;
 class FiltersWidget;
-class Filter;
 
 class MainWindow : public QMainWindow
 {
