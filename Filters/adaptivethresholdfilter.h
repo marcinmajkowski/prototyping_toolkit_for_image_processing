@@ -5,9 +5,24 @@
 
 class AdaptiveThresholdFilter : public Filter
 {
+    Q_OBJECT
 public:
-    AdaptiveThresholdFilter();
+    AdaptiveThresholdFilter(QObject *parent = 0);
     ~AdaptiveThresholdFilter();
+
+public slots:
+    void setMaxValue(double);
+    void setAdaptiveMethod(int);
+    void setThresholdType(int);
+    void setBlockSize(int);
+    void setC(double);
+
+private:
+    double m_maxValue;
+    int m_adaptiveMethod;
+    int m_thresholdType;
+    int m_blockSize;
+    double m_C;
 };
 
 #endif // ADAPTIVETHRESHOLDFILTER_H

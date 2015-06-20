@@ -20,10 +20,14 @@ public:
     cv::Mat process(cv::Mat);
 
 signals:
+    void resultChanged();
+    void parametersChanged();
+    void inputChanged();
 
 public slots:
 
 protected:
+    bool m_updated;
     QDialog *m_dialog;
     QString m_name;
 };
