@@ -14,7 +14,7 @@ class PipelineModel : public QAbstractListModel
 public:
     explicit PipelineModel(QObject *parent = 0);
 
-    enum { DialogRole = Qt::UserRole };
+    enum { WidgetRole = Qt::UserRole };
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;

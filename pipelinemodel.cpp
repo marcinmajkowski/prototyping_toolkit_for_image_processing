@@ -27,7 +27,7 @@ int PipelineModel::rowCount(const QModelIndex &/*parent*/) const
 
 QVariant PipelineModel::data(const QModelIndex &index, int role) const
 {
-    QVariant result;
+    QVariant result = QVariant();
 
     switch (role) {
     case Qt::DisplayRole:
@@ -44,14 +44,10 @@ QVariant PipelineModel::data(const QModelIndex &index, int role) const
             result = redBackground;
         }
         break;
-    case DialogRole:
+    case WidgetRole:
         //TODO
         if (m_filters[index.row()]) {
-            QDialog *dialog = m_filters[index.row()]->dialog();
-            result = QVariant::fromValue(dialog);
-        } else {
-            //TODO
-            result = QVariant::fromValue(0);
+            result = QVariant::fromValue(m_filters[index.row()]->dialog());
         }
         break;
     }
