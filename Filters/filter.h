@@ -1,22 +1,27 @@
 #ifndef FILTER_H
 #define FILTER_H
 
+#include <QObject>
 #include <QString>
 #include <opencv2/core/core.hpp>
 
 class QDialog;
 
-class Filter
+class Filter : public QObject
 {
+    Q_OBJECT
 public:
-    Filter();
-    Filter(const QString &name);
-    virtual ~Filter();
+    explicit Filter(const QString &name = QString(), QObject *parent = 0);
+    ~Filter();
 
     QDialog *dialog();
     QString getSignature();
     QString name();
     cv::Mat process(cv::Mat);
+
+signals:
+
+public slots:
 
 protected:
     QDialog *m_dialog;

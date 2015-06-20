@@ -2,13 +2,10 @@
 
 #include "filter.h"
 
-Filter::Filter()
-{
-}
-
-Filter::Filter(const QString &name)
-    : m_dialog(new QDialog()) //TODO temporary
-    , m_name(name)
+Filter::Filter(const QString &name, QObject *parent) :
+    QObject(parent),
+    m_dialog(new QDialog()), //TODO temporary
+    m_name(name)
 {
 }
 
