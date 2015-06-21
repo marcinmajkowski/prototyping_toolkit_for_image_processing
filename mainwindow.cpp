@@ -116,8 +116,8 @@ void MainWindow::showFilterWidget(const QModelIndex &index)
     QDialog *dialog = index.data(PipelineModel::DialogRole).value<QDialog *>();
     if (dialog) {
         dialog->setParent(this, Qt::Dialog);
-        dialog->exec();
-        qDebug() << "after exec" << dialog->parent();
+        int result = dialog->exec();
+        qDebug() << "exec() result:" << result;
     }
 //    delete dialog; //TODO return smart pointer from QVariant
 }
