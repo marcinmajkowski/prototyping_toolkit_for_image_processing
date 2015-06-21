@@ -113,7 +113,7 @@ void MainWindow::appendToPipeline(QTreeWidgetItem *item, int /*column*/)
 
 void MainWindow::showFilterWidget(const QModelIndex &index)
 {
-    QDialog *dialog = index.data(PipelineModel::WidgetRole).value<QDialog *>();
+    QDialog *dialog = index.data(PipelineModel::DialogRole).value<QDialog *>();
     if (dialog) {
         dialog->setParent(this, Qt::Dialog);
         dialog->exec();
