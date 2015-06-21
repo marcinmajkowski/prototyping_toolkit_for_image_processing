@@ -23,6 +23,8 @@ private:
     int m_thresholdType;
     int m_blockSize;
     double m_C;
+
+    QDialog *createDialog();
 };
 
 #endif // ADAPTIVETHRESHOLDFILTER_H

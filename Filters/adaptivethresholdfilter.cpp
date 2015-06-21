@@ -1,4 +1,5 @@
 #include <QDebug>
+#include <QDialog>
 #include "adaptivethresholdfilter.h"
 
 AdaptiveThresholdFilter::AdaptiveThresholdFilter(QObject *parent)
@@ -35,4 +36,10 @@ void AdaptiveThresholdFilter::setBlockSize(int)
 void AdaptiveThresholdFilter::setC(double)
 {
 
+}
+
+QDialog *AdaptiveThresholdFilter::createDialog()
+{
+    qDebug() << "createDialog() called in AdaptiveThresholdFilter";
+    return new QDialog;
 }
