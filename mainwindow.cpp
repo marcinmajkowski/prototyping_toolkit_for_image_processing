@@ -25,6 +25,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     setWindowTitle("Prototyping Toolkit for Image Processing");
 
+    loadImageFile(":/Images/lena.jpg");
+
     resize(QGuiApplication::primaryScreen()->availableSize() * 3 / 5);
 }
 

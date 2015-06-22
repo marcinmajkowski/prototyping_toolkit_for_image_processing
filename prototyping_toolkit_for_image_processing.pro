@@ -63,3 +63,6 @@ unix {
 #    INCLUDEPATH += /usr/local/include/opencv
 #    LIBS += -L/usr/local/lib -lopencv_core -lopencv_highgui
 }
+
+RESOURCES += \
+    images.qrc
