@@ -7,7 +7,7 @@ class AdaptiveThresholdFilter : public Filter
 {
     Q_OBJECT
 public:
-    AdaptiveThresholdFilter(QObject *parent = 0);
+    explicit AdaptiveThresholdFilter(QObject *parent = 0);
     ~AdaptiveThresholdFilter();
 
 public slots:

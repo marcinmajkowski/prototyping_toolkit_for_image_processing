@@ -3,8 +3,8 @@
 
 #include "adaptivethresholdfilter.h"
 
-AdaptiveThresholdFilter::AdaptiveThresholdFilter(QObject *parent)
-    : Filter("Adaptive threshold", parent)
+AdaptiveThresholdFilter::AdaptiveThresholdFilter(QObject *parent) :
+    Filter("Adaptive threshold", parent)
 {
     qDebug() << "Adaptive threshold filter constructor.";
 }
@@ -50,14 +50,19 @@ QDialog *AdaptiveThresholdFilter::createDialog()
     // add appropriate widgets and set their values to current parameters
     QVBoxLayout *dialogLayout = new QVBoxLayout;
     QHBoxLayout *buttonsLayout = new QHBoxLayout;
+    QLabel *signatureLabel = new QLabel;
     QPushButton *acceptButton = new QPushButton("OK");
     QPushButton *rejectButton = new QPushButton("Cancel");
     QGroupBox *parametersGroup = new QGroupBox(tr("Parameters"));
+
+    signatureLabel->setText("void <b>adaptiveThreshold</b>(InputArray <b>src</b>, OutputArray <b>dst</b>, double <b>maxValue</b>, int <b>adaptiveMethod</b>, int <b>thresholdType</b>, int <b>blockSize</b>, double <b>C</b>)");
+    signatureLabel->setWordWrap(true);
 
     buttonsLayout->addStretch();
     buttonsLayout->addWidget(rejectButton);
     buttonsLayout->addWidget(acceptButton);
 
+    dialogLayout->addWidget(signatureLabel);
     dialogLayout->addWidget(parametersGroup);
     dialogLayout->addStretch();
     dialogLayout->addLayout(buttonsLayout);
