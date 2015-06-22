@@ -8,7 +8,6 @@ class AdaptiveThresholdFilter : public Filter
     Q_OBJECT
 public:
     explicit AdaptiveThresholdFilter(QObject *parent = 0);
-    ~AdaptiveThresholdFilter();
 
 public slots:
     void setMaxValue(double);

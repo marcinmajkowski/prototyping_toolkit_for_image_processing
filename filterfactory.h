@@ -10,7 +10,6 @@ class FilterFactory : public QObject
     Q_OBJECT
 public:
     explicit FilterFactory(QObject *parent = 0);
-    ~FilterFactory();
 
     Filter *create(const QString &type);
 

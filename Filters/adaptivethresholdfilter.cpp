@@ -6,12 +6,6 @@
 AdaptiveThresholdFilter::AdaptiveThresholdFilter(QObject *parent) :
     Filter("Adaptive threshold", parent)
 {
-    qDebug() << "Adaptive threshold filter constructor.";
-}
-
-AdaptiveThresholdFilter::~AdaptiveThresholdFilter()
-{
-    qDebug() << "Adaptive threshold filter destructor.";
 }
 
 void AdaptiveThresholdFilter::setMaxValue(double)
@@ -41,8 +35,6 @@ void AdaptiveThresholdFilter::setC(double)
 
 QDialog *AdaptiveThresholdFilter::createDialog()
 {
-    qDebug() << "createDialog() called in AdaptiveThresholdFilter";
-
     QDialog *dialog = new QDialog; //TODO here use e.g. FilterDialog class
     // derived FilterDialog should on exec() (onShow with event not spontaneous)
     // store current values somehow so they can be restored later

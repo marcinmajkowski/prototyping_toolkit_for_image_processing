@@ -8,12 +8,6 @@
 FilterFactory::FilterFactory(QObject *parent) :
     QObject(parent)
 {
-    qDebug() << "FilterFactory constructor";
-}
-
-FilterFactory::~FilterFactory()
-{
-    qDebug() << "FilterFactory destructor";
 }
 
 Filter *FilterFactory::create(const QString &type)
