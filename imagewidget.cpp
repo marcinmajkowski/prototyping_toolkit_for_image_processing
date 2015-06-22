@@ -18,6 +18,7 @@ ImageWidget::ImageWidget(QWidget *parent) :
 
     setBackgroundRole(QPalette::Dark);
     setWidget(imageLabel);
+    setAlignment(Qt::AlignCenter);
 }
 
 void ImageWidget::setFitToWindow(bool value)
