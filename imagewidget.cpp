@@ -1,7 +1,5 @@
 #include <QtWidgets>
 
-#include <opencv2/core/core.hpp>
-
 #include "imagewidget.h"
 
 ImageWidget::ImageWidget(QWidget *parent) :
@@ -66,15 +64,8 @@ void ImageWidget::setPixmap(const QPixmap &pixmap)
     }
 }
 
-void ImageWidget::setMat(const cv::Mat)
-{
-    //TODO mat -> pixmap and then setPixmap
-}
-
-
 void ImageWidget::adjustScrollBar(QScrollBar *scrollBar, double factor)
 {
-    //TODO possible not perfect
     scrollBar->setValue(int(factor * scrollBar->value()
                             + ((factor - 1) * scrollBar->pageStep() / 2)));
 }

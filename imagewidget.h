@@ -2,7 +2,6 @@
 #define IMAGEWIDGET_H
 
 #include <QScrollArea>
-#include <opencv2/core/core.hpp>
 
 class QLabel;
 class QString;
@@ -21,7 +20,6 @@ public:
 
 public slots:
     void setPixmap(const QPixmap &pixmap);
-    void setMat(const cv::Mat);
 
 private:
     void adjustScrollBar(QScrollBar *scrollBar, double factor);
