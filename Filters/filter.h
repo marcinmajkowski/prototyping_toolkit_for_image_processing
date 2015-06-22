@@ -17,6 +17,7 @@ public:
     QDialog *dialog();
     QString getSignature();
     QString name();
+    bool updated();
     cv::Mat process(cv::Mat);
 
 signals:

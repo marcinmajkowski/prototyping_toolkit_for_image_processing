@@ -28,26 +28,31 @@ int PipelineModel::rowCount(const QModelIndex &/*parent*/) const
 QVariant PipelineModel::data(const QModelIndex &index, int role) const
 {
     QVariant result = QVariant();
+    int row = index.row();
+    QSharedPointer<Filter> filter = m_filters[row];
 
     switch (role) {
     case Qt::DisplayRole:
         //TODO move these ifs to the top
-        if (m_filters[index.row()]) {
-            result = m_filters[index.row()]->name();
+        if (filter) {
+            result = filter->name();
         } else {
             result = "[EMPTY]";
         }
         break;
     case Qt::BackgroundRole:
-        if (index.row() % 2) {
-            QBrush redBackground(Qt::red);
-            result = redBackground;
+        if (filter) {
+            if (filter->updated()) {
+                result = QBrush(Qt::green);
+            } else {
+                result = QBrush(Qt::red);
+            }
         }
         break;
     case DialogRole:
         //TODO
-        if (m_filters[index.row()]) {
-            result = QVariant::fromValue(m_filters[index.row()]->dialog());
+        if (filter) {
+            result = QVariant::fromValue(filter->dialog());
         }
         break;
     }

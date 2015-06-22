@@ -5,6 +5,7 @@
 
 Filter::Filter(const QString &name, QObject *parent) :
     QObject(parent),
+    m_updated(false),
     m_dialog(nullptr), //TODO temporary
     m_name(name)
 {
@@ -27,6 +28,11 @@ QDialog *Filter::dialog()
 QString Filter::name()
 {
     return m_name;
+}
+
+bool Filter::updated()
+{
+    return m_updated;
 }
 
 QDialog *Filter::createDialog()
