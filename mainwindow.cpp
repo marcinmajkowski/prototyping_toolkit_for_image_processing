@@ -247,6 +247,7 @@ void MainWindow::createDockWindows()
     QTreeWidgetItem *treeItem;
     treeItem = new QTreeWidgetItem(filtersWidget, QStringList("Image transformations"));
     new QTreeWidgetItem(treeItem, QStringList("Adaptive threshold"));
+    new QTreeWidgetItem(treeItem, QStringList("Color space conversion"));
 
     treeItem = new QTreeWidgetItem(filtersWidget, QStringList("Others"));
     new QTreeWidgetItem(treeItem, QStringList("Other filter"));

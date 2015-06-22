@@ -1,6 +1,6 @@
 #include "colorspaceconversionfilter.h"
 
 ColorSpaceConversionFilter::ColorSpaceConversionFilter(QObject *parent) :
-    Filter(parent)
+    Filter("Color space conversion", parent)
 {
 }

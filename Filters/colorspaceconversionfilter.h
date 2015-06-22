@@ -1,6 +1,8 @@
 #ifndef COLORSPACECONVERSIONFILTER_H
 #define COLORSPACECONVERSIONFILTER_H
 
+#include "filter.h"
+
 class ColorSpaceConversionFilter : public Filter
 {
     Q_OBJECT
