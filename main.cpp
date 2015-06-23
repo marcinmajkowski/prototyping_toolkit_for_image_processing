@@ -2,9 +2,12 @@
 #include <QApplication>
 #include <QStyle>
 #include <QDesktopWidget>
+#include <QMetaType>
+#include <opencv2/core/core.hpp>
 
 int main(int argc, char *argv[])
 {
+    qRegisterMetaType<cv::Mat>("cv::Mat");
     QApplication a(argc, argv);
     MainWindow w;
 

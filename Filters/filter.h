@@ -5,6 +5,8 @@
 #include <QString>
 #include <opencv2/core/core.hpp>
 
+Q_DECLARE_METATYPE(cv::Mat)
+
 class QDialog;
 
 class Filter : public QObject
@@ -18,23 +20,27 @@ public:
     QString getSignature();
     QString name();
     int status();
-    cv::Mat process(cv::Mat);
 
     enum { NotReady, Processing, Ready };
 
 signals:
-    void resultChanged();
-    void parametersChanged();
-    void inputChanged();
+    void resultChanged(cv::Mat result);
+    void notReady();
 
 public slots:
+    void setInput(cv::Mat input);
+    void setNotReady();
 
 protected:
     int m_status;
     QDialog *m_dialog;
     QString m_name;
 
+    cv::Mat m_input;
+    cv::Mat m_result;
+
     virtual QDialog *createDialog();
+    virtual void process();
 };
 
 #endif // FILTER_H

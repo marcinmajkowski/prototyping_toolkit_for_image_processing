@@ -35,9 +35,33 @@ int Filter::status()
     return m_status;
 }
 
+void Filter::setInput(cv::Mat input)
+{
+    m_input = input.clone();
+    m_status = Processing;
+    emit notReady();
+
+    process(); //TODO call it in another thread
+}
+
+void Filter::setNotReady()
+{
+    m_status = NotReady;
+    emit notReady();
+}
+
 QDialog *Filter::createDialog()
 {
     //TODO
     qDebug() << "createDialog() called in Filter";
     return new QDialog;
+}
+
+void Filter::process()
+{
+    //Do processing here
+    m_result = m_input.clone(); //this is a default behaviour
+
+    m_status = Ready;
+    emit resultChanged(m_result);
 }
