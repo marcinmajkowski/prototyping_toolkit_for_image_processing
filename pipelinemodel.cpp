@@ -42,10 +42,15 @@ QVariant PipelineModel::data(const QModelIndex &index, int role) const
         break;
     case Qt::BackgroundRole:
         if (filter) {
-            if (filter->updated()) {
-                result = QBrush(Qt::green);
-            } else {
+            switch (filter->status()) {
+            case Filter::NotReady:
                 result = QBrush(Qt::red);
+                break;
+            case Filter::Processing:
+                result = QBrush(Qt::yellow);
+                break;
+            case Filter::Ready:
+                result = QBrush(Qt::green);
             }
         }
         break;

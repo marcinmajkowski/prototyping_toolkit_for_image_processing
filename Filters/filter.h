@@ -17,8 +17,10 @@ public:
     QDialog *dialog();
     QString getSignature();
     QString name();
-    bool updated();
+    int status();
     cv::Mat process(cv::Mat);
+
+    enum { NotReady, Processing, Ready };
 
 signals:
     void resultChanged();
@@ -28,7 +30,7 @@ signals:
 public slots:
 
 protected:
-    bool m_updated;
+    int m_status;
     QDialog *m_dialog;
     QString m_name;
 
