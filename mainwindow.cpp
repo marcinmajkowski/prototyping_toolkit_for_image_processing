@@ -23,6 +23,12 @@ MainWindow::MainWindow(QWidget *parent)
     createUndoView();
 #endif
 
+    // every loaded image goes from loadImageFile() through the pipeline
+    // to the imageWidget
+    connect(pipelineModel, SIGNAL(resultChanged(QPixmap)),
+            imageWidget, SLOT(setPixmap(QPixmap)));
+
+
     setWindowTitle("Prototyping Toolkit for Image Processing");
 
     loadImageFile(":/Images/lena.jpg");
@@ -299,7 +305,8 @@ bool MainWindow::loadImageFile(const QString &fileName)
         imageWidget->setPixmap(QPixmap());
         return false;
     }
-    imageWidget->setPixmap(QPixmap::fromImage(image));
+//    imageWidget->setPixmap(QPixmap::fromImage(image));
+    pipelineModel->setInitialPixmap(QPixmap::fromImage(image));
 
     setWindowFilePath(fileName);
 

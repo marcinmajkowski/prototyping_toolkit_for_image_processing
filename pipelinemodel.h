@@ -22,8 +22,10 @@ public:
     bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) Q_DECL_OVERRIDE;
 
 signals:
+    void resultChanged(const QPixmap &pixmap);
 
 public slots:
+    void setInitialPixmap(const QPixmap &pixmap);
 
 protected:
     QVector<QSharedPointer<Filter> > m_filters;

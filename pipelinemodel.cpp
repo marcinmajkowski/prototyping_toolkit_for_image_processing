@@ -93,3 +93,9 @@ bool PipelineModel::setData(const QModelIndex &index, const QVariant &value, int
 
     return true;
 }
+
+void PipelineModel::setInitialPixmap(const QPixmap &pixmap)
+{
+    //TODO store initial Mat and pass it through the pipeline
+    emit resultChanged(pixmap); //TODO do this only if pipeline is empty
+}
