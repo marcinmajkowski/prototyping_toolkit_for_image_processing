@@ -20,6 +20,7 @@ public:
     QString getSignature();
     QString name();
     int status();
+    bool enabled();
 
     enum { NotReady, Processing, Ready };
 
@@ -30,11 +31,13 @@ signals:
 public slots:
     void setInput(cv::Mat input);
     void setNotReady();
+    void setEnabled(bool enabled);
 
 protected:
     int m_status;
     QDialog *m_dialog;
     QString m_name;
+    bool m_enabled;
 
     cv::Mat m_input;
     cv::Mat m_result;

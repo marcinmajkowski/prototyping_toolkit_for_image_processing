@@ -20,12 +20,14 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
     bool insertRows(int row, int count, const QModelIndex &parent = QModelIndex()) Q_DECL_OVERRIDE;
     bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) Q_DECL_OVERRIDE;
+    Qt::ItemFlags flags(const QModelIndex &index) const Q_DECL_OVERRIDE;
 
 signals:
     void resultChanged(const QPixmap &pixmap);
 
 public slots:
     void setInitialPixmap(const QPixmap &pixmap);
+    void update();
 
 protected:
     QVector<QSharedPointer<Filter> > m_filters;

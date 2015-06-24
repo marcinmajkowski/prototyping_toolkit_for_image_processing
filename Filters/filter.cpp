@@ -7,7 +7,8 @@ Filter::Filter(const QString &name, QObject *parent) :
     QObject(parent),
     m_status(NotReady),
     m_dialog(nullptr), //TODO temporary
-    m_name(name)
+    m_name(name),
+    m_enabled(true)
 {
 }
 
@@ -35,6 +36,11 @@ int Filter::status()
     return m_status;
 }
 
+bool Filter::enabled()
+{
+    return m_enabled;
+}
+
 void Filter::setInput(cv::Mat input)
 {
     m_input = input.clone();
@@ -48,6 +54,12 @@ void Filter::setNotReady()
 {
     m_status = NotReady;
     emit notReady();
+}
+
+void Filter::setEnabled(bool enabled)
+{
+    m_enabled = enabled;
+    //TODO change output to input
 }
 
 QDialog *Filter::createDialog()

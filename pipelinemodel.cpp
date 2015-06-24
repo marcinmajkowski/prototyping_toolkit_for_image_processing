@@ -1,3 +1,4 @@
+#include <QDebug>
 #include <QBrush>
 #include <QWidget>
 #include <QDialog>
@@ -54,6 +55,15 @@ QVariant PipelineModel::data(const QModelIndex &index, int role) const
             }
         }
         break;
+    case Qt::CheckStateRole:
+        if (filter) {
+            if (filter->enabled()) {
+                result = Qt::Checked;
+            } else {
+                result = Qt::Unchecked;
+            }
+        }
+        break;
     case DialogRole:
         //TODO
         if (filter) {
@@ -79,10 +89,6 @@ bool PipelineModel::insertRows(int row, int count, const QModelIndex &parent)
 
 bool PipelineModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-    if (role != Qt::EditRole) {
-        return false;
-    }
-
     int row = index.row();
 
     //TODO is it necessary here?
@@ -90,17 +96,44 @@ bool PipelineModel::setData(const QModelIndex &index, const QVariant &value, int
         return false;
     }
 
-    QString filterType = value.toString();
+    if (role == Qt::CheckStateRole) {
+        int state = value.toInt();
+        if (state == Qt::Checked) {
+            m_filters[row]->setEnabled(true);
+        } else if (state == Qt::Unchecked) {
+            m_filters[row]->setEnabled(false);
+        } else {
+            return false;
+        }
+    } else if (role == Qt::EditRole) {
+        QString filterType = value.toString();
+        QSharedPointer<Filter> filter(filterFactory->create(filterType));
+        m_filters[row] = filter;
+        //TODO all necessary connections and DISCONNECTIONS
+    }
 
-    m_filters[row] = QSharedPointer<Filter>(filterFactory->create(filterType));
 
     emit dataChanged(index, index);
 
     return true;
 }
 
+Qt::ItemFlags PipelineModel::flags(const QModelIndex &index) const
+{
+    return (Qt::ItemIsUserCheckable | QAbstractListModel::flags(index));
+}
+
 void PipelineModel::setInitialPixmap(const QPixmap &pixmap)
 {
     //TODO store initial Mat and pass it through the pipeline
     emit resultChanged(pixmap); //TODO do this only if pipeline is empty
+}
+
+void PipelineModel::update()
+{
+    //TODO this is temporary!
+    // Need to know here which filter caused update and get its index
+    // to call dataChanged()
+    emit beginResetModel();
+    emit endResetModel();
 }
