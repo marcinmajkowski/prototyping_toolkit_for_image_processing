@@ -43,6 +43,9 @@ QVariant PipelineModel::data(const QModelIndex &index, int role) const
         break;
     case Qt::BackgroundRole:
         if (filter) {
+            if (!filter->enabled()) {
+                break;
+            }
             switch (filter->status()) {
             case Filter::NotReady:
                 result = QBrush(Qt::red);
@@ -122,7 +125,10 @@ bool PipelineModel::setData(const QModelIndex &index, const QVariant &value, int
 
 Qt::ItemFlags PipelineModel::flags(const QModelIndex &index) const
 {
-    return (Qt::ItemIsUserCheckable | QAbstractListModel::flags(index));
+    Qt::ItemFlags flags = QAbstractListModel::flags(index);
+    flags |= Qt::ItemIsUserCheckable;
+//    flags ^= Qt::ItemIsSelectable;
+    return flags;
 }
 
 void PipelineModel::setInitialPixmap(const QPixmap &pixmap)
