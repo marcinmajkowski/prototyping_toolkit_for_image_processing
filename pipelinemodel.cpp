@@ -8,17 +8,9 @@
 #include "Filters/filter.h"
 
 PipelineModel::PipelineModel(QObject *parent) :
-    QAbstractListModel(parent)
+    QAbstractListModel(parent),
+    filterFactory(new FilterFactory(this))
 {
-    filterFactory = new FilterFactory(this);
-    //TODO below only testing
-//    m_filters.push_back(QSharedPointer<Filter>(new AdaptiveThresholdFilter));
-//    m_filters.push_back(QSharedPointer<Filter>(new AdaptiveThresholdFilter));
-//    m_filters.push_back(QSharedPointer<Filter>(new AdaptiveThresholdFilter));
-//    m_filters.insert(m_filters.size(), 3, QSharedPointer<Filter>());
-//    insertRow(rowCount());
-//    setData(index(1), QVariant("Adaptive threshold"));
-//    setData(index(2), QVariant("Other filter"));
 }
 
 int PipelineModel::rowCount(const QModelIndex &/*parent*/) const
@@ -30,11 +22,15 @@ QVariant PipelineModel::data(const QModelIndex &index, int role) const
 {
     QVariant result = QVariant();
     int row = index.row();
+
+    if (row >= m_filters.size()) {
+        return result;
+    }
+
     QSharedPointer<Filter> filter = m_filters[row];
 
     switch (role) {
     case Qt::DisplayRole:
-        //TODO move these ifs to the top
         if (filter) {
             result = filter->name();
         } else {
@@ -68,7 +64,6 @@ QVariant PipelineModel::data(const QModelIndex &index, int role) const
         }
         break;
     case DialogRole:
-        //TODO
         if (filter) {
             result = QVariant::fromValue(filter->dialog());
         }
@@ -117,7 +112,6 @@ bool PipelineModel::setData(const QModelIndex &index, const QVariant &value, int
         connect(filter.data(), SIGNAL(notReady()), this, SLOT(update()));
     }
 
-
     emit dataChanged(index, index);
 
     return true;
@@ -127,7 +121,6 @@ Qt::ItemFlags PipelineModel::flags(const QModelIndex &index) const
 {
     Qt::ItemFlags flags = QAbstractListModel::flags(index);
     flags |= Qt::ItemIsUserCheckable;
-//    flags ^= Qt::ItemIsSelectable;
     return flags;
 }
 
