@@ -110,6 +110,8 @@ bool PipelineModel::setData(const QModelIndex &index, const QVariant &value, int
         QSharedPointer<Filter> filter(filterFactory->create(filterType));
         m_filters[row] = filter;
         //TODO all necessary connections and DISCONNECTIONS
+        // temporary below
+        connect(filter.data(), SIGNAL(notReady()), this, SLOT(update()));
     }
 
 
@@ -131,9 +133,25 @@ void PipelineModel::setInitialPixmap(const QPixmap &pixmap)
 
 void PipelineModel::update()
 {
+    QObject *sender = QObject::sender();
+
+    int i = 0;
+    for (QSharedPointer<Filter> f : m_filters) {
+        if ((QObject *)(f.data()) == sender) {
+            break;
+        }
+        ++i;
+    }
+
+    qDebug() << "Filter index" << i << "emmited update";
+
+    if (i >= m_filters.size()) {
+        return;
+    }
+
+    QModelIndex modelIndex = index(i);
+    emit dataChanged(modelIndex, modelIndex);
     //TODO this is temporary!
     // Need to know here which filter caused update and get its index
     // to call dataChanged()
-    emit beginResetModel();
-    emit endResetModel();
 }
