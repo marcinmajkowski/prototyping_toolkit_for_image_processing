@@ -139,11 +139,17 @@ void PipelineModel::setInitialPixmap(const QPixmap &pixmap)
 
 void PipelineModel::update()
 {
-    QObject *sender = QObject::sender();
+    Filter *sender = dynamic_cast<Filter *>(QObject::sender());
 
+    if (sender == nullptr) {
+        // sender is not a filter
+        return;
+    }
+
+    // determine sender filter index
     int i = 0;
     for (QSharedPointer<Filter> f : m_filters) {
-        if ((QObject *)(f.data()) == sender) {
+        if (f.data() == sender) {
             break;
         }
         ++i;
@@ -151,13 +157,11 @@ void PipelineModel::update()
 
     qDebug() << "Filter index" << i << "emmited update";
 
-    if (i >= m_filters.size()) {
+    if (i == m_filters.size()) {
+        // sender filter is not stored in m_filters
         return;
     }
 
     QModelIndex modelIndex = index(i);
     emit dataChanged(modelIndex, modelIndex);
-    //TODO this is temporary!
-    // Need to know here which filter caused update and get its index
-    // to call dataChanged()
 }
