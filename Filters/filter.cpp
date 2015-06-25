@@ -51,7 +51,7 @@ void Filter::setInput(cv::Mat input)
     }
 
     //TODO add flag to avoid unnecessary processing
-    m_status = Processing;
+    setStatus(Processing);
     emit resultExpired();
 
     if (m_enabled) {
@@ -63,7 +63,7 @@ void Filter::setInput(cv::Mat input)
 
 void Filter::setWaitingForInput()
 {
-    m_status = WaitingForInput;
+    setStatus(WaitingForInput);
     emit resultExpired();
 }
 
@@ -80,6 +80,14 @@ void Filter::setEnabled(bool enabled)
     setInput(m_input);
 }
 
+void Filter::setStatus(int status)
+{
+    if (status != m_status) {
+        m_status = status;
+        emit statusChanged();
+    }
+}
+
 QDialog *Filter::createDialog()
 {
     //TODO
@@ -89,6 +97,6 @@ QDialog *Filter::createDialog()
 
 void Filter::process()
 {
-    m_status = Ready;
+    setStatus(Ready);
     emit resultChanged(m_input);
 }

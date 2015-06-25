@@ -26,6 +26,7 @@ public:
 
 signals:
     void resultChanged(cv::Mat result);
+    void statusChanged();
     void resultExpired();
 
 public slots:
@@ -34,6 +35,8 @@ public slots:
     void setEnabled(bool enabled);
 
 protected:
+    void setStatus(int status);
+
     int m_status;
     QDialog *m_dialog;
     QString m_name;

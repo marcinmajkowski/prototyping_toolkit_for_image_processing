@@ -113,7 +113,7 @@ bool PipelineModel::setData(const QModelIndex &index, const QVariant &value, int
         //TODO all necessary connections and DISCONNECTIONS
         // temporary below
         if (filter) {
-            connect(filter.data(), SIGNAL(resultExpired()), this, SLOT(update()));
+            connect(filter.data(), SIGNAL(statusChanged()), this, SLOT(update()));
             //TODO find next filter in loop
             if (row + 1 < m_filters.size()) {
                 QSharedPointer<Filter> nextFilter = m_filters[row + 1];
