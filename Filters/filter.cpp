@@ -47,7 +47,11 @@ void Filter::setInput(cv::Mat input)
     m_status = Processing;
     emit resultExpired();
 
-    process(); //TODO call it in another thread
+    if (m_enabled) {
+        process(); //TODO call it in another thread
+    } else {
+        Filter::process(); // pass input to output, emit signal, change status
+    }
 }
 
 void Filter::setWaitingForInput()
