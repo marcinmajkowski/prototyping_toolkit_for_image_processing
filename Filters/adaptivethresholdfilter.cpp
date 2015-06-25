@@ -65,7 +65,7 @@ QDialog *AdaptiveThresholdFilter::createDialog()
     connect(rejectButton, SIGNAL(clicked()), dialog, SLOT(reject()));
 
     //TODO line below is only for test
-    connect(rejectButton, SIGNAL(clicked()), this, SIGNAL(notReady()));
+    connect(rejectButton, SIGNAL(clicked()), this, SIGNAL(resultExpired()));
 
     // connect widgets valueChange signals to appropriate slots/setters
 

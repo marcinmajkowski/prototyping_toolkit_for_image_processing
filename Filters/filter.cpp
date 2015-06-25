@@ -5,7 +5,7 @@
 
 Filter::Filter(const QString &name, QObject *parent) :
     QObject(parent),
-    m_status(NotReady),
+    m_status(WaitingForInput),
     m_dialog(nullptr), //TODO temporary
     m_name(name),
     m_enabled(true)
@@ -45,15 +45,15 @@ void Filter::setInput(cv::Mat input)
 {
     m_input = input.clone();
     m_status = Processing;
-    emit notReady();
+    emit resultExpired();
 
     process(); //TODO call it in another thread
 }
 
-void Filter::setNotReady()
+void Filter::setWaitingForInput()
 {
-    m_status = NotReady;
-    emit notReady();
+    m_status = WaitingForInput;
+    emit resultExpired();
 }
 
 void Filter::setEnabled(bool enabled)

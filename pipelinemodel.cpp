@@ -43,7 +43,7 @@ QVariant PipelineModel::data(const QModelIndex &index, int role) const
                 break;
             }
             switch (filter->status()) {
-            case Filter::NotReady:
+            case Filter::WaitingForInput:
                 result = QBrush(Qt::red);
                 break;
             case Filter::Processing:
@@ -109,7 +109,9 @@ bool PipelineModel::setData(const QModelIndex &index, const QVariant &value, int
         m_filters[row] = filter;
         //TODO all necessary connections and DISCONNECTIONS
         // temporary below
-        connect(filter.data(), SIGNAL(notReady()), this, SLOT(update()));
+        if (filter) {
+            connect(filter.data(), SIGNAL(resultExpired()), this, SLOT(update()));
+        }
     }
 
     emit dataChanged(index, index);

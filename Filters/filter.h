@@ -22,15 +22,15 @@ public:
     int status();
     bool enabled();
 
-    enum { NotReady, Processing, Ready };
+    enum { WaitingForInput, Processing, Ready };
 
 signals:
     void resultChanged(cv::Mat result);
-    void notReady();
+    void resultExpired();
 
 public slots:
     void setInput(cv::Mat input);
-    void setNotReady();
+    void setWaitingForInput();
     void setEnabled(bool enabled);
 
 protected:
