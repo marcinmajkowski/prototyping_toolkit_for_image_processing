@@ -98,5 +98,8 @@ QDialog *Filter::createDialog()
 void Filter::process()
 {
     setStatus(Ready);
-    emit resultChanged(m_input);
+
+    //TODO move out:
+    setStatus(Ready);
+    emit resultChanged(m_input); //TODO move out
 }

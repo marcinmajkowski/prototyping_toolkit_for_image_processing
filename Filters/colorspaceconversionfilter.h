@@ -13,6 +13,8 @@ signals:
 
 public slots:
 
+protected:
+    void process();
 };
 
 #endif // COLORSPACECONVERSIONFILTER_H
