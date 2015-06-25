@@ -91,8 +91,7 @@ bool PipelineModel::setData(const QModelIndex &index, const QVariant &value, int
 {
     int row = index.row();
 
-    //TODO is it necessary here?
-    if (row > m_filters.size()) {
+    if (row >= m_filters.size()) {
         return false;
     }
 
@@ -108,26 +107,72 @@ bool PipelineModel::setData(const QModelIndex &index, const QVariant &value, int
     } else if (role == Qt::EditRole) {
         QString filterType = value.toString();
         QSharedPointer<Filter> filter(filterFactory->create(filterType));
-        //TODO overwriting (disconnections)
-        m_filters[row] = filter;
-        //TODO all necessary connections and DISCONNECTIONS
-        // temporary below
-        if (filter) {
-            connect(filter.data(), SIGNAL(statusChanged()), this, SLOT(update()));
-            //TODO find next filter in loop
-            if (row + 1 < m_filters.size()) {
-                QSharedPointer<Filter> nextFilter = m_filters[row + 1];
-                if (nextFilter) {
-                    connect(filter.data(), SIGNAL(resultChanged(cv::Mat)),
-                            nextFilter.data(), SLOT(setInput(cv::Mat)));
-                    connect(filter.data(), SIGNAL(resultExpired()),
-                            nextFilter.data(), SLOT(setWaitingForInput()));
-                }
-            } else {
-                connect(filter.data(), SIGNAL(resultChanged(cv::Mat)),
-                        this, SLOT(setResult(cv::Mat)));
+
+        //TODO refactor
+
+        //TODO when setting first filter - reset image
+
+        // disconnect connections TO m_filters[row]...
+        // ...and connect them to filter
+        QSharedPointer<Filter> previous;
+        for (int i = row - 1; i >= 0; --i) {
+            if (m_filters[i]) {
+                previous = m_filters[i];
+                break;
             }
         }
+        if (previous) {
+            if (m_filters[row]) {
+                disconnect(previous.data(), SIGNAL(resultChanged(cv::Mat)),
+                           m_filters[row].data(), SLOT(setInput(cv::Mat)));
+                disconnect(previous.data(), SIGNAL(resultExpired()),
+                           m_filters[row].data(), SLOT(setWaitingForInput()));
+            }
+            connect(previous.data(), SIGNAL(resultChanged(cv::Mat)),
+                    filter.data(), SLOT(setInput(cv::Mat)));
+            connect(previous.data(), SIGNAL(resultExpired()),
+                    filter.data(), SLOT(setWaitingForInput()));
+        }
+
+        // disconnect connections FROM m_filters[row]...
+        // ...and use filter instead
+        QSharedPointer<Filter> next;
+        for (int i = row + 1; i < m_filters.size(); ++i) {
+            if (m_filters[i]) {
+                next = m_filters[i];
+                break;
+            }
+        }
+        if (next) {
+            if (m_filters[row]) {
+                disconnect(m_filters[row].data(), SIGNAL(resultChanged(cv::Mat)),
+                           next.data(), SLOT(setInput(cv::Mat)));
+                disconnect(m_filters[row].data(), SIGNAL(resultExpired()),
+                           next.data(), SLOT(setWaitingForInput()));
+            }
+            connect(filter.data(), SIGNAL(resultChanged(cv::Mat)),
+                    next.data(), SLOT(setInput(cv::Mat)));
+            connect(filter.data(), SIGNAL(resultExpired()),
+                    next.data(), SLOT(setWaitingForInput()));
+        } else {
+            if (m_filters[row]) {
+                disconnect(m_filters[row].data(), SIGNAL(resultChanged(cv::Mat)),
+                           this, SLOT(setResult(cv::Mat)));
+            }
+            connect(filter.data(), SIGNAL(resultChanged(cv::Mat)),
+                    this, SLOT(setResult(cv::Mat)));
+        }
+
+        if (m_filters[row]) {
+            disconnect(m_filters[row].data(), SIGNAL(statusChanged()),
+                       this, SLOT(update()));
+        }
+
+        connect(filter.data(), SIGNAL(statusChanged()),
+                this, SLOT(update()));
+
+        // replace m_filters[row] with filter
+        m_filters[row] = filter;
     }
 
     emit dataChanged(index, index);
@@ -178,7 +223,7 @@ void PipelineModel::update()
         ++i;
     }
 
-    qDebug() << "Filter index" << i << "emmited update";
+//    qDebug() << "Filter index" << i << "emmited update";
 
     if (i == m_filters.size()) {
         // sender filter is not stored in m_filters
