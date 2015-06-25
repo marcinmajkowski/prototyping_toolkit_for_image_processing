@@ -43,7 +43,14 @@ bool Filter::enabled()
 
 void Filter::setInput(cv::Mat input)
 {
-    m_input = input.clone();
+    //TODO consider sharing data between filters
+    if (input.data != m_input.data) {
+        // do not copy if called by setEnabled()
+        //TODO need better solution
+        m_input = input.clone();
+    }
+
+    //TODO add flag to avoid unnecessary processing
     m_status = Processing;
     emit resultExpired();
 
@@ -62,8 +69,15 @@ void Filter::setWaitingForInput()
 
 void Filter::setEnabled(bool enabled)
 {
+    if (m_enabled == enabled) {
+        return;
+    }
+
     m_enabled = enabled;
-    //TODO change output to input
+
+    //TODO need better solution
+    //now it will compute result even if it's appropriate
+    setInput(m_input);
 }
 
 QDialog *Filter::createDialog()
@@ -75,9 +89,6 @@ QDialog *Filter::createDialog()
 
 void Filter::process()
 {
-    //Do processing here
-    m_result = m_input.clone(); //this is a default behaviour
-
     m_status = Ready;
-    emit resultChanged(m_result);
+    emit resultChanged(m_input);
 }
