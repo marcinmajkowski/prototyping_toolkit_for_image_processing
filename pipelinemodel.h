@@ -4,6 +4,7 @@
 #include <QAbstractListModel>
 #include <QSharedPointer>
 #include <QVector>
+#include <opencv2/core/core.hpp>
 
 class FilterFactory;
 class Filter;
@@ -27,6 +28,7 @@ signals:
 
 public slots:
     void setInitialPixmap(const QPixmap &pixmap);
+    void setResult(cv::Mat result);
     void update();
 
 protected:

@@ -3,6 +3,8 @@
 #include <QWidget>
 #include <QDialog>
 
+#include "asmOpenCV.h"
+
 #include "pipelinemodel.h"
 #include "filterfactory.h"
 #include "Filters/filter.h"
@@ -106,11 +108,25 @@ bool PipelineModel::setData(const QModelIndex &index, const QVariant &value, int
     } else if (role == Qt::EditRole) {
         QString filterType = value.toString();
         QSharedPointer<Filter> filter(filterFactory->create(filterType));
+        //TODO overwriting (disconnections)
         m_filters[row] = filter;
         //TODO all necessary connections and DISCONNECTIONS
         // temporary below
         if (filter) {
             connect(filter.data(), SIGNAL(resultExpired()), this, SLOT(update()));
+            //TODO find next filter in loop
+            if (row + 1 < m_filters.size()) {
+                QSharedPointer<Filter> nextFilter = m_filters[row + 1];
+                if (nextFilter) {
+                    connect(filter.data(), SIGNAL(resultChanged(cv::Mat)),
+                            nextFilter.data(), SLOT(setInput(cv::Mat)));
+                    connect(filter.data(), SIGNAL(resultExpired()),
+                            nextFilter.data(), SLOT(setWaitingForInput()));
+                }
+            } else {
+                connect(filter.data(), SIGNAL(resultChanged(cv::Mat)),
+                        this, SLOT(setResult(cv::Mat)));
+            }
         }
     }
 
@@ -128,8 +144,20 @@ Qt::ItemFlags PipelineModel::flags(const QModelIndex &index) const
 
 void PipelineModel::setInitialPixmap(const QPixmap &pixmap)
 {
-    //TODO store initial Mat and pass it through the pipeline
-    emit resultChanged(pixmap); //TODO do this only if pipeline is empty
+    for (QSharedPointer<Filter> filter : m_filters) {
+        if (filter) {
+            filter->setInput(ASM::QPixmapToCvMat(pixmap));
+            return;
+        }
+    }
+
+    // there is no valid filter in the pipeline
+    emit resultChanged(pixmap);
+}
+
+void PipelineModel::setResult(cv::Mat result)
+{
+    emit resultChanged(ASM::cvMatToQPixmap(result));
 }
 
 void PipelineModel::update()

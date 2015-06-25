@@ -28,7 +28,8 @@ HEADERS  += mainwindow.h \
     imagewidget.h \
     pipelineview.h \
     pipelinemodel.h \
-    filterfactory.h
+    filterfactory.h \
+    asmOpenCV.h
 
 win32 {
     INCLUDEPATH += "D:\\OpenCV2.4.9\\build\\include" \
