@@ -77,6 +77,7 @@ QVariant PipelineModel::data(const QModelIndex &index, int role) const
 
 bool PipelineModel::insertRows(int row, int count, const QModelIndex &parent)
 {
+    qDebug() << "insertRows called";
     if (row < 0 || row > m_filters.size()) {
         return false;
     }
@@ -89,6 +90,7 @@ bool PipelineModel::insertRows(int row, int count, const QModelIndex &parent)
 
 bool PipelineModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
+    qDebug() << "setData called";
     int row = index.row();
 
     if (row >= m_filters.size()) {
@@ -184,7 +186,43 @@ Qt::ItemFlags PipelineModel::flags(const QModelIndex &index) const
 {
     Qt::ItemFlags flags = QAbstractListModel::flags(index);
     flags |= Qt::ItemIsUserCheckable;
+    flags |= Qt::ItemIsDragEnabled;
+    flags |= Qt::ItemIsDropEnabled;
     return flags;
+}
+
+Qt::DropActions PipelineModel::supportedDropActions() const
+{
+//    return QAbstractListModel::supportedDropActions();
+    return Qt::CopyAction;
+}
+
+bool PipelineModel::moveRows(const QModelIndex &sourceParent, int sourceRow, int count, const QModelIndex &destinationParent, int destinationChild)
+{
+    qDebug() << "moveRows() called";
+    return QAbstractItemModel::moveRows(sourceParent, sourceRow, count, destinationParent, destinationChild);
+}
+
+bool PipelineModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent)
+{
+//    bool result = QAbstractListModel::dropMimeData(data, action, row, column, parent);
+    bool result = true;
+    qDebug() << "dropMimeData() called, result:" << result;
+    qDebug() << "data:" << data;
+    qDebug() << "Action:" << action;
+    qDebug() << "Row:" << row;
+    qDebug() << "Column:" << column;
+    return result;
+}
+
+QMimeData *PipelineModel::mimeData(const QModelIndexList &indexes) const
+{
+    foreach (QModelIndex index, indexes) {
+        qDebug() << "Index:" << index;
+    }
+
+    qDebug() << "mimeData() called";
+    return QAbstractItemModel::mimeData(indexes);
 }
 
 void PipelineModel::setInitialPixmap(const QPixmap &pixmap)
