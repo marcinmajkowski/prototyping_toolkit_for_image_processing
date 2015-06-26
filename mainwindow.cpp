@@ -252,10 +252,12 @@ void MainWindow::createDockWindows()
     //TODO move adding filters somewhere else
     QTreeWidgetItem *treeItem;
     treeItem = new QTreeWidgetItem(filtersWidget, QStringList("Image transformations"));
+    treeItem->setFlags(treeItem->flags() ^ Qt::ItemIsDragEnabled);
     new QTreeWidgetItem(treeItem, QStringList("Adaptive threshold"));
     new QTreeWidgetItem(treeItem, QStringList("Color space conversion"));
 
     treeItem = new QTreeWidgetItem(filtersWidget, QStringList("Others"));
+    treeItem->setFlags(treeItem->flags() ^ Qt::ItemIsDragEnabled);
     new QTreeWidgetItem(treeItem, QStringList("Other filter"));
     //
 
