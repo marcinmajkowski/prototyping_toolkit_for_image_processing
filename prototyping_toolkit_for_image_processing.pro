@@ -20,7 +20,8 @@ SOURCES += main.cpp\
     imagewidget.cpp \
     pipelineview.cpp \
     pipelinemodel.cpp \
-    filterfactory.cpp
+    filterfactory.cpp \
+    pipelinewidget.cpp
 
 HEADERS  += mainwindow.h \
     codewidget.h \
@@ -29,7 +30,8 @@ HEADERS  += mainwindow.h \
     pipelineview.h \
     pipelinemodel.h \
     filterfactory.h \
-    asmOpenCV.h
+    asmOpenCV.h \
+    pipelinewidget.h
 
 win32 {
     INCLUDEPATH += "D:\\OpenCV2.4.9\\build\\include" \
