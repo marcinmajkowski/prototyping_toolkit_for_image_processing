@@ -3,10 +3,9 @@
 
 #include "mainwindow.h"
 #include "codewidget.h"
-#include "pipelineview.h"
-#include "pipelinemodel.h"
 #include "filterswidget.h"
 #include "imagewidget.h"
+#include "pipelinewidget.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -25,8 +24,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     // every loaded image goes from loadImageFile() through the pipeline
     // to the imageWidget
-    connect(pipelineModel, SIGNAL(resultChanged(QPixmap)),
-            imageWidget, SLOT(setPixmap(QPixmap)));
+    //TODO
+//    connect(pipelineModel, SIGNAL(resultChanged(QPixmap)),
+//            imageWidget, SLOT(setPixmap(QPixmap)));
 
 
     setWindowTitle("Prototyping Toolkit for Image Processing");
@@ -107,26 +107,15 @@ void MainWindow::about() //TODO
                           "<p>It's not finished yet...</p>"));
 }
 
-void MainWindow::appendToPipeline(QTreeWidgetItem *item, int /*column*/)
-{
-    if (item->childCount() != 0) {
-        return;
-    }
-
-    int index = pipelineModel->rowCount();
-    pipelineModel->insertRow(index);
-    QVariant filterName = item->data(0, Qt::DisplayRole); //TODO DisplayRole?
-    pipelineModel->setData(pipelineModel->index(index), filterName);
-}
-
 void MainWindow::showFilterWidget(const QModelIndex &index)
 {
-    QDialog *dialog = index.data(PipelineModel::DialogRole).value<QDialog *>();
-    if (dialog) {
-        dialog->setParent(this, Qt::Dialog);
-        int result = dialog->exec();
-        qDebug() << "exec() result:" << result;
-    }
+    //TODO
+//    QDialog *dialog = index.data(PipelineModel::DialogRole).value<QDialog *>();
+//    if (dialog) {
+//        dialog->setParent(this, Qt::Dialog);
+//        int result = dialog->exec();
+//        qDebug() << "exec() result:" << result;
+//    }
 //    delete dialog; //TODO return smart pointer from QVariant
 }
 
@@ -246,39 +235,26 @@ void MainWindow::createDockWindows()
 {
     filtersWidget = new FiltersWidget;
 
-    connect(filtersWidget, SIGNAL(itemActivated(QTreeWidgetItem*,int)),
-            this, SLOT(appendToPipeline(QTreeWidgetItem*,int)));
-
-    //TODO move adding filters somewhere else
-    QTreeWidgetItem *treeItem;
-    treeItem = new QTreeWidgetItem(filtersWidget, QStringList("Image transformations"));
-    treeItem->setFlags(treeItem->flags() ^ Qt::ItemIsDragEnabled);
-    new QTreeWidgetItem(treeItem, QStringList("Adaptive threshold"));
-    new QTreeWidgetItem(treeItem, QStringList("Color space conversion"));
-
-    treeItem = new QTreeWidgetItem(filtersWidget, QStringList("Others"));
-    treeItem->setFlags(treeItem->flags() ^ Qt::ItemIsDragEnabled);
-    new QTreeWidgetItem(treeItem, QStringList("Other filter"));
-    //
-
     QDockWidget *dock = new QDockWidget(tr("Filters"), this);
     dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea); //TODO
     dock->setWidget(filtersWidget);
     addDockWidget(Qt::LeftDockWidgetArea, dock);
     windowMenu->addAction(dock->toggleViewAction());
 
-    pipelineModel = new PipelineModel(this);
-    pipelineView = new PipelineView;
-    pipelineView->setModel(pipelineModel);
+    pipelineWidget = new PipelineWidget;
 
-    connect(pipelineView, SIGNAL(activated(QModelIndex)),
-            this, SLOT(showFilterWidget(QModelIndex)));
+    //TODO add connection for showing dialog
+//    connect(pipelineView, SIGNAL(activated(QModelIndex)),
+//            this, SLOT(showFilterWidget(QModelIndex)));
 
     dock = new QDockWidget(tr("Pipeline"), this);
     dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea); //TODO
-    dock->setWidget(pipelineView);
+    dock->setWidget(pipelineWidget);
     addDockWidget(Qt::LeftDockWidgetArea, dock);
     windowMenu->addAction(dock->toggleViewAction());
+
+    connect(filtersWidget, SIGNAL(itemActivated(QTreeWidgetItem*,int)),
+            pipelineWidget, SLOT(appendItem(QTreeWidgetItem*,int)));
 }
 
 void MainWindow::createUndoView()
@@ -307,8 +283,10 @@ bool MainWindow::loadImageFile(const QString &fileName)
         imageWidget->setPixmap(QPixmap());
         return false;
     }
-//    imageWidget->setPixmap(QPixmap::fromImage(image));
-    pipelineModel->setInitialPixmap(QPixmap::fromImage(image));
+
+    //TODO
+    imageWidget->setPixmap(QPixmap::fromImage(image));
+//    pipelineModel->setInitialPixmap(QPixmap::fromImage(image));
 
     setWindowFilePath(fileName);
 

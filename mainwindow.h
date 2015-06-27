@@ -12,8 +12,7 @@ class QUndoView;
 class QTreeWidgetItem;
 class ImageWidget;
 class CodeWidget;
-class PipelineView;
-class PipelineModel;
+class PipelineWidget;
 class FiltersWidget;
 
 class MainWindow : public QMainWindow
@@ -32,7 +31,6 @@ private slots:
     void normalSize();
     void fitToWindow();
     void about();
-    void appendToPipeline(QTreeWidgetItem *item, int column);
     void showFilterWidget(const QModelIndex &index);
 
 private:
@@ -50,8 +48,7 @@ private:
 
     ImageWidget *imageWidget;
     CodeWidget *codeWidget;
-    PipelineView *pipelineView;
-    PipelineModel *pipelineModel;
+    PipelineWidget *pipelineWidget;
     FiltersWidget *filtersWidget;
 
     QUndoStack *undoStack;
