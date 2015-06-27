@@ -2,6 +2,7 @@
 #include <QBrush>
 #include <QWidget>
 #include <QDialog>
+#include <QMimeData>
 
 #include "asmOpenCV.h"
 
@@ -86,6 +87,14 @@ bool PipelineModel::insertRows(int row, int count, const QModelIndex &parent)
     m_filters.insert(row, count, QSharedPointer<Filter>());
     endInsertRows();
     return true;
+}
+
+bool PipelineModel::removeRows(int row, int count, const QModelIndex &parent)
+{
+    qDebug() << "removeRows called";
+
+    // default implementation
+    return QAbstractListModel::removeRows(row, count, parent);
 }
 
 bool PipelineModel::setData(const QModelIndex &index, const QVariant &value, int role)
@@ -193,36 +202,52 @@ Qt::ItemFlags PipelineModel::flags(const QModelIndex &index) const
 
 Qt::DropActions PipelineModel::supportedDropActions() const
 {
-//    return QAbstractListModel::supportedDropActions();
-    return Qt::CopyAction;
+    //TODO it seems like MoveAction does not appear in dropMimeData
+    return Qt::CopyAction | Qt::MoveAction;
 }
 
 bool PipelineModel::moveRows(const QModelIndex &sourceParent, int sourceRow, int count, const QModelIndex &destinationParent, int destinationChild)
 {
     qDebug() << "moveRows() called";
-    return QAbstractItemModel::moveRows(sourceParent, sourceRow, count, destinationParent, destinationChild);
+    return QAbstractListModel::moveRows(sourceParent, sourceRow, count, destinationParent, destinationChild);
 }
 
 bool PipelineModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent)
 {
-//    bool result = QAbstractListModel::dropMimeData(data, action, row, column, parent);
-    bool result = true;
-    qDebug() << "dropMimeData() called, result:" << result;
-    qDebug() << "data:" << data;
+    qDebug() << "data:" << data->text();
     qDebug() << "Action:" << action;
     qDebug() << "Row:" << row;
     qDebug() << "Column:" << column;
+    qDebug() << "Parent:" << parent;
+    return QAbstractListModel::dropMimeData(data, action, row, column, parent);
+}
+
+bool PipelineModel::canDropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent) const
+{
+    qDebug() << "canDropMimeData()";
+    bool result = QAbstractListModel::canDropMimeData(data, action, row, column, parent);
+    qDebug() << "canDropMimeData() returns" << result;
     return result;
 }
 
 QMimeData *PipelineModel::mimeData(const QModelIndexList &indexes) const
 {
+    QMimeData *mimeData = new QMimeData;
+    QStringList strings;
+
     foreach (QModelIndex index, indexes) {
-        qDebug() << "Index:" << index;
+        strings << index.data().toString();
     }
 
-    qDebug() << "mimeData() called";
-    return QAbstractItemModel::mimeData(indexes);
+    mimeData->setText(strings.join("\n"));
+    qDebug() << mimeData->text();
+
+    return mimeData;
+}
+
+QStringList PipelineModel::mimeTypes() const
+{
+    return QStringList("text/plain");
 }
 
 void PipelineModel::setInitialPixmap(const QPixmap &pixmap)
