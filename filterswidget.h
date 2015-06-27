@@ -13,9 +13,6 @@ signals:
 
 public slots:
 
-protected:
-    QStringList mimeTypes() const Q_DECL_OVERRIDE;
-    QMimeData *mimeData(const QList<QTreeWidgetItem *> items) const Q_DECL_OVERRIDE;
 };
 
 #endif // FILTERSWIDGET_H

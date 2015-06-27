@@ -1,30 +1,21 @@
 #include "filterswidget.h"
 
 #include <QHeaderView>
-#include <QMimeData>
 
 FiltersWidget::FiltersWidget(QWidget *parent) :
     QTreeWidget(parent)
 {
-    // remove header
     header()->close();
 
-    setDragDropMode(QAbstractItemView::DragOnly);
-}
+    QTreeWidgetItem *treeItem;
+    treeItem = new QTreeWidgetItem(this, QStringList("Image transformations"));
+    treeItem->setFlags(treeItem->flags() ^ Qt::ItemIsDragEnabled);
+    new QTreeWidgetItem(treeItem, QStringList("Adaptive threshold"));
+    new QTreeWidgetItem(treeItem, QStringList("Color space conversion"));
 
-QStringList FiltersWidget::mimeTypes() const
-{
-    return QStringList("text/plain");
-}
+    treeItem = new QTreeWidgetItem(this, QStringList("Others"));
+    treeItem->setFlags(treeItem->flags() ^ Qt::ItemIsDragEnabled);
+    new QTreeWidgetItem(treeItem, QStringList("Other filter"));
 
-QMimeData *FiltersWidget::mimeData(const QList<QTreeWidgetItem *> items) const
-{
-    QMimeData *mimeData = new QMimeData;
-    QStringList strings;
-
-    foreach (QTreeWidgetItem *item, items) {
-        strings << item->text(0);
-    }
-
-    return mimeData;
+    setDragEnabled(true);
 }
