@@ -4,6 +4,7 @@
 #include <QTreeWidgetItem>
 
 #include "pipelinewidget.h"
+#include "pipelinewidgetitem.h"
 
 PipelineWidget::PipelineWidget(QWidget *parent) :
     QListWidget(parent)
@@ -27,9 +28,7 @@ void PipelineWidget::appendItem(QTreeWidgetItem *treeItem, int column)
     }
 
     QString filterName = treeItem->text(0);
-    QListWidgetItem *item = new QListWidgetItem(filterName);
-    item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
-    item->setCheckState(Qt::Checked);
+    QListWidgetItem *item = new PipelineWidgetItem(filterName);
     addItem(item);
 }
 
@@ -51,9 +50,7 @@ bool PipelineWidget::dropMimeData(int index, const QMimeData *data, Qt::DropActi
     stream >> row >> col >> roleDataMap;
     QString filterName = roleDataMap.first().toString();
 
-    QListWidgetItem *item = new QListWidgetItem(filterName);
-    item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
-    item->setCheckState(Qt::Checked);
+    QListWidgetItem *item = new PipelineWidgetItem(filterName);
     insertItem(index, item);
 
     return true;
