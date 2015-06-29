@@ -3,13 +3,11 @@
 #include "imagewidget.h"
 
 ImageWidget::ImageWidget(QWidget *parent) :
-    QScrollArea(parent)
+    QScrollArea(parent),
+    imageLabel(new QLabel),
+    m_scaleFactor(1.0),
+    m_fitToWindow(false)
 {
-    // defaults:
-    m_scaleFactor = 1.0;
-    m_fitToWindow = false;
-
-    imageLabel = new QLabel;
     imageLabel->setBackgroundRole(QPalette::Base);
     imageLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
     imageLabel->setScaledContents(true);
