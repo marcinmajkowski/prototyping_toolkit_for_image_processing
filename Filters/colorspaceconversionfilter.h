@@ -9,14 +9,14 @@ class ColorSpaceConversionFilter : public Filter
 public:
     explicit ColorSpaceConversionFilter(QObject *parent = 0);
 
-    QString codeSnippet() const;
+    QString codeSnippet() const Q_DECL_OVERRIDE;
 
 signals:
 
 public slots:
 
 protected:
-    void process();
+    void process() Q_DECL_OVERRIDE;
 };
 
 #endif // COLORSPACECONVERSIONFILTER_H
