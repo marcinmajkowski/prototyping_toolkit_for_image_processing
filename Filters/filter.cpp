@@ -26,6 +26,11 @@ QDialog *Filter::dialog()
     return m_dialog;
 }
 
+QString Filter::codeSnippet() const
+{
+    return "\\\\ Filter\n";
+}
+
 QString Filter::name()
 {
     return m_name;

@@ -7,6 +7,11 @@ ColorSpaceConversionFilter::ColorSpaceConversionFilter(QObject *parent) :
 {
 }
 
+QString ColorSpaceConversionFilter::codeSnippet() const
+{
+    return "cv::cvtColor(src, dst, CV_RGB2GRAY);\n";
+}
+
 void ColorSpaceConversionFilter::process()
 {
     //TODO checking m_input format etc.

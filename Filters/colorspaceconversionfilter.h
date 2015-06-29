@@ -9,6 +9,8 @@ class ColorSpaceConversionFilter : public Filter
 public:
     explicit ColorSpaceConversionFilter(QObject *parent = 0);
 
+    QString codeSnippet() const;
+
 signals:
 
 public slots:

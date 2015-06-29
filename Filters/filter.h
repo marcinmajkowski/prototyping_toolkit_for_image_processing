@@ -17,7 +17,7 @@ public:
     ~Filter();
 
     QDialog *dialog();
-    QString getSignature();
+    virtual QString codeSnippet() const;
     QString name();
     int status();
     bool enabled();
