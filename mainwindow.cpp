@@ -113,12 +113,11 @@ void MainWindow::about() //TODO
 
 void MainWindow::showFilterWidget(QListWidgetItem *item)
 {
-    PipelineWidgetItem *pipelineItem = dynamic_cast<PipelineWidgetItem*>(item);
-    if (!pipelineItem) {
+    Filter *filter = item->data(PipelineWidgetItem::FilterRole).value<Filter *>();
+    if (!filter) {
         return;
     }
-
-    QDialog *dialog = pipelineItem->filter()->dialog();
+    QDialog *dialog = filter->dialog();
     if (dialog) {
         dialog->setParent(this, Qt::Dialog);
         int result = dialog->exec();

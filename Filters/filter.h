@@ -49,4 +49,6 @@ protected:
     virtual void process();
 };
 
+Q_DECLARE_METATYPE(Filter *)
+
 #endif // FILTER_H

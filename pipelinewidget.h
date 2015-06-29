@@ -12,7 +12,6 @@ class PipelineWidget : public QListWidget
     Q_OBJECT
 public:
     explicit PipelineWidget(QWidget *parent = 0);
-    Filter *filter(int row) const;
 
 signals:
     void sourceCodeChanged(const QString &sourceCode);

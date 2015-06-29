@@ -36,15 +36,25 @@ PipelineWidgetItem::~PipelineWidgetItem()
     delete m_filter;
 }
 
-void PipelineWidgetItem::setFilter(Filter *filter)
+QVariant PipelineWidgetItem::data(int role) const
 {
-    delete m_filter;
-    m_filter = filter;
+    if (role == FilterRole) {
+        QVariant var;
+        var.setValue(m_filter);
+        return var;
+    } else {
+        return QListWidgetItem::data(role);
+    }
 }
 
-Filter *PipelineWidgetItem::filter()
+void PipelineWidgetItem::setData(int role, const QVariant &value)
 {
-    return m_filter;
+    if (role == FilterRole) {
+        delete m_filter;
+        m_filter = value.value<Filter *>();
+    } else {
+        QListWidgetItem::setData(role, value);
+    }
 }
 
 void PipelineWidgetItem::init()

@@ -31,17 +31,6 @@ PipelineWidget::PipelineWidget(QWidget *parent) :
             this, SLOT(updateSourceCode()));
 }
 
-Filter *PipelineWidget::filter(int row) const
-{
-    //TODO implement this in data() with extra role
-    PipelineWidgetItem *pipelineItem = dynamic_cast<PipelineWidgetItem *>(item(row));
-    if (pipelineItem) {
-        return pipelineItem->filter();
-    } else {
-        return nullptr;
-    }
-}
-
 void PipelineWidget::appendItem(QTreeWidgetItem *treeItem, int column)
 {
     Q_UNUSED(column);
@@ -53,8 +42,10 @@ void PipelineWidget::appendItem(QTreeWidgetItem *treeItem, int column)
     QString filterName = treeItem->text(0);
     Filter *filter = m_filterFactory->create(filterName);
     if (filter) {
-        PipelineWidgetItem *item = new PipelineWidgetItem(filterName);
-        item->setFilter(filter);
+        QListWidgetItem *item = new PipelineWidgetItem(filterName);
+        QVariant var;
+        var.setValue(filter);
+        item->setData(PipelineWidgetItem::FilterRole, var);
         addItem(item);
     }
 }
@@ -69,9 +60,9 @@ void PipelineWidget::updateSourceCode()
     QStringList sourceCode;
 
     for (int i = 0; i < count(); ++i) {
-        PipelineWidgetItem *widgetItem = dynamic_cast<PipelineWidgetItem *>(item(i));
+        QListWidgetItem *widgetItem = item(i);
         if (widgetItem->checkState() == Qt::Checked) {
-            Filter *f = widgetItem->filter();
+            Filter *f = widgetItem->data(PipelineWidgetItem::FilterRole).value<Filter *>();
             if (f) {
                 sourceCode << f->codeSnippet();
             }
@@ -100,10 +91,13 @@ bool PipelineWidget::dropMimeData(int index, const QMimeData *data, Qt::DropActi
         return false;
     }
 
-    PipelineWidgetItem *item = new PipelineWidgetItem(filterName);
-    item->setFilter(filter);
+    QListWidgetItem *item = new PipelineWidgetItem(filterName);
+    QVariant var;
+    var.setValue(filter);
+    item->setData(PipelineWidgetItem::FilterRole, var);
     insertItem(index, item);
 
     return true;
-    //    return QListWidget::dropMimeData(index, data, action);
+    //TODO preserve default behaviour
+//    return QListWidget::dropMimeData(index, data, action);
 }

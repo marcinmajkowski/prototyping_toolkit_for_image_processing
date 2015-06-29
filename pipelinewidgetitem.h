@@ -14,10 +14,11 @@ public:
     PipelineWidgetItem(const QListWidgetItem &other);
     ~PipelineWidgetItem();
 
-    void setFilter(Filter *filter);
-    Filter *filter();
+    QVariant data(int role) const Q_DECL_OVERRIDE;
+    void setData(int role, const QVariant &value) Q_DECL_OVERRIDE;
 
     enum ItemType { FilterType = QListWidgetItem::ItemType::UserType + 1 };
+    enum { FilterRole = Qt::UserRole + 1 };
 
 private:
     void init();
