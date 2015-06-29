@@ -21,6 +21,16 @@ PipelineWidget::PipelineWidget(QWidget *parent) :
     connect(shortcut, SIGNAL(activated()), this, SLOT(deleteItem()));
 }
 
+Filter *PipelineWidget::filter(int row) const
+{
+    PipelineWidgetItem *pipelineItem = dynamic_cast<PipelineWidgetItem *>(item(row));
+    if (pipelineItem) {
+        return pipelineItem->filter();
+    } else {
+        return nullptr;
+    }
+}
+
 void PipelineWidget::appendItem(QTreeWidgetItem *treeItem, int column)
 {
     Q_UNUSED(column);
@@ -35,6 +45,7 @@ void PipelineWidget::appendItem(QTreeWidgetItem *treeItem, int column)
         PipelineWidgetItem *item = new PipelineWidgetItem(filterName);
         item->setFilter(filter);
         addItem(item);
+        emit dataChanged();
     }
 }
 
@@ -65,6 +76,8 @@ bool PipelineWidget::dropMimeData(int index, const QMimeData *data, Qt::DropActi
     PipelineWidgetItem *item = new PipelineWidgetItem(filterName);
     item->setFilter(filter);
     insertItem(index, item);
+
+    emit dataChanged();
 
     return true;
 //    return QListWidget::dropMimeData(index, data, action);
