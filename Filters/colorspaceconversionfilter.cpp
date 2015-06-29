@@ -9,7 +9,7 @@ ColorSpaceConversionFilter::ColorSpaceConversionFilter(QObject *parent) :
 
 QString ColorSpaceConversionFilter::codeSnippet() const
 {
-    return "cv::cvtColor(src, dst, CV_RGB2GRAY);\n";
+    return "cv::cvtColor(src, dst, CV_RGB2GRAY);";
 }
 
 void ColorSpaceConversionFilter::process()

@@ -28,7 +28,7 @@ QDialog *Filter::dialog()
 
 QString Filter::codeSnippet() const
 {
-    return "\\\\ Filter\n";
+    return "\\\\ Filter";
 }
 
 QString Filter::name()

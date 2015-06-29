@@ -10,7 +10,7 @@ AdaptiveThresholdFilter::AdaptiveThresholdFilter(QObject *parent) :
 
 QString AdaptiveThresholdFilter::codeSnippet() const
 {
-    return "cv::adaptiveThreshold(src, dst, maxValue, adaptiveMethod, thresholdType, blockSize, C);\n";
+    return "cv::adaptiveThreshold(src, dst, maxValue, adaptiveMethod, thresholdType, blockSize, C);";
 }
 
 void AdaptiveThresholdFilter::setMaxValue(double)
