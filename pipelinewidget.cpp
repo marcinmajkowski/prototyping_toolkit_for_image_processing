@@ -6,6 +6,7 @@
 #include "pipelinewidget.h"
 #include "pipelinewidgetitem.h"
 #include "filterfactory.h"
+#include "Filters/filter.h"
 
 PipelineWidget::PipelineWidget(QWidget *parent) :
     QListWidget(parent),
@@ -21,13 +22,13 @@ PipelineWidget::PipelineWidget(QWidget *parent) :
     connect(shortcut, SIGNAL(activated()), this, SLOT(deleteItem()));
 
     connect(model(), SIGNAL(rowsRemoved(QModelIndex,int,int)),
-            this, SIGNAL(updated()));
+            this, SLOT(updateSourceCode()));
     connect(model(), SIGNAL(rowsInserted(QModelIndex,int,int)),
-            this, SIGNAL(updated()));
+            this, SLOT(updateSourceCode()));
     connect(model(), SIGNAL(rowsMoved(QModelIndex,int,int,QModelIndex,int)),
-            this, SIGNAL(updated()));
+            this, SLOT(updateSourceCode()));
     connect(model(), SIGNAL(dataChanged(QModelIndex,QModelIndex)),
-            this, SIGNAL(updated()));
+            this, SLOT(updateSourceCode()));
 }
 
 Filter *PipelineWidget::filter(int row) const
@@ -61,6 +62,23 @@ void PipelineWidget::appendItem(QTreeWidgetItem *treeItem, int column)
 void PipelineWidget::deleteItem()
 {
     qDeleteAll(selectedItems());
+}
+
+void PipelineWidget::updateSourceCode()
+{
+    QStringList sourceCode;
+
+    for (int i = 0; i < count(); ++i) {
+        PipelineWidgetItem *widgetItem = dynamic_cast<PipelineWidgetItem *>(item(i));
+        if (widgetItem->checkState() == Qt::Checked) {
+            Filter *f = widgetItem->filter();
+            if (f) {
+                sourceCode << f->codeSnippet();
+            }
+        }
+    }
+
+    emit sourceCodeChanged(sourceCode.join("\n"));
 }
 
 bool PipelineWidget::dropMimeData(int index, const QMimeData *data, Qt::DropAction action)

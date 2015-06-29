@@ -30,6 +30,8 @@ MainWindow::MainWindow(QWidget *parent)
 //    connect(pipelineModel, SIGNAL(resultChanged(QPixmap)),
 //            imageWidget, SLOT(setPixmap(QPixmap)));
 
+    connect(pipelineWidget, SIGNAL(sourceCodeChanged(QString)),
+            codeWidget, SLOT(setPlainText(QString)));
 
     setWindowTitle("Prototyping Toolkit for Image Processing");
 
@@ -249,8 +251,6 @@ void MainWindow::createDockWindows()
 
     connect(pipelineWidget, SIGNAL(itemActivated(QListWidgetItem*)),
             this, SLOT(showFilterWidget(QListWidgetItem*)));
-
-    codeWidget->setPipelineWidget(pipelineWidget);
 
     dock = new QDockWidget(tr("Pipeline"), this);
     dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea); //TODO

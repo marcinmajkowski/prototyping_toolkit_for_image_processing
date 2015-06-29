@@ -15,11 +15,14 @@ public:
     Filter *filter(int row) const;
 
 signals:
-    void updated();
+    void sourceCodeChanged(const QString &sourceCode);
 
 public slots:
     void appendItem(QTreeWidgetItem *item, int column);
     void deleteItem();
+
+protected slots:
+    void updateSourceCode();
 
 protected:
     bool dropMimeData(int index, const QMimeData *data, Qt::DropAction action) Q_DECL_OVERRIDE;

@@ -3,8 +3,6 @@
 
 #include <QPlainTextEdit>
 
-class PipelineWidget;
-
 class CodeWidget : public QPlainTextEdit
 {
     Q_OBJECT
@@ -14,11 +12,6 @@ public:
 signals:
 
 public slots:
-    void update();
-    void setPipelineWidget(PipelineWidget *pipelineWidget);
-
-private:
-    PipelineWidget *m_pipelineWidget;
 
 };
 
