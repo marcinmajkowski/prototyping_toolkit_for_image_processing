@@ -13,6 +13,7 @@ public:
     explicit PipelineWidget(QWidget *parent = 0);
 
 signals:
+    void dataChanged();
 
 public slots:
     void appendItem(QTreeWidgetItem *item, int column);

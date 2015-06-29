@@ -250,6 +250,8 @@ void MainWindow::createDockWindows()
     connect(pipelineWidget, SIGNAL(itemActivated(QListWidgetItem*)),
             this, SLOT(showFilterWidget(QListWidgetItem*)));
 
+    codeWidget->setPipelineWidget(pipelineWidget);
+
     dock = new QDockWidget(tr("Pipeline"), this);
     dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea); //TODO
     dock->setWidget(pipelineWidget);
