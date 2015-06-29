@@ -15,7 +15,7 @@ public:
     Filter *filter(int row) const;
 
 signals:
-    void dataChanged();
+    void updated();
 
 public slots:
     void appendItem(QTreeWidgetItem *item, int column);

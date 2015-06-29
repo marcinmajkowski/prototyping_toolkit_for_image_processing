@@ -1,3 +1,5 @@
+#include <QDebug>
+
 #include "codewidget.h"
 #include "pipelinewidget.h"
 #include "Filters/filter.h"
@@ -29,6 +31,6 @@ void CodeWidget::setPipelineWidget(PipelineWidget *pipelineWidget)
 {
     //TODO disconnect old widget
     m_pipelineWidget = pipelineWidget;
-    connect(m_pipelineWidget, SIGNAL(dataChanged()),
+    connect(m_pipelineWidget, SIGNAL(updated()),
             this, SLOT(update()));
 }

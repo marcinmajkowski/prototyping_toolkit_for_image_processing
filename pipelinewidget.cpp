@@ -19,10 +19,20 @@ PipelineWidget::PipelineWidget(QWidget *parent) :
 
     QShortcut* shortcut = new QShortcut(QKeySequence(Qt::Key_Delete), this);
     connect(shortcut, SIGNAL(activated()), this, SLOT(deleteItem()));
+
+    connect(model(), SIGNAL(rowsRemoved(QModelIndex,int,int)),
+            this, SIGNAL(updated()));
+    connect(model(), SIGNAL(rowsInserted(QModelIndex,int,int)),
+            this, SIGNAL(updated()));
+    connect(model(), SIGNAL(rowsMoved(QModelIndex,int,int,QModelIndex,int)),
+            this, SIGNAL(updated()));
+    connect(model(), SIGNAL(dataChanged(QModelIndex,QModelIndex)),
+            this, SIGNAL(updated()));
 }
 
 Filter *PipelineWidget::filter(int row) const
 {
+    //TODO implement this in data() with extra role
     PipelineWidgetItem *pipelineItem = dynamic_cast<PipelineWidgetItem *>(item(row));
     if (pipelineItem) {
         return pipelineItem->filter();
@@ -45,7 +55,6 @@ void PipelineWidget::appendItem(QTreeWidgetItem *treeItem, int column)
         PipelineWidgetItem *item = new PipelineWidgetItem(filterName);
         item->setFilter(filter);
         addItem(item);
-        emit dataChanged();
     }
 }
 
@@ -77,8 +86,6 @@ bool PipelineWidget::dropMimeData(int index, const QMimeData *data, Qt::DropActi
     item->setFilter(filter);
     insertItem(index, item);
 
-    emit dataChanged();
-
     return true;
-//    return QListWidget::dropMimeData(index, data, action);
+    //    return QListWidget::dropMimeData(index, data, action);
 }
