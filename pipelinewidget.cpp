@@ -32,7 +32,8 @@ void PipelineWidget::appendItem(QTreeWidgetItem *treeItem, int column)
     QString filterName = treeItem->text(0);
     Filter *filter = m_filterFactory->create(filterName);
     if (filter) {
-        QListWidgetItem *item = new PipelineWidgetItem(filterName);
+        PipelineWidgetItem *item = new PipelineWidgetItem(filterName);
+        item->setFilter(filter);
         addItem(item);
     }
 }
@@ -61,7 +62,8 @@ bool PipelineWidget::dropMimeData(int index, const QMimeData *data, Qt::DropActi
         return false;
     }
 
-    QListWidgetItem *item = new PipelineWidgetItem(filterName);
+    PipelineWidgetItem *item = new PipelineWidgetItem(filterName);
+    item->setFilter(filter);
     insertItem(index, item);
 
     return true;

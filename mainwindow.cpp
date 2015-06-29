@@ -6,6 +6,8 @@
 #include "filterswidget.h"
 #include "imagewidget.h"
 #include "pipelinewidget.h"
+#include "pipelinewidgetitem.h"
+#include "Filters/filter.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -107,16 +109,18 @@ void MainWindow::about() //TODO
                           "<p>It's not finished yet...</p>"));
 }
 
-void MainWindow::showFilterWidget(const QModelIndex &index)
+void MainWindow::showFilterWidget(QListWidgetItem *item)
 {
-    //TODO
-//    QDialog *dialog = index.data(PipelineModel::DialogRole).value<QDialog *>();
-//    if (dialog) {
-//        dialog->setParent(this, Qt::Dialog);
-//        int result = dialog->exec();
-//        qDebug() << "exec() result:" << result;
-//    }
-//    delete dialog; //TODO return smart pointer from QVariant
+    PipelineWidgetItem *pipelineItem = dynamic_cast<PipelineWidgetItem*>(item);
+    if (!pipelineItem) {
+        return;
+    }
+
+    QDialog *dialog = pipelineItem->filter()->dialog();
+    if (dialog) {
+        dialog->setParent(this, Qt::Dialog);
+        int result = dialog->exec();
+    }
 }
 
 void MainWindow::createActions()
@@ -243,9 +247,8 @@ void MainWindow::createDockWindows()
 
     pipelineWidget = new PipelineWidget;
 
-    //TODO add connection for showing dialog
-//    connect(pipelineView, SIGNAL(activated(QModelIndex)),
-//            this, SLOT(showFilterWidget(QModelIndex)));
+    connect(pipelineWidget, SIGNAL(itemActivated(QListWidgetItem*)),
+            this, SLOT(showFilterWidget(QListWidgetItem*)));
 
     dock = new QDockWidget(tr("Pipeline"), this);
     dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea); //TODO

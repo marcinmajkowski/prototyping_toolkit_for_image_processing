@@ -1,3 +1,5 @@
+#include <QDebug>
+
 #include "pipelinewidgetitem.h"
 #include "Filters/filter.h"
 

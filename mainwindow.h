@@ -14,6 +14,7 @@ class ImageWidget;
 class CodeWidget;
 class PipelineWidget;
 class FiltersWidget;
+class QListWidgetItem;
 
 class MainWindow : public QMainWindow
 {
@@ -31,7 +32,7 @@ private slots:
     void normalSize();
     void fitToWindow();
     void about();
-    void showFilterWidget(const QModelIndex &index);
+    void showFilterWidget(QListWidgetItem *item);
 
 private:
     void createActions();
