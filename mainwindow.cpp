@@ -24,14 +24,11 @@ MainWindow::MainWindow(QWidget *parent)
     createUndoView();
 #endif
 
-    // every loaded image goes from loadImageFile() through the pipeline
-    // to the imageWidget
-    //TODO
-//    connect(pipelineModel, SIGNAL(resultChanged(QPixmap)),
-//            imageWidget, SLOT(setPixmap(QPixmap)));
-
     connect(pipelineWidget, SIGNAL(sourceCodeChanged(QString)),
             codeWidget, SLOT(setPlainText(QString)));
+
+    connect(pipelineWidget, SIGNAL(outputPixmapChanged(QPixmap)),
+            imageWidget, SLOT(setPixmap(QPixmap)));
 
     setWindowTitle("Prototyping Toolkit for Image Processing");
 
@@ -258,7 +255,7 @@ void MainWindow::createDockWindows()
     windowMenu->addAction(dock->toggleViewAction());
 
     connect(filtersWidget, SIGNAL(itemActivated(QTreeWidgetItem*,int)),
-            pipelineWidget, SLOT(appendItem(QTreeWidgetItem*,int)));
+            pipelineWidget, SLOT(appendItem(QTreeWidgetItem*)));
 }
 
 void MainWindow::createUndoView()
@@ -288,9 +285,7 @@ bool MainWindow::loadImageFile(const QString &fileName)
         return false;
     }
 
-    //TODO
-    imageWidget->setPixmap(QPixmap::fromImage(image));
-//    pipelineModel->setInitialPixmap(QPixmap::fromImage(image));
+    pipelineWidget->setInputPixmap(QPixmap::fromImage(image));
 
     setWindowFilePath(fileName);
 

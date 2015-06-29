@@ -19,7 +19,7 @@ PipelineWidget::PipelineWidget(QWidget *parent) :
     setSelectionMode(QAbstractItemView::ExtendedSelection);
 
     QShortcut* shortcut = new QShortcut(QKeySequence(Qt::Key_Delete), this);
-    connect(shortcut, SIGNAL(activated()), this, SLOT(deleteItem()));
+    connect(shortcut, SIGNAL(activated()), this, SLOT(deleteSelectedItems()));
 
     connect(model(), SIGNAL(rowsRemoved(QModelIndex,int,int)),
             this, SLOT(updateSourceCode()));
@@ -31,10 +31,8 @@ PipelineWidget::PipelineWidget(QWidget *parent) :
             this, SLOT(updateSourceCode()));
 }
 
-void PipelineWidget::appendItem(QTreeWidgetItem *treeItem, int column)
+void PipelineWidget::appendItem(QTreeWidgetItem *treeItem)
 {
-    Q_UNUSED(column);
-
     if (treeItem->childCount() != 0) {
         return;
     }
@@ -50,7 +48,13 @@ void PipelineWidget::appendItem(QTreeWidgetItem *treeItem, int column)
     }
 }
 
-void PipelineWidget::deleteItem()
+void PipelineWidget::setInputPixmap(const QPixmap &pixmap)
+{
+    m_inputPixmap = pixmap;
+    updateOutputPixmap();
+}
+
+void PipelineWidget::deleteSelectedItems()
 {
     qDeleteAll(selectedItems());
 }
@@ -70,6 +74,12 @@ void PipelineWidget::updateSourceCode()
     }
 
     emit sourceCodeChanged(sourceCode.join("\n"));
+}
+
+void PipelineWidget::updateOutputPixmap()
+{
+    //TODO
+    emit outputPixmapChanged(m_inputPixmap);
 }
 
 bool PipelineWidget::dropMimeData(int index, const QMimeData *data, Qt::DropAction action)
