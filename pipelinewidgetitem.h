@@ -3,6 +3,8 @@
 
 #include <QListWidgetItem>
 
+class Filter;
+
 class PipelineWidgetItem : public QListWidgetItem
 {
 public:
@@ -12,10 +14,14 @@ public:
     PipelineWidgetItem(const QListWidgetItem &other);
     ~PipelineWidgetItem();
 
+    void setFilter(Filter *filter);
+    Filter *filter();
+
     enum ItemType { FilterType = QListWidgetItem::ItemType::UserType + 1 };
 
 private:
     void init();
+    Filter *m_filter;
 };
 
 #endif // PIPELINEWIDGETITEM_H

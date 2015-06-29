@@ -5,9 +5,11 @@
 
 #include "pipelinewidget.h"
 #include "pipelinewidgetitem.h"
+#include "filterfactory.h"
 
 PipelineWidget::PipelineWidget(QWidget *parent) :
-    QListWidget(parent)
+    QListWidget(parent),
+    m_filterFactory(new FilterFactory(this))
 {
     setDropIndicatorShown(true);
     setDragDropMode(QAbstractItemView::DragDrop);
@@ -28,8 +30,11 @@ void PipelineWidget::appendItem(QTreeWidgetItem *treeItem, int column)
     }
 
     QString filterName = treeItem->text(0);
-    QListWidgetItem *item = new PipelineWidgetItem(filterName);
-    addItem(item);
+    Filter *filter = m_filterFactory->create(filterName);
+    if (filter) {
+        QListWidgetItem *item = new PipelineWidgetItem(filterName);
+        addItem(item);
+    }
 }
 
 void PipelineWidget::deleteItem()
@@ -49,6 +54,12 @@ bool PipelineWidget::dropMimeData(int index, const QMimeData *data, Qt::DropActi
     QMap<int, QVariant> roleDataMap;
     stream >> row >> col >> roleDataMap;
     QString filterName = roleDataMap.first().toString();
+
+    Filter *filter = m_filterFactory->create(filterName);
+
+    if (!filter) {
+        return false;
+    }
 
     QListWidgetItem *item = new PipelineWidgetItem(filterName);
     insertItem(index, item);

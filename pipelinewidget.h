@@ -4,6 +4,7 @@
 #include <QListWidget>
 
 class QTreeWidgetItem;
+class FilterFactory;
 
 class PipelineWidget : public QListWidget
 {
@@ -19,6 +20,7 @@ public slots:
 
 protected:
     bool dropMimeData(int index, const QMimeData *data, Qt::DropAction action) Q_DECL_OVERRIDE;
+    FilterFactory *m_filterFactory;
 };
 
 #endif // PIPELINEWIDGET_H
