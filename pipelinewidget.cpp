@@ -66,11 +66,19 @@ void PipelineWidget::updateSourceCode()
 
     for (int i = 0; i < count(); ++i) {
         QListWidgetItem *widgetItem = item(i);
-        if (widgetItem->checkState() == Qt::Checked) {
-            Filter *f = widgetItem->data(PipelineWidgetItem::FilterRole).value<Filter *>();
-            if (f) {
-                sourceCode << f->codeSnippet();
+        Filter *f = widgetItem->data(PipelineWidgetItem::FilterRole).value<Filter *>();
+        if (f) {
+            QStringList snippet = f->codeSnippet();
+            if (widgetItem->checkState() == Qt::Unchecked) {
+                // comment every line if unchecked
+                for (QStringList::iterator it = snippet.begin(); it != snippet.end(); ++it) {
+                    // only if it isn't already a comment
+                    if (!it->startsWith("//")) {
+                        it->prepend("// ");
+                    }
+                }
             }
+            sourceCode << snippet;
         }
     }
 
