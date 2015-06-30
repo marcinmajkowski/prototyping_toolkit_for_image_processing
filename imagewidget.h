@@ -20,6 +20,7 @@ public:
 
 public slots:
     void setPixmap(const QPixmap &pixmap);
+    void updatePixmap(const QPixmap &pixmap);
 
 private:
     void adjustScrollBar(QScrollBar *scrollBar, double factor);

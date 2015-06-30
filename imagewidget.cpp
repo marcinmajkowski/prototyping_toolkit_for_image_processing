@@ -62,6 +62,10 @@ void ImageWidget::setPixmap(const QPixmap &pixmap)
     }
 }
 
+void ImageWidget::updatePixmap(const QPixmap &pixmap) {
+    imageLabel->setPixmap(pixmap);
+}
+
 void ImageWidget::adjustScrollBar(QScrollBar *scrollBar, double factor)
 {
     scrollBar->setValue(int(factor * scrollBar->value()

@@ -28,7 +28,7 @@ MainWindow::MainWindow(QWidget *parent)
             codeWidget, SLOT(setPlainText(QString)));
 
     connect(pipelineWidget, SIGNAL(outputPixmapChanged(QPixmap)),
-            imageWidget, SLOT(setPixmap(QPixmap)));
+            imageWidget, SLOT(updatePixmap(QPixmap)));
 
     setWindowTitle("Prototyping Toolkit for Image Processing");
 
@@ -285,6 +285,8 @@ bool MainWindow::loadImageFile(const QString &fileName)
     }
 
     pipelineWidget->setInputPixmap(QPixmap::fromImage(image));
+
+    imageWidget->setScaleFactor(1.0);
 
     setWindowFilePath(fileName);
 
