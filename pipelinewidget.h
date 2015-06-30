@@ -31,6 +31,7 @@ protected:
     bool dropMimeData(int index, const QMimeData *data, Qt::DropAction action) Q_DECL_OVERRIDE;
     FilterFactory *m_filterFactory;
     cv::Mat m_inputImage;
+    cv::Mat m_outputImage;
 };
 
 #endif // PIPELINEWIDGET_H

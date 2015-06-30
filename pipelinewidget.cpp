@@ -30,6 +30,15 @@ PipelineWidget::PipelineWidget(QWidget *parent) :
             this, SLOT(updateSourceCode()));
     connect(model(), SIGNAL(dataChanged(QModelIndex,QModelIndex)),
             this, SLOT(updateSourceCode()));
+
+    connect(model(), SIGNAL(rowsRemoved(QModelIndex,int,int)),
+            this, SLOT(updateOutputPixmap()));
+    connect(model(), SIGNAL(rowsInserted(QModelIndex,int,int)),
+            this, SLOT(updateOutputPixmap()));
+    connect(model(), SIGNAL(rowsMoved(QModelIndex,int,int,QModelIndex,int)),
+            this, SLOT(updateOutputPixmap()));
+    connect(model(), SIGNAL(dataChanged(QModelIndex,QModelIndex)),
+            this, SLOT(updateOutputPixmap()));
 }
 
 void PipelineWidget::appendItem(QTreeWidgetItem *treeItem)
@@ -79,18 +88,19 @@ void PipelineWidget::updateSourceCode()
 
 void PipelineWidget::updateOutputPixmap()
 {
+    m_outputImage = m_inputImage.clone();
 
-//    for (int i = 0; i < count(); ++i) {
-//        QListWidgetItem *widgetItem = item(i);
-//        if (widgetItem->checkState() == Qt::Checked) {
-//            Filter *f = widgetItem->data(PipelineWidgetItem::FilterRole).value<Filter *>();
-//            if (f) {
-//                outputImage = f->process(outputImage);
-//            }
-//        }
-//    }
+    for (int i = 0; i < count(); ++i) {
+        QListWidgetItem *widgetItem = item(i);
+        if (widgetItem->checkState() == Qt::Checked) {
+            Filter *f = widgetItem->data(PipelineWidgetItem::FilterRole).value<Filter *>();
+            if (f) {
+                m_outputImage = f->process(m_outputImage);
+            }
+        }
+    }
 
-    emit outputPixmapChanged(ASM::cvMatToQPixmap(m_inputImage));
+    emit outputPixmapChanged(ASM::cvMatToQPixmap(m_outputImage));
 }
 
 bool PipelineWidget::dropMimeData(int index, const QMimeData *data, Qt::DropAction action)
