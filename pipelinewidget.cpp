@@ -23,15 +23,6 @@ PipelineWidget::PipelineWidget(QWidget *parent) :
     connect(shortcut, SIGNAL(activated()), this, SLOT(deleteSelectedItems()));
 
     connect(model(), SIGNAL(rowsRemoved(QModelIndex,int,int)),
-            this, SLOT(updateSourceCode()));
-    connect(model(), SIGNAL(rowsInserted(QModelIndex,int,int)),
-            this, SLOT(updateSourceCode()));
-    connect(model(), SIGNAL(rowsMoved(QModelIndex,int,int,QModelIndex,int)),
-            this, SLOT(updateSourceCode()));
-    connect(model(), SIGNAL(dataChanged(QModelIndex,QModelIndex)),
-            this, SLOT(updateSourceCode()));
-
-    connect(model(), SIGNAL(rowsRemoved(QModelIndex,int,int)),
             this, SLOT(updateOutputPixmap()));
     connect(model(), SIGNAL(rowsInserted(QModelIndex,int,int)),
             this, SLOT(updateOutputPixmap()));
@@ -99,6 +90,8 @@ void PipelineWidget::updateOutputPixmap()
             }
         }
     }
+
+    updateSourceCode();
 
     emit outputPixmapChanged(ASM::cvMatToQPixmap(m_outputImage));
 }
