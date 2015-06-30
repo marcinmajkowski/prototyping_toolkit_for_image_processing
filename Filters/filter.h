@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QString>
+#include <QStringList>
 #include <opencv2/core/core.hpp>
 
 Q_DECLARE_METATYPE(cv::Mat)
@@ -18,7 +19,7 @@ public:
 
     virtual cv::Mat &process(cv::Mat &input) const;
 
-    virtual QString codeSnippet() const;
+    virtual QStringList codeSnippet() const;
     virtual QDialog *createDialog(QWidget *parent = 0);
     QString name() const;
 

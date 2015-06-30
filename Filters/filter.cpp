@@ -20,9 +20,9 @@ cv::Mat &Filter::process(cv::Mat &input) const
     return input;
 }
 
-QString Filter::codeSnippet() const
+QStringList Filter::codeSnippet() const
 {
-    return "\\\\ Filter";
+    return QStringList("\\\\ Filter");
 }
 
 QString Filter::name() const
