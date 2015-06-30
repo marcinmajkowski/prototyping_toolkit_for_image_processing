@@ -7,6 +7,7 @@
 #include "pipelinewidgetitem.h"
 #include "filterfactory.h"
 #include "Filters/filter.h"
+#include "asmOpenCV.h"
 
 PipelineWidget::PipelineWidget(QWidget *parent) :
     QListWidget(parent),
@@ -50,7 +51,7 @@ void PipelineWidget::appendItem(QTreeWidgetItem *treeItem)
 
 void PipelineWidget::setInputPixmap(const QPixmap &pixmap)
 {
-    m_inputPixmap = pixmap;
+    m_inputImage =  ASM::QPixmapToCvMat(pixmap);
     updateOutputPixmap();
 }
 
@@ -78,8 +79,18 @@ void PipelineWidget::updateSourceCode()
 
 void PipelineWidget::updateOutputPixmap()
 {
-    //TODO
-    emit outputPixmapChanged(m_inputPixmap);
+
+//    for (int i = 0; i < count(); ++i) {
+//        QListWidgetItem *widgetItem = item(i);
+//        if (widgetItem->checkState() == Qt::Checked) {
+//            Filter *f = widgetItem->data(PipelineWidgetItem::FilterRole).value<Filter *>();
+//            if (f) {
+//                outputImage = f->process(outputImage);
+//            }
+//        }
+//    }
+
+    emit outputPixmapChanged(ASM::cvMatToQPixmap(m_inputImage));
 }
 
 bool PipelineWidget::dropMimeData(int index, const QMimeData *data, Qt::DropAction action)

@@ -2,6 +2,7 @@
 #define PIPELINEWIDGET_H
 
 #include <QListWidget>
+#include <opencv2/core/core.hpp>
 
 class QTreeWidgetItem;
 class FilterFactory;
@@ -29,7 +30,7 @@ protected slots:
 protected:
     bool dropMimeData(int index, const QMimeData *data, Qt::DropAction action) Q_DECL_OVERRIDE;
     FilterFactory *m_filterFactory;
-    QPixmap m_inputPixmap;
+    cv::Mat m_inputImage;
 };
 
 #endif // PIPELINEWIDGET_H

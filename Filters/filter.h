@@ -16,37 +16,15 @@ public:
     explicit Filter(const QString &name = QString(), QObject *parent = 0);
     ~Filter();
 
-    QDialog *dialog();
+    virtual cv::Mat &process(cv::Mat &input) const;
+
     virtual QString codeSnippet() const;
-    QString name();
-    int status();
-    bool enabled();
-
-    enum { WaitingForInput, Processing, Ready };
-
-signals:
-    void resultChanged(cv::Mat result);
-    void statusChanged();
-    void resultExpired();
-
-public slots:
-    void setInput(cv::Mat input);
-    void setWaitingForInput();
-    void setEnabled(bool enabled);
+    virtual QDialog *createDialog(QWidget *parent = 0);
+    QString name() const;
 
 protected:
-    void setStatus(int status);
-
-    int m_status;
     QDialog *m_dialog;
     QString m_name;
-    bool m_enabled;
-
-    cv::Mat m_input;
-    cv::Mat m_result;
-
-    virtual QDialog *createDialog();
-    virtual void process();
 };
 
 Q_DECLARE_METATYPE(Filter *)

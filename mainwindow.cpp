@@ -114,10 +114,9 @@ void MainWindow::showFilterWidget(QListWidgetItem *item)
     if (!filter) {
         return;
     }
-    QDialog *dialog = filter->dialog();
+    QDialog *dialog = filter->createDialog(this);
     if (dialog) {
-        dialog->setParent(this, Qt::Dialog);
-        int result = dialog->exec();
+        dialog->exec();
     }
 }
 

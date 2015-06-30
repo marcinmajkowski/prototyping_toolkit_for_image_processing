@@ -12,12 +12,10 @@ QString ColorSpaceConversionFilter::codeSnippet() const
     return "cv::cvtColor(src, dst, CV_RGB2GRAY);";
 }
 
-void ColorSpaceConversionFilter::process()
+cv::Mat &ColorSpaceConversionFilter::process(cv::Mat &input) const
 {
     //TODO checking m_input format etc.
-    cv::cvtColor(m_input, m_result, CV_RGB2GRAY);
+    cv::cvtColor(input, input, CV_RGB2GRAY);
 
-    //TODO move out
-    setStatus(Ready);
-    emit resultChanged(m_result);
+    return input;
 }

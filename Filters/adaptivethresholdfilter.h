@@ -9,6 +9,8 @@ class AdaptiveThresholdFilter : public Filter
 public:
     explicit AdaptiveThresholdFilter(QObject *parent = 0);
     QString codeSnippet() const Q_DECL_OVERRIDE;
+    QDialog *createDialog(QWidget *parent = 0) Q_DECL_OVERRIDE;
+    cv::Mat &process(cv::Mat &input) const Q_DECL_OVERRIDE;
 
 public slots:
     void setMaxValue(double);
@@ -23,8 +25,6 @@ private:
     int m_thresholdType;
     int m_blockSize;
     double m_C;
-
-    QDialog *createDialog() Q_DECL_OVERRIDE;
 };
 
 #endif // ADAPTIVETHRESHOLDFILTER_H
