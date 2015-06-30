@@ -15,7 +15,14 @@ QString ColorSpaceConversionFilter::codeSnippet() const
 cv::Mat &ColorSpaceConversionFilter::process(cv::Mat &input) const
 {
     //TODO checking m_input format etc.
-    cv::cvtColor(input, input, CV_RGB2GRAY);
+    switch (input.type()) {
+    case CV_8UC4:
+    case CV_8UC3:
+        cv::cvtColor(input, input, CV_RGB2GRAY);
+        break;
+    case CV_8UC1:
+        break;
+    }
 
     return input;
 }
