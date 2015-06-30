@@ -10,4 +10,7 @@ CodeWidget::CodeWidget(QWidget *parent) :
     f.setFamily(QFontDatabase::systemFont(QFontDatabase::FixedFont).family());
     f.setStyleHint(QFont::Monospace);
     setFont(f);
+
+    // set wrap mode
+    setWordWrapMode(QTextOption::NoWrap);
 }
