@@ -1,10 +1,17 @@
 #include <QDebug>
 #include <QtWidgets>
 
+#include <opencv2/imgproc/imgproc.hpp>
+
 #include "adaptivethresholdfilter.h"
 
 AdaptiveThresholdFilter::AdaptiveThresholdFilter(QObject *parent) :
-    Filter("Adaptive threshold", parent)
+    Filter("Adaptive threshold", parent),
+    m_maxValue(255),
+    m_adaptiveMethod(CV_ADAPTIVE_THRESH_MEAN_C),
+    m_thresholdType(CV_THRESH_BINARY),
+    m_blockSize(3),
+    m_C(5)
 {
 }
 
@@ -81,5 +88,15 @@ QDialog *AdaptiveThresholdFilter::createDialog(QWidget *parent)
 cv::Mat &AdaptiveThresholdFilter::process(cv::Mat &input) const
 {
     //TODO implement adaptive threshold
-    return Filter::process(input);
+    switch (input.type()) {
+    case CV_8UC4:
+    case CV_8UC3:
+        // adaptiveThreshold requires 8-bit single-channel input
+        cv::cvtColor(input, input, CV_RGB2GRAY);
+    case CV_8UC1:
+        cv::adaptiveThreshold(input, input, m_maxValue, m_adaptiveMethod, m_thresholdType, m_blockSize, m_C);
+        break;
+    }
+
+    return input;
 }
