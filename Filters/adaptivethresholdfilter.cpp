@@ -18,7 +18,45 @@ AdaptiveThresholdFilter::AdaptiveThresholdFilter(QObject *parent) :
 QStringList AdaptiveThresholdFilter::codeSnippet() const
 {
     QStringList snippet;
-    snippet << "cv::adaptiveThreshold(src, dst, maxValue, adaptiveMethod, thresholdType, blockSize, C);";
+
+    QString adaptiveMethod;
+    switch (m_adaptiveMethod) {
+    case CV_ADAPTIVE_THRESH_MEAN_C:
+        adaptiveMethod = "CV_ADAPTIVE_THRESH_MEAN_C";
+        break;
+    case CV_ADAPTIVE_THRESH_GAUSSIAN_C:
+        adaptiveMethod = "CV_ADAPTIVE_THRESH_GAUSSIAN_C";
+        break;
+    default:
+        qDebug() << "adaptiveThreshold: not known argument for adaptiveMethod";
+    }
+
+    QString thresholdType;
+    switch (m_thresholdType) {
+    case CV_THRESH_BINARY:
+        thresholdType = "CV_THRESH_BINARY";
+        break;
+    case CV_THRESH_BINARY_INV:
+        thresholdType = "CV_THRESH_BINARY_INV";
+        break;
+    default:
+        qDebug() << "adaptiveThreshold: not known argument for thresholdType";
+    }
+
+    //TODO extra line with conversion when input has inappropriate type
+
+    QString line = QString("cv::%1(%2, %3, %4, %5, %6, %7, %8);")
+            .arg("adaptiveThreshold")
+            .arg("src")
+            .arg("dst")
+            .arg(m_maxValue)
+            .arg(adaptiveMethod)
+            .arg(thresholdType)
+            .arg(m_blockSize)
+            .arg(m_C);
+
+    snippet << line;
+
     return snippet;
 }
 
