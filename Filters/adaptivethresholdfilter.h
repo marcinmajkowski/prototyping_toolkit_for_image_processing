@@ -13,7 +13,7 @@ public:
     cv::Mat &process(cv::Mat &input) const Q_DECL_OVERRIDE;
 
 public slots:
-    void setMaxValue(double);
+    void setMaxValue(int maxValue);
     void setAdaptiveMethod(int);
     void setThresholdType(int);
     void setBlockSize(int);

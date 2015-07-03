@@ -60,9 +60,10 @@ QStringList AdaptiveThresholdFilter::codeSnippet() const
     return snippet;
 }
 
-void AdaptiveThresholdFilter::setMaxValue(double)
+//TODO int is temporary, should be double
+void AdaptiveThresholdFilter::setMaxValue(int maxValue)
 {
-
+    m_maxValue = maxValue;
 }
 
 void AdaptiveThresholdFilter::setAdaptiveMethod(int)
@@ -87,34 +88,51 @@ void AdaptiveThresholdFilter::setC(double)
 
 QDialog *AdaptiveThresholdFilter::createDialog(QWidget *parent)
 {
-    QDialog *dialog = new QDialog(parent); //TODO here use e.g. FilterDialog class
-    // derived FilterDialog should on exec() (onShow with event not spontaneous)
-    // store current values somehow so they can be restored later
+    QDialog *dialog = new QDialog(parent);
 
-    // add appropriate widgets and set their values to current parameters
-    QVBoxLayout *dialogLayout = new QVBoxLayout;
-    QHBoxLayout *buttonsLayout = new QHBoxLayout;
     QLabel *signatureLabel = new QLabel;
-    QPushButton *acceptButton = new QPushButton("OK");
-    QPushButton *rejectButton = new QPushButton("Cancel");
+
+    signatureLabel->setText("void <b>adaptiveThreshold</b>(<br>\
+                            &nbsp; InputArray <b>src</b>,<br>\
+                            &nbsp; OutputArray <b>dst</b>,<br>\
+                            &nbsp; double <b>maxValue</b>,<br>\
+                            &nbsp; int <b>adaptiveMethod</b>,<br>\
+                            &nbsp; int <b>thresholdType</b>,<br>\
+                            &nbsp; int <b>blockSize</b>,<br>\
+                            &nbsp; double <b>C</b><br>\
+                            )");
+
     QGroupBox *parametersGroup = new QGroupBox(tr("Parameters"));
 
-    signatureLabel->setText("void <b>adaptiveThreshold</b>(InputArray <b>src</b>, OutputArray <b>dst</b>, double <b>maxValue</b>, int <b>adaptiveMethod</b>, int <b>thresholdType</b>, int <b>blockSize</b>, double <b>C</b>)");
-    signatureLabel->setWordWrap(true);
+    QFormLayout *formLayout = new QFormLayout;
 
-    buttonsLayout->addStretch();
-    buttonsLayout->addWidget(rejectButton);
-    buttonsLayout->addWidget(acceptButton);
+    //TODO whole section
+    QSpinBox *maxValue = new QSpinBox;
+    formLayout->addRow(new QLabel("maxValue:"), maxValue);
+    connect(maxValue, SIGNAL(valueChanged(int)), this, SLOT(setMaxValue(int)));
 
-    dialogLayout->addWidget(signatureLabel);
-    dialogLayout->addWidget(parametersGroup);
-    dialogLayout->addStretch();
-    dialogLayout->addLayout(buttonsLayout);
+    formLayout->addRow(new QLabel("adaptiveMethod:"), new QLineEdit);
+    formLayout->addRow(new QLabel("thresholdType:"), new QLineEdit);
+    formLayout->addRow(new QLabel("blockSize:"), new QLineEdit);
+    formLayout->addRow(new QLabel("C:"), new QLineEdit);
 
-    dialog->setLayout(dialogLayout);
+    parametersGroup->setLayout(formLayout);
 
-    connect(acceptButton, SIGNAL(clicked()), dialog, SLOT(accept()));
-    connect(rejectButton, SIGNAL(clicked()), dialog, SLOT(reject()));
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok
+                                                       | QDialogButtonBox::Cancel);
+
+    connect(buttonBox, SIGNAL(accepted()), dialog, SLOT(accept()));
+    connect(buttonBox, SIGNAL(rejected()), dialog, SLOT(reject()));
+
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+
+    mainLayout->addWidget(signatureLabel);
+    mainLayout->addWidget(parametersGroup);
+    mainLayout->addWidget(buttonBox);
+
+    dialog->setLayout(mainLayout);
+
+    dialog->setWindowTitle(tr("%1 %2").arg(m_name).arg("settings"));
 
     return dialog;
 }
