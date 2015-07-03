@@ -24,7 +24,6 @@ public:
     QString name() const;
 
 protected:
-    QDialog *m_dialog;
     QString m_name;
 };
 

@@ -117,6 +117,7 @@ void MainWindow::showFilterWidget(QListWidgetItem *item)
     QDialog *dialog = filter->createDialog(this);
     if (dialog) {
         dialog->exec();
+        delete dialog;
     }
 }
 
