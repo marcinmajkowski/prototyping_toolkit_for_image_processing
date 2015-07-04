@@ -1,5 +1,5 @@
 #include <QDebug>
-#include <QDialog>
+#include <QtWidgets>
 
 #include "filter.h"
 
@@ -30,6 +30,22 @@ QString Filter::name() const
 
 QDialog *Filter::createDialog(QWidget *parent)
 {
-    //TODO default implementation
-    return new QDialog(parent);
+    QDialog *dialog = new QDialog(parent);
+
+    QLabel *message = new QLabel("No settings for this filter.");
+
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok);
+
+    connect(buttonBox, SIGNAL(accepted()), dialog, SLOT(accept()));
+
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+
+    mainLayout->addWidget(message);
+    mainLayout->addWidget(buttonBox);
+
+    dialog->setLayout(mainLayout);
+
+    dialog->setWindowTitle(tr("%1 %2").arg(m_name).arg("settings"));
+
+    return dialog;
 }
