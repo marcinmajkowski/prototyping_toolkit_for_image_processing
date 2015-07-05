@@ -14,7 +14,7 @@ public:
 
 public slots:
     void setMaxValue(int maxValue);
-    void setAdaptiveMethod(int);
+    void setAdaptiveMethod(const QString &adaptiveMethod);
     void setThresholdType(int);
     void setBlockSize(int);
     void setC(double);

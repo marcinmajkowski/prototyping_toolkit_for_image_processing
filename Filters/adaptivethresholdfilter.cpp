@@ -67,8 +67,15 @@ void AdaptiveThresholdFilter::setMaxValue(int maxValue)
     emit updated();
 }
 
-void AdaptiveThresholdFilter::setAdaptiveMethod(int)
+//TODO QString is temporary, should be int
+void AdaptiveThresholdFilter::setAdaptiveMethod(const QString &adaptiveMethod)
 {
+    if (adaptiveMethod == "CV_ADAPTIVE_THRESH_MEAN_C") {
+        m_adaptiveMethod = CV_ADAPTIVE_THRESH_MEAN_C;
+    } else if (adaptiveMethod == "CV_ADAPTIVE_THRESH_GAUSSIAN_C") {
+        m_adaptiveMethod = CV_ADAPTIVE_THRESH_GAUSSIAN_C;
+    }
+
     emit updated();
 }
 
@@ -112,9 +119,24 @@ QDialog *AdaptiveThresholdFilter::createDialog(QWidget *parent)
     maxValue->setRange(0, 255);
     maxValue->setValue(m_maxValue);
     formLayout->addRow(new QLabel("maxValue:"), maxValue);
-    connect(maxValue, SIGNAL(valueChanged(int)), this, SLOT(setMaxValue(int)));
+    connect(maxValue, SIGNAL(valueChanged(int)),
+            this, SLOT(setMaxValue(int)));
 
-    formLayout->addRow(new QLabel("adaptiveMethod:"), new QLineEdit);
+    QComboBox *adaptiveMethod = new QComboBox;
+    adaptiveMethod->addItem("CV_ADAPTIVE_THRESH_MEAN_C");
+    adaptiveMethod->addItem("CV_ADAPTIVE_THRESH_GAUSSIAN_C");
+    switch(m_adaptiveMethod) {
+    case CV_ADAPTIVE_THRESH_MEAN_C:
+        adaptiveMethod->setCurrentText("CV_ADAPTIVE_THRESH_MEAN_C");
+        break;
+    case CV_ADAPTIVE_THRESH_GAUSSIAN_C:
+        adaptiveMethod->setCurrentText("CV_ADAPTIVE_THRESH_GAUSSIAN_C");
+        break;
+    }
+    formLayout->addRow(new QLabel("adaptiveMethod:"), adaptiveMethod);
+    connect(adaptiveMethod, SIGNAL(currentIndexChanged(QString)),
+            this, SLOT(setAdaptiveMethod(QString)));
+
     formLayout->addRow(new QLabel("thresholdType:"), new QLineEdit);
     formLayout->addRow(new QLabel("blockSize:"), new QLineEdit);
     formLayout->addRow(new QLabel("C:"), new QLineEdit);
