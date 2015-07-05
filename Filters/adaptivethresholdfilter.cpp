@@ -79,8 +79,15 @@ void AdaptiveThresholdFilter::setAdaptiveMethod(const QString &adaptiveMethod)
     emit updated();
 }
 
-void AdaptiveThresholdFilter::setThresholdType(int)
+//TODO QString is temporary, should be int
+void AdaptiveThresholdFilter::setThresholdType(const QString &thresholdType)
 {
+    if (thresholdType == "CV_THRESH_BINARY") {
+        m_thresholdType = CV_THRESH_BINARY;
+    } else if (thresholdType == "CV_THRESH_BINARY_INV") {
+        m_thresholdType = CV_THRESH_BINARY_INV;
+    }
+
     emit updated();
 }
 
@@ -137,7 +144,21 @@ QDialog *AdaptiveThresholdFilter::createDialog(QWidget *parent)
     connect(adaptiveMethod, SIGNAL(currentIndexChanged(QString)),
             this, SLOT(setAdaptiveMethod(QString)));
 
-    formLayout->addRow(new QLabel("thresholdType:"), new QLineEdit);
+    QComboBox *thresholdType = new QComboBox;
+    thresholdType->addItem("CV_THRESH_BINARY");
+    thresholdType->addItem("CV_THRESH_BINARY_INV");
+    switch(m_thresholdType) {
+    case CV_THRESH_BINARY:
+        thresholdType->setCurrentText("CV_THRESH_BINARY");
+        break;
+    case CV_THRESH_BINARY_INV:
+        thresholdType->setCurrentText("CV_THRESH_BINARY_INV");
+        break;
+    }
+    formLayout->addRow(new QLabel("thresholdType:"), thresholdType);
+    connect(thresholdType, SIGNAL(currentIndexChanged(QString)),
+            this, SLOT(setThresholdType(QString)));
+
     formLayout->addRow(new QLabel("blockSize:"), new QLineEdit);
     formLayout->addRow(new QLabel("C:"), new QLineEdit);
 
