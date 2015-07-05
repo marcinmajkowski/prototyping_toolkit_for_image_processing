@@ -59,7 +59,6 @@ void PipelineWidgetItem::setData(int role, const QVariant &value)
 
 void PipelineWidgetItem::init()
 {
-    setData(Qt::BackgroundColorRole, QBrush(Qt::red));
     setFlags(flags() | Qt::ItemIsUserCheckable);
     setCheckState(Qt::Checked);
 }
