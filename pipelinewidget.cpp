@@ -6,12 +6,14 @@
 #include "pipelinewidget.h"
 #include "pipelinewidgetitem.h"
 #include "filterfactory.h"
+#include "filterobserver.h"
 #include "Filters/filter.h"
 #include "asmOpenCV.h"
 
 PipelineWidget::PipelineWidget(QWidget *parent) :
     QListWidget(parent),
-    m_filterFactory(new FilterFactory(this))
+    m_filterFactory(new FilterFactory(this)),
+    m_filterObserver(new FilterObserver(this))
 {
     setDropIndicatorShown(true);
     setDragDropMode(QAbstractItemView::DragDrop);
@@ -29,6 +31,8 @@ PipelineWidget::PipelineWidget(QWidget *parent) :
     connect(model(), SIGNAL(rowsMoved(QModelIndex,int,int,QModelIndex,int)),
             this, SLOT(updateOutputPixmap()));
     connect(model(), SIGNAL(dataChanged(QModelIndex,QModelIndex)),
+            this, SLOT(updateOutputPixmap()));
+    connect(m_filterObserver, SIGNAL(updated()),
             this, SLOT(updateOutputPixmap()));
 }
 

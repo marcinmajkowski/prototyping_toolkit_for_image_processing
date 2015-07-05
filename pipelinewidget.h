@@ -6,6 +6,7 @@
 
 class QTreeWidgetItem;
 class FilterFactory;
+class FilterObserver;
 class Filter;
 
 class PipelineWidget : public QListWidget
@@ -30,6 +31,7 @@ protected slots:
 protected:
     bool dropMimeData(int index, const QMimeData *data, Qt::DropAction action) Q_DECL_OVERRIDE;
     FilterFactory *m_filterFactory;
+    FilterObserver *m_filterObserver;
     cv::Mat m_inputImage;
     cv::Mat m_outputImage;
 };
