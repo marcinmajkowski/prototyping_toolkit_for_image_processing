@@ -6,7 +6,7 @@
 #include "pipelinewidget.h"
 #include "pipelinewidgetitem.h"
 #include "filterfactory.h"
-#include "filterobserver.h"
+#include "Filters/filterobserver.h"
 #include "Filters/filter.h"
 #include "asmOpenCV.h"
 
@@ -43,7 +43,7 @@ void PipelineWidget::appendItem(QTreeWidgetItem *treeItem)
     }
 
     QString filterName = treeItem->text(0);
-    Filter *filter = m_filterFactory->create(filterName);
+    Filter *filter = m_filterFactory->create(filterName, m_filterObserver);
     if (filter) {
         QListWidgetItem *item = new PipelineWidgetItem(filterName);
         QVariant var;
@@ -121,7 +121,7 @@ bool PipelineWidget::dropMimeData(int index, const QMimeData *data, Qt::DropActi
     stream >> row >> col >> roleDataMap;
     QString filterName = roleDataMap.first().toString();
 
-    Filter *filter = m_filterFactory->create(filterName);
+    Filter *filter = m_filterFactory->create(filterName, m_filterObserver);
 
     if (!filter) {
         return false;

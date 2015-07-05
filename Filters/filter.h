@@ -9,12 +9,13 @@
 Q_DECLARE_METATYPE(cv::Mat)
 
 class QDialog;
+class FilterObserver;
 
 class Filter : public QObject
 {
     Q_OBJECT
 public:
-    explicit Filter(const QString &name = QString(), QObject *parent = 0);
+    explicit Filter(const QString &name = QString(), FilterObserver *observer = 0, QObject *parent = 0);
     ~Filter();
 
     virtual cv::Mat &process(cv::Mat &input) const;
@@ -25,6 +26,11 @@ public:
 
 protected:
     QString m_name;
+    FilterObserver *m_filterObserver;
+
+signals:
+    void updated();
+
 };
 
 Q_DECLARE_METATYPE(Filter *)

@@ -7,7 +7,7 @@ class ColorSpaceConversionFilter : public Filter
 {
     Q_OBJECT
 public:
-    explicit ColorSpaceConversionFilter(QObject *parent = 0);
+    explicit ColorSpaceConversionFilter(FilterObserver *filterObserver = 0, QObject *parent = 0);
 
     QStringList codeSnippet() const Q_DECL_OVERRIDE;
     cv::Mat &process(cv::Mat &input) const Q_DECL_OVERRIDE;

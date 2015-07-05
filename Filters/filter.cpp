@@ -1,16 +1,26 @@
 #include <QDebug>
 #include <QtWidgets>
 
+//TODO move this class to Filters directory
+#include "filterobserver.h"
+
 #include "filter.h"
 
-Filter::Filter(const QString &name, QObject *parent) :
+Filter::Filter(const QString &name, FilterObserver *observer, QObject *parent) :
     QObject(parent),
-    m_name(name)
+    m_name(name),
+    m_filterObserver(observer)
 {
+    if (m_filterObserver) {
+        connect(this, SIGNAL(updated()), m_filterObserver, SLOT(update()));
+    }
 }
 
 Filter::~Filter()
 {
+    if (m_filterObserver) {
+        disconnect(this, SIGNAL(updated()), m_filterObserver, SLOT(update()));
+    }
 }
 
 cv::Mat &Filter::process(cv::Mat &input) const

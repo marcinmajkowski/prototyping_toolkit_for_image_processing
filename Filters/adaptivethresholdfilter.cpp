@@ -5,8 +5,8 @@
 
 #include "adaptivethresholdfilter.h"
 
-AdaptiveThresholdFilter::AdaptiveThresholdFilter(QObject *parent) :
-    Filter("Adaptive threshold", parent),
+AdaptiveThresholdFilter::AdaptiveThresholdFilter(FilterObserver *observer, QObject *parent) :
+    Filter("Adaptive threshold", observer, parent),
     m_maxValue(255),
     m_adaptiveMethod(CV_ADAPTIVE_THRESH_MEAN_C),
     m_thresholdType(CV_THRESH_BINARY),
@@ -64,26 +64,27 @@ QStringList AdaptiveThresholdFilter::codeSnippet() const
 void AdaptiveThresholdFilter::setMaxValue(int maxValue)
 {
     m_maxValue = maxValue;
+    emit updated();
 }
 
 void AdaptiveThresholdFilter::setAdaptiveMethod(int)
 {
-
+    emit updated();
 }
 
 void AdaptiveThresholdFilter::setThresholdType(int)
 {
-
+    emit updated();
 }
 
 void AdaptiveThresholdFilter::setBlockSize(int)
 {
-
+    emit updated();
 }
 
 void AdaptiveThresholdFilter::setC(double)
 {
-
+    emit updated();
 }
 
 QDialog *AdaptiveThresholdFilter::createDialog(QWidget *parent)

@@ -10,14 +10,14 @@ FilterFactory::FilterFactory(QObject *parent) :
 {
 }
 
-Filter *FilterFactory::create(const QString &type)
+Filter *FilterFactory::create(const QString &type, FilterObserver *observer, QObject *parent)
 {
     Filter *result = nullptr;
 
     if (type == "Adaptive threshold") {
-        result = new AdaptiveThresholdFilter;
+        result = new AdaptiveThresholdFilter(observer, parent);
     } else if (type == "Color space conversion") {
-        result = new ColorSpaceConversionFilter;
+        result = new ColorSpaceConversionFilter(observer, parent);
     } else {
         qDebug() << "FilterFactory::create(): not known filter type" << type;
     }
