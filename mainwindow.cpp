@@ -210,6 +210,7 @@ void MainWindow::createMenus()
 void MainWindow::createToolBars()
 {
     fileToolBar = addToolBar(tr("File"));
+    fileToolBar->addAction(openImageAct);
 
     editToolBar = addToolBar(tr("Edit"));
     editToolBar->addAction(undoAct);
