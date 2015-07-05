@@ -108,7 +108,9 @@ QDialog *AdaptiveThresholdFilter::createDialog(QWidget *parent)
     QFormLayout *formLayout = new QFormLayout;
 
     //TODO whole section
-    QSpinBox *maxValue = new QSpinBox;
+    QSlider *maxValue = new QSlider(Qt::Horizontal);
+    maxValue->setRange(0, 255);
+    maxValue->setValue(m_maxValue);
     formLayout->addRow(new QLabel("maxValue:"), maxValue);
     connect(maxValue, SIGNAL(valueChanged(int)), this, SLOT(setMaxValue(int)));
 
