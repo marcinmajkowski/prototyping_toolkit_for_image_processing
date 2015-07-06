@@ -5,10 +5,12 @@ HEADERS += \
     Filters/filter.h \
     Filters/adaptivethresholdfilter.h \
     Filters/colorspaceconversionfilter.h \
-    Filters/filterobserver.h
+    Filters/filterobserver.h \
+    Filters/thresholdfilter.h
 
 SOURCES += \
     Filters/filter.cpp \
     Filters/adaptivethresholdfilter.cpp \
     Filters/colorspaceconversionfilter.cpp \
-    Filters/filterobserver.cpp
+    Filters/filterobserver.cpp \
+    Filters/thresholdfilter.cpp
