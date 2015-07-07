@@ -3,6 +3,7 @@
 #include "filterfactory.h"
 
 #include "Filters/adaptivethresholdfilter.h"
+#include "Filters/thresholdfilter.h"
 #include "Filters/colorspaceconversionfilter.h"
 
 FilterFactory::FilterFactory(QObject *parent) :
@@ -16,6 +17,8 @@ Filter *FilterFactory::create(const QString &type, FilterObserver *observer, QOb
 
     if (type == "Adaptive threshold") {
         result = new AdaptiveThresholdFilter(observer, parent);
+    } else if (type == "Threshold") {
+        result = new ThresholdFilter(observer, parent);
     } else if (type == "Color space conversion") {
         result = new ColorSpaceConversionFilter(observer, parent);
     } else {
