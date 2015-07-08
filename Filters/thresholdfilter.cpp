@@ -11,32 +11,16 @@ ThresholdFilter::ThresholdFilter(FilterObserver *observer, QObject *parent) :
     m_maxValue(255),
     m_type(CV_THRESH_BINARY)
 {
+    m_typeMap.insert(CV_THRESH_BINARY, "CV_THRESH_BINARY");
+    m_typeMap.insert(CV_THRESH_BINARY_INV, "CV_THRESH_BINARY_INV");
+    m_typeMap.insert(CV_THRESH_TRUNC, "CV_THRESH_TRUNC");
+    m_typeMap.insert(CV_THRESH_TOZERO, "CV_THRESH_TOZERO");
+    m_typeMap.insert(CV_THRESH_TOZERO_INV, "CV_THRESH_TOZERO_INV");
 }
 
 QStringList ThresholdFilter::codeSnippet() const
 {
     QStringList snippet;
-
-    QString type;
-    switch (m_type) {
-    case CV_THRESH_BINARY:
-        type = "CV_THRESH_BINARY";
-        break;
-    case CV_THRESH_BINARY_INV:
-        type = "CV_THRESH_BINARY_INV";
-        break;
-    case CV_THRESH_TRUNC:
-        type = "CV_THRESH_TRUNC";
-        break;
-    case CV_THRESH_TOZERO:
-        type = "CV_THRESH_TOZERO";
-        break;
-    case CV_THRESH_TOZERO_INV:
-        type = "CV_THRESH_TOZERO_INV";
-        break;
-    default:
-        qDebug() << "threshold: not known argument for threshold";
-    }
 
     //TODO extra line with conversion when input has inappropriate type
 
@@ -46,7 +30,7 @@ QStringList ThresholdFilter::codeSnippet() const
             .arg("dst")
             .arg(m_threshold)
             .arg(m_maxValue)
-            .arg(type);
+            .arg(m_typeMap[m_type]);
 
     snippet << line;
 
@@ -88,28 +72,11 @@ QDialog *ThresholdFilter::createDialog(QWidget *parent)
             this, SLOT(setMaxValue(int)));
 
     QComboBox *type = new QComboBox;
-    type->addItem("CV_THRESH_BINARY");
-    type->addItem("CV_THRESH_BINARY_INV");
-    type->addItem("CV_THRESH_TRUNC");
-    type->addItem("CV_THRESH_TOZERO");
-    type->addItem("CV_THRESH_TOZERO_INV");
-    switch(m_type) {
-    case CV_THRESH_BINARY:
-        type->setCurrentText("CV_THRESH_BINARY");
-        break;
-    case CV_THRESH_BINARY_INV:
-        type->setCurrentText("CV_THRESH_BINARY_INV");
-        break;
-    case CV_THRESH_TRUNC:
-        type->setCurrentText("CV_THRESH_TRUNC");
-        break;
-    case CV_THRESH_TOZERO:
-        type->setCurrentText("CV_THRESH_TOZERO");
-        break;
-    case CV_THRESH_TOZERO_INV:
-        type->setCurrentText("CV_THRESH_TOZERO_INV");
-        break;
+    foreach (const QString &s, m_typeMap) {
+        type->addItem(s);
     }
+
+    type->setCurrentText(m_typeMap[m_type]);
     formLayout->addRow(new QLabel("type:"), type);
     connect(type, SIGNAL(currentIndexChanged(QString)),
             this, SLOT(setType(QString)));
@@ -165,17 +132,7 @@ void ThresholdFilter::setMaxValue(int maxValue)
 
 void ThresholdFilter::setType(const QString &type)
 {
-    if (type == "CV_THRESH_BINARY") {
-        m_type = CV_THRESH_BINARY;
-    } else if (type == "CV_THRESH_BINARY_INV") {
-        m_type = CV_THRESH_BINARY_INV;
-    } else if (type == "CV_THRESH_TRUNC") {
-        m_type = CV_THRESH_TRUNC;
-    } else if (type == "CV_THRESH_TOZERO") {
-        m_type = CV_THRESH_TOZERO;
-    } else if (type == "CV_THRESH_TOZERO_INV") {
-        m_type = CV_THRESH_TOZERO_INV;
-    }
+    m_type = m_typeMap.key(type);
 
     emit updated();
 }
