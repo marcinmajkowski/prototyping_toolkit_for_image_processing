@@ -1,6 +1,8 @@
 #ifndef ADAPTIVETHRESHOLDFILTER_H
 #define ADAPTIVETHRESHOLDFILTER_H
 
+#include <QMap>
+
 #include "filter.h"
 
 class AdaptiveThresholdFilter : public Filter
@@ -25,6 +27,9 @@ private:
     int m_thresholdType;
     int m_blockSize;
     double m_C;
+
+    QMap<int, QString> m_adaptiveMethodMap;
+    QMap<int, QString> m_thresholdTypeMap;
 };
 
 #endif // ADAPTIVETHRESHOLDFILTER_H

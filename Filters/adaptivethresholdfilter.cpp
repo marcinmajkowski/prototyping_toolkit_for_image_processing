@@ -13,35 +13,16 @@ AdaptiveThresholdFilter::AdaptiveThresholdFilter(FilterObserver *observer, QObje
     m_blockSize(3),
     m_C(5)
 {
+    m_adaptiveMethodMap.insert(CV_ADAPTIVE_THRESH_MEAN_C, "CV_ADAPTIVE_THRESH_MEAN_C");
+    m_adaptiveMethodMap.insert(CV_ADAPTIVE_THRESH_GAUSSIAN_C, "CV_ADAPTIVE_THRESH_GAUSSIAN_C");
+
+    m_thresholdTypeMap.insert(CV_THRESH_BINARY, "CV_THRESH_BINARY");
+    m_thresholdTypeMap.insert(CV_THRESH_BINARY_INV, "CV_THRESH_BINARY_INV");
 }
 
 QStringList AdaptiveThresholdFilter::codeSnippet() const
 {
     QStringList snippet;
-
-    QString adaptiveMethod;
-    switch (m_adaptiveMethod) {
-    case CV_ADAPTIVE_THRESH_MEAN_C:
-        adaptiveMethod = "CV_ADAPTIVE_THRESH_MEAN_C";
-        break;
-    case CV_ADAPTIVE_THRESH_GAUSSIAN_C:
-        adaptiveMethod = "CV_ADAPTIVE_THRESH_GAUSSIAN_C";
-        break;
-    default:
-        qDebug() << "adaptiveThreshold: not known argument for adaptiveMethod";
-    }
-
-    QString thresholdType;
-    switch (m_thresholdType) {
-    case CV_THRESH_BINARY:
-        thresholdType = "CV_THRESH_BINARY";
-        break;
-    case CV_THRESH_BINARY_INV:
-        thresholdType = "CV_THRESH_BINARY_INV";
-        break;
-    default:
-        qDebug() << "adaptiveThreshold: not known argument for thresholdType";
-    }
 
     //TODO extra line with conversion when input has inappropriate type
 
@@ -50,8 +31,8 @@ QStringList AdaptiveThresholdFilter::codeSnippet() const
             .arg("src")
             .arg("dst")
             .arg(m_maxValue)
-            .arg(adaptiveMethod)
-            .arg(thresholdType)
+            .arg(m_adaptiveMethodMap[m_adaptiveMethod])
+            .arg(m_thresholdTypeMap[m_thresholdType])
             .arg(m_blockSize)
             .arg(m_C);
 
@@ -70,11 +51,7 @@ void AdaptiveThresholdFilter::setMaxValue(int maxValue)
 //TODO QString is temporary, should be int
 void AdaptiveThresholdFilter::setAdaptiveMethod(const QString &adaptiveMethod)
 {
-    if (adaptiveMethod == "CV_ADAPTIVE_THRESH_MEAN_C") {
-        m_adaptiveMethod = CV_ADAPTIVE_THRESH_MEAN_C;
-    } else if (adaptiveMethod == "CV_ADAPTIVE_THRESH_GAUSSIAN_C") {
-        m_adaptiveMethod = CV_ADAPTIVE_THRESH_GAUSSIAN_C;
-    }
+    m_adaptiveMethod = m_adaptiveMethodMap.key(adaptiveMethod);
 
     emit updated();
 }
@@ -82,11 +59,7 @@ void AdaptiveThresholdFilter::setAdaptiveMethod(const QString &adaptiveMethod)
 //TODO QString is temporary, should be int
 void AdaptiveThresholdFilter::setThresholdType(const QString &thresholdType)
 {
-    if (thresholdType == "CV_THRESH_BINARY") {
-        m_thresholdType = CV_THRESH_BINARY;
-    } else if (thresholdType == "CV_THRESH_BINARY_INV") {
-        m_thresholdType = CV_THRESH_BINARY_INV;
-    }
+    m_thresholdType = m_thresholdTypeMap.key(thresholdType);
 
     emit updated();
 }
@@ -130,31 +103,21 @@ QDialog *AdaptiveThresholdFilter::createDialog(QWidget *parent)
             this, SLOT(setMaxValue(int)));
 
     QComboBox *adaptiveMethod = new QComboBox;
-    adaptiveMethod->addItem("CV_ADAPTIVE_THRESH_MEAN_C");
-    adaptiveMethod->addItem("CV_ADAPTIVE_THRESH_GAUSSIAN_C");
-    switch(m_adaptiveMethod) {
-    case CV_ADAPTIVE_THRESH_MEAN_C:
-        adaptiveMethod->setCurrentText("CV_ADAPTIVE_THRESH_MEAN_C");
-        break;
-    case CV_ADAPTIVE_THRESH_GAUSSIAN_C:
-        adaptiveMethod->setCurrentText("CV_ADAPTIVE_THRESH_GAUSSIAN_C");
-        break;
+    foreach (const QString &s, m_adaptiveMethodMap) {
+        adaptiveMethod->addItem(s);
     }
+
+    adaptiveMethod->setCurrentText(m_adaptiveMethodMap[m_adaptiveMethod]);
     formLayout->addRow(new QLabel("adaptiveMethod:"), adaptiveMethod);
     connect(adaptiveMethod, SIGNAL(currentIndexChanged(QString)),
             this, SLOT(setAdaptiveMethod(QString)));
 
     QComboBox *thresholdType = new QComboBox;
-    thresholdType->addItem("CV_THRESH_BINARY");
-    thresholdType->addItem("CV_THRESH_BINARY_INV");
-    switch(m_thresholdType) {
-    case CV_THRESH_BINARY:
-        thresholdType->setCurrentText("CV_THRESH_BINARY");
-        break;
-    case CV_THRESH_BINARY_INV:
-        thresholdType->setCurrentText("CV_THRESH_BINARY_INV");
-        break;
+    foreach(const QString &s, m_thresholdTypeMap) {
+        thresholdType->addItem(s);
     }
+
+    thresholdType->setCurrentText(m_thresholdTypeMap[m_thresholdType]);
     formLayout->addRow(new QLabel("thresholdType:"), thresholdType);
     connect(thresholdType, SIGNAL(currentIndexChanged(QString)),
             this, SLOT(setThresholdType(QString)));
