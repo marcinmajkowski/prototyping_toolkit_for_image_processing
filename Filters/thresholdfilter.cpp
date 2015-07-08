@@ -15,10 +15,40 @@ ThresholdFilter::ThresholdFilter(FilterObserver *observer, QObject *parent) :
 
 QStringList ThresholdFilter::codeSnippet() const
 {
-    //TODO
     QStringList snippet;
 
-    snippet << "threshold();";
+    QString type;
+    switch (m_type) {
+    case CV_THRESH_BINARY:
+        type = "CV_THRESH_BINARY";
+        break;
+    case CV_THRESH_BINARY_INV:
+        type = "CV_THRESH_BINARY_INV";
+        break;
+    case CV_THRESH_TRUNC:
+        type = "CV_THRESH_TRUNC";
+        break;
+    case CV_THRESH_TOZERO:
+        type = "CV_THRESH_TOZERO";
+        break;
+    case CV_THRESH_TOZERO_INV:
+        type = "CV_THRESH_TOZERO_INV";
+        break;
+    default:
+        qDebug() << "threshold: not known argument for threshold";
+    }
+
+    //TODO extra line with conversion when input has inappropriate type
+
+    QString line = QString("cv::%1(%2, %3, %4, %5, %6);")
+            .arg("threshold")
+            .arg("src")
+            .arg("dst")
+            .arg(m_threshold)
+            .arg(m_maxValue)
+            .arg(type);
+
+    snippet << line;
 
     return snippet;
 }
