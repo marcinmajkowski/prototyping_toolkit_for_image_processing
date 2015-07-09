@@ -14,6 +14,11 @@ FiltersWidget::FiltersWidget(QWidget *parent) :
     new QTreeWidgetItem(treeItem, QStringList("Adaptive threshold"));
     new QTreeWidgetItem(treeItem, QStringList("Color space conversion"));
 
+    treeItem = new QTreeWidgetItem(this, QStringList("Morphological operations"));
+    treeItem->setFlags(treeItem->flags() ^ Qt::ItemIsDragEnabled);
+    new QTreeWidgetItem(treeItem, QStringList("Erode"));
+    new QTreeWidgetItem(treeItem, QStringList("Dilate"));
+
     treeItem = new QTreeWidgetItem(this, QStringList("Others"));
     treeItem->setFlags(treeItem->flags() ^ Qt::ItemIsDragEnabled);
     new QTreeWidgetItem(treeItem, QStringList("Other filter"));
