@@ -6,11 +6,13 @@ HEADERS += \
     Filters/adaptivethresholdfilter.h \
     Filters/colorspaceconversionfilter.h \
     Filters/filterobserver.h \
-    Filters/thresholdfilter.h
+    Filters/thresholdfilter.h \
+    Filters/dilatefilter.h
 
 SOURCES += \
     Filters/filter.cpp \
     Filters/adaptivethresholdfilter.cpp \
     Filters/colorspaceconversionfilter.cpp \
     Filters/filterobserver.cpp \
-    Filters/thresholdfilter.cpp
+    Filters/thresholdfilter.cpp \
+    Filters/dilatefilter.cpp
