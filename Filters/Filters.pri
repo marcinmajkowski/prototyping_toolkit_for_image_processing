@@ -7,7 +7,8 @@ HEADERS += \
     Filters/colorspaceconversionfilter.h \
     Filters/filterobserver.h \
     Filters/thresholdfilter.h \
-    Filters/dilatefilter.h
+    Filters/dilatefilter.h \
+    Filters/erodefilter.h
 
 SOURCES += \
     Filters/filter.cpp \
@@ -15,4 +16,5 @@ SOURCES += \
     Filters/colorspaceconversionfilter.cpp \
     Filters/filterobserver.cpp \
     Filters/thresholdfilter.cpp \
-    Filters/dilatefilter.cpp
+    Filters/dilatefilter.cpp \
+    Filters/erodefilter.cpp
