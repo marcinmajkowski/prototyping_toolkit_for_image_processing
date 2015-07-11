@@ -8,6 +8,8 @@ class ErodeFilter : public Filter
     Q_OBJECT
 public:
     explicit ErodeFilter(FilterObserver *observer = 0, QObject *parent = 0);
+    QStringList codeSnippet() const Q_DECL_OVERRIDE;
+    QDialog *createDialog(QWidget *parent = 0) Q_DECL_OVERRIDE;
     cv::Mat &process(cv::Mat &input) const Q_DECL_OVERRIDE;
 
 public slots:

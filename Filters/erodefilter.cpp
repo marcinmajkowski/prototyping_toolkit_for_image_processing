@@ -15,6 +15,35 @@ ErodeFilter::ErodeFilter(FilterObserver *observer, QObject *parent) :
 {
 }
 
+QStringList ErodeFilter::codeSnippet() const
+{
+    //TODO
+    QString kernel = "cv::Mat()";
+    QString anchor = "cv::Point(-1, -1)";
+    QString borderValue = "cv::morphologyDefaultBorderValue()";
+
+    QStringList snippet;
+
+    QString line = QString("cv::%1(%2, %3, %4, %5, %6, %7, %8);")
+            .arg("erode")
+            .arg("src")
+            .arg("dst")
+            .arg(kernel)
+            .arg(anchor)
+            .arg(m_iterations)
+            .arg("enum") //TODO
+            .arg(borderValue);
+
+    snippet << line;
+
+    return snippet;
+}
+
+QDialog *ErodeFilter::createDialog(QWidget *parent)
+{
+    return new QDialog(parent);
+}
+
 cv::Mat &ErodeFilter::process(cv::Mat &input) const
 {
     cv::erode(input, input, m_kernel, m_anchor, m_iterations, m_borderType, m_borderValue);
