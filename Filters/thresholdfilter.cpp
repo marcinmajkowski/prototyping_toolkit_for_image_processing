@@ -26,8 +26,8 @@ QStringList ThresholdFilter::codeSnippet() const
 
     QString line = QString("cv::%1(%2, %3, %4, %5, %6);")
             .arg("threshold")
-            .arg("src")
-            .arg("dst")
+            .arg("img")
+            .arg("img")
             .arg(m_threshold)
             .arg(m_maxValue)
             .arg(m_typeMap[m_type]);

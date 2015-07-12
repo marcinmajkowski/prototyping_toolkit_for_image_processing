@@ -28,8 +28,8 @@ QStringList AdaptiveThresholdFilter::codeSnippet() const
 
     QString line = QString("cv::%1(%2, %3, %4, %5, %6, %7, %8);")
             .arg("adaptiveThreshold")
-            .arg("src")
-            .arg("dst")
+            .arg("img")
+            .arg("img")
             .arg(m_maxValue)
             .arg(m_adaptiveMethodMap[m_adaptiveMethod])
             .arg(m_thresholdTypeMap[m_thresholdType])

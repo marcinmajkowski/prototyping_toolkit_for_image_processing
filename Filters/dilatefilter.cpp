@@ -26,8 +26,8 @@ QStringList DilateFilter::codeSnippet() const
 
     QString line = QString("cv::%1(%2, %3, %4, %5, %6, %7, %8);")
             .arg("dilate")
-            .arg("src")
-            .arg("dst")
+            .arg("img")
+            .arg("img")
             .arg(kernel)
             .arg(anchor)
             .arg(m_iterations)

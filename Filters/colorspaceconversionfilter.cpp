@@ -9,8 +9,9 @@ ColorSpaceConversionFilter::ColorSpaceConversionFilter(FilterObserver *observer,
 
 QStringList ColorSpaceConversionFilter::codeSnippet() const
 {
+    //TODO
     QStringList snippet;
-    snippet << "cv::cvtColor(src, dst, CV_RGB2GRAY);";
+    snippet << "cv::cvtColor(img, img, CV_RGB2GRAY);";
     return snippet;
 }
 
