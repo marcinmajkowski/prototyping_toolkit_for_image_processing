@@ -1,6 +1,8 @@
 #ifndef DILATEFILTER_H
 #define DILATEFILTER_H
 
+#include <QMap>
+
 #include "filter.h"
 
 class DilateFilter : public Filter
@@ -20,6 +22,7 @@ private:
     int m_iterations;
     int m_borderType;
     cv::Scalar m_borderValue;
+    QMap<int, QString> m_borderTypeMap;
 };
 
 #endif // DILATEFILTER_H
