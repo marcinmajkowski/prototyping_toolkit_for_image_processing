@@ -15,6 +15,7 @@ public:
     cv::Mat &process(cv::Mat &input) const Q_DECL_OVERRIDE;
 
 public slots:
+    void setBorderType(const QString &borderType);
 
 private:
     cv::Mat m_kernel;

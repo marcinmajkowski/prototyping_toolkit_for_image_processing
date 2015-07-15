@@ -18,7 +18,7 @@ ErodeFilter::ErodeFilter(FilterObserver *observer, QObject *parent) :
     m_borderTypeMap.insert(cv::BORDER_REFLECT, "cv::BORDER_REFLECT");
     m_borderTypeMap.insert(cv::BORDER_REFLECT_101, "cv::BORDER_REFLECT_101");
     m_borderTypeMap.insert(cv::BORDER_REPLICATE, "cv::BORDER_REPLICATE");
-    m_borderTypeMap.insert(cv::BORDER_WRAP, "cv::BORDER_WRAP");
+//    m_borderTypeMap.insert(cv::BORDER_WRAP, "cv::BORDER_WRAP"); // cv::exception
 }
 
 QStringList ErodeFilter::codeSnippet() const
@@ -65,6 +65,16 @@ QDialog *ErodeFilter::createDialog(QWidget *parent)
 
     QFormLayout *formLayout = new QFormLayout;
 
+    QComboBox *borderType = new QComboBox;
+    foreach (const QString &s, m_borderTypeMap) {
+        borderType->addItem(s);
+    }
+
+    borderType->setCurrentText(m_borderTypeMap[m_borderType]);
+    formLayout->addRow(new QLabel("type:"), borderType);
+    connect(borderType, SIGNAL(currentIndexChanged(QString)),
+            this, SLOT(setBorderType(QString)));
+
     parametersGroup->setLayout(formLayout);
 
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok
@@ -91,4 +101,11 @@ cv::Mat &ErodeFilter::process(cv::Mat &input) const
     cv::erode(input, input, m_kernel, m_anchor, m_iterations, m_borderType, m_borderValue);
 
     return input;
+}
+
+void ErodeFilter::setBorderType(const QString &borderType)
+{
+    m_borderType = m_borderTypeMap.key(borderType);
+
+    emit updated();
 }
