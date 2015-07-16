@@ -1,6 +1,8 @@
 INCLUDEPATH += $PWD
 DEPENDPATH += $PWD
 
+include(Parameters/Parameters.pri)
+
 HEADERS += \
     Filters/filter.h \
     Filters/adaptivethresholdfilter.h \
