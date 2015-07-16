@@ -47,7 +47,53 @@ QStringList DilateFilter::codeSnippet() const
 
 QDialog *DilateFilter::createDialog(QWidget *parent)
 {
-    return new QDialog(parent);
+    //TODO
+    QDialog *dialog = new QDialog(parent);
+
+    QLabel *signatureLabel = new QLabel;
+
+    signatureLabel->setText("void <b>dilate</b>(<br>\
+                            &nbsp; InputArray <b>src</b>,<br>\
+                            &nbsp; OutputArray <b>dst</b>,<br>\
+                            &nbsp; Point <b>anchor</b>,<br>\
+                            &nbsp; int <b>iterations</b>,<br>\
+                            &nbsp; int <b>borderType</b>,<br>\
+                            &nbsp; const Scalar &<b>borderValue</b>,<br>\
+                            )");
+
+    QGroupBox *parametersGroup = new QGroupBox(tr("Parameters"));
+
+    QFormLayout *formLayout = new QFormLayout;
+
+    QComboBox *borderType = new QComboBox;
+    foreach (const QString &s, m_borderTypeMap) {
+        borderType->addItem(s);
+    }
+
+    borderType->setCurrentText(m_borderTypeMap[m_borderType]);
+    formLayout->addRow(new QLabel("type:"), borderType);
+    connect(borderType, SIGNAL(currentIndexChanged(QString)),
+            this, SLOT(setBorderType(QString)));
+
+    parametersGroup->setLayout(formLayout);
+
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok
+                                                       | QDialogButtonBox::Cancel);
+
+    connect(buttonBox, SIGNAL(accepted()), dialog, SLOT(accept()));
+    connect(buttonBox, SIGNAL(rejected()), dialog, SLOT(reject()));
+
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+
+    mainLayout->addWidget(signatureLabel);
+    mainLayout->addWidget(parametersGroup);
+    mainLayout->addWidget(buttonBox);
+
+    dialog->setLayout(mainLayout);
+
+    dialog->setWindowTitle(tr("%1 %2").arg(m_name).arg("settings"));
+
+    return dialog;
 }
 
 cv::Mat &DilateFilter::process(cv::Mat &input) const
