@@ -64,8 +64,14 @@ void AdaptiveThresholdFilter::setThresholdType(const QString &thresholdType)
     emit updated();
 }
 
-void AdaptiveThresholdFilter::setBlockSize(int)
+void AdaptiveThresholdFilter::setBlockSize(int blockSize)
 {
+    if  (blockSize % 2 != 1) {
+        blockSize++;
+    }
+
+    m_blockSize = blockSize;
+
     emit updated();
 }
 
@@ -124,7 +130,15 @@ QDialog *AdaptiveThresholdFilter::createDialog(QWidget *parent)
     connect(thresholdType, SIGNAL(currentIndexChanged(QString)),
             this, SLOT(setThresholdType(QString)));
 
-    formLayout->addRow(new QLabel("blockSize:"), new QLineEdit);
+//    QSpinBox blockSize = new QSpinBox;
+    QSlider *blockSize = new QSlider(Qt::Horizontal);
+    blockSize->setRange(3, 399);
+    blockSize->setSingleStep(2);
+    blockSize->setPageStep(6);
+    blockSize->setValue(m_blockSize);
+    formLayout->addRow(new QLabel("blockSize:"), blockSize);
+    connect(blockSize, SIGNAL(valueChanged(int)),
+            this, SLOT(setBlockSize(int)));
 
     QDoubleSpinBox *c = new QDoubleSpinBox;
     c->setMinimum(-c->maximum());
