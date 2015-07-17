@@ -19,7 +19,7 @@ public slots:
     void setAdaptiveMethod(const QString &adaptiveMethod);
     void setThresholdType(const QString &thresholdType);
     void setBlockSize(int);
-    void setC(double);
+    void setC(double c);
 
 private:
     double m_maxValue;

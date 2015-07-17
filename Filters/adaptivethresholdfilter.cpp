@@ -69,8 +69,10 @@ void AdaptiveThresholdFilter::setBlockSize(int)
     emit updated();
 }
 
-void AdaptiveThresholdFilter::setC(double)
+void AdaptiveThresholdFilter::setC(double c)
 {
+    m_C = c;
+
     emit updated();
 }
 
@@ -123,7 +125,13 @@ QDialog *AdaptiveThresholdFilter::createDialog(QWidget *parent)
             this, SLOT(setThresholdType(QString)));
 
     formLayout->addRow(new QLabel("blockSize:"), new QLineEdit);
-    formLayout->addRow(new QLabel("C:"), new QLineEdit);
+
+    QDoubleSpinBox *c = new QDoubleSpinBox;
+    c->setMinimum(-c->maximum());
+    c->setValue(m_C);
+    formLayout->addRow(new QLabel("C:"), c);
+    connect(c, SIGNAL(valueChanged(double)),
+            this, SLOT(setC(double)));
 
     parametersGroup->setLayout(formLayout);
 
