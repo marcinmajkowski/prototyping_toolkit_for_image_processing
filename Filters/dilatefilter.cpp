@@ -18,7 +18,7 @@ DilateFilter::DilateFilter(FilterObserver *observer, QObject *parent) :
     m_borderTypeMap.insert(cv::BORDER_REFLECT, "cv::BORDER_REFLECT");
     m_borderTypeMap.insert(cv::BORDER_REFLECT_101, "cv::BORDER_REFLECT_101");
     m_borderTypeMap.insert(cv::BORDER_REPLICATE, "cv::BORDER_REPLICATE");
-    m_borderTypeMap.insert(cv::BORDER_WRAP, "cv::BORDER_WRAP");
+//    m_borderTypeMap.insert(cv::BORDER_WRAP, "cv::BORDER_WRAP");
 }
 
 QStringList DilateFilter::codeSnippet() const
@@ -101,4 +101,11 @@ cv::Mat &DilateFilter::process(cv::Mat &input) const
     cv::dilate(input, input, m_kernel, m_anchor, m_iterations, m_borderType, m_borderValue);
 
     return input;
+}
+
+void DilateFilter::setBorderType(const QString &borderType)
+{
+    m_borderType = m_borderTypeMap.key(borderType);
+
+    emit updated();
 }
