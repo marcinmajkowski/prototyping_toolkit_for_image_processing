@@ -16,6 +16,7 @@ public:
 
 public slots:
     void setBorderType(const QString &borderType);
+    void setIterations(int iterations);
 
 private:
     cv::Mat m_kernel;

@@ -65,6 +65,13 @@ QDialog *ErodeFilter::createDialog(QWidget *parent)
 
     QFormLayout *formLayout = new QFormLayout;
 
+    QSlider *iterations = new QSlider(Qt::Horizontal);
+    iterations->setRange(1, 30);
+    iterations->setValue(m_iterations);
+    formLayout->addRow(new QLabel("iterations:"), iterations);
+    connect(iterations, SIGNAL(valueChanged(int)),
+            this, SLOT(setIterations(int)));
+
     QComboBox *borderType = new QComboBox;
     foreach (const QString &s, m_borderTypeMap) {
         borderType->addItem(s);
@@ -106,6 +113,13 @@ cv::Mat &ErodeFilter::process(cv::Mat &input) const
 void ErodeFilter::setBorderType(const QString &borderType)
 {
     m_borderType = m_borderTypeMap.key(borderType);
+
+    emit updated();
+}
+
+void ErodeFilter::setIterations(int iterations)
+{
+    m_iterations = iterations;
 
     emit updated();
 }
