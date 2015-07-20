@@ -65,6 +65,13 @@ QDialog *DilateFilter::createDialog(QWidget *parent)
 
     QFormLayout *formLayout = new QFormLayout;
 
+    QSlider *iterations = new QSlider(Qt::Horizontal);
+    iterations->setRange(1, 30);
+    iterations->setValue(m_iterations);
+    formLayout->addRow(new QLabel("iterations:"), iterations);
+    connect(iterations, SIGNAL(valueChanged(int)),
+            this, SLOT(setIterations(int)));
+
     QComboBox *borderType = new QComboBox;
     foreach (const QString &s, m_borderTypeMap) {
         borderType->addItem(s);
@@ -106,6 +113,13 @@ cv::Mat &DilateFilter::process(cv::Mat &input) const
 void DilateFilter::setBorderType(const QString &borderType)
 {
     m_borderType = m_borderTypeMap.key(borderType);
+
+    emit updated();
+}
+
+void DilateFilter::setIterations(int iterations)
+{
+    m_iterations = iterations;
 
     emit updated();
 }
