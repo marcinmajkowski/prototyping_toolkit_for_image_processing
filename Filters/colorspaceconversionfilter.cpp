@@ -15,7 +15,7 @@ QStringList ColorSpaceConversionFilter::codeSnippet() const
     return snippet;
 }
 
-cv::Mat &ColorSpaceConversionFilter::process(cv::Mat &input) const
+cv::Mat &ColorSpaceConversionFilter::process(cv::Mat &input)
 {
     //TODO checking m_input format etc.
     switch (input.type()) {

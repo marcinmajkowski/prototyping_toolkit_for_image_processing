@@ -11,7 +11,8 @@ AdaptiveThresholdFilter::AdaptiveThresholdFilter(FilterObserver *observer, QObje
     m_adaptiveMethod(CV_ADAPTIVE_THRESH_MEAN_C),
     m_thresholdType(CV_THRESH_BINARY),
     m_blockSize(3),
-    m_C(5)
+    m_C(5),
+    m_convertInput(false)
 {
     m_adaptiveMethodMap.insert(CV_ADAPTIVE_THRESH_MEAN_C, "CV_ADAPTIVE_THRESH_MEAN_C");
     m_adaptiveMethodMap.insert(CV_ADAPTIVE_THRESH_GAUSSIAN_C, "CV_ADAPTIVE_THRESH_GAUSSIAN_C");
@@ -24,7 +25,11 @@ QStringList AdaptiveThresholdFilter::codeSnippet() const
 {
     QStringList snippet;
 
-    //TODO extra line with conversion when input has inappropriate type
+    // extra line with conversion when input has inappropriate type
+    if (m_convertInput) {
+        QString line = "cv::cvtColor(img, img, CV_RGB2GRAY);";
+        snippet << line;
+    }
 
     QString line = QString("cv::%1(%2, %3, %4, %5, %6, %7, %8);")
             .arg("adaptiveThreshold")
@@ -168,18 +173,18 @@ QDialog *AdaptiveThresholdFilter::createDialog(QWidget *parent)
     return dialog;
 }
 
-cv::Mat &AdaptiveThresholdFilter::process(cv::Mat &input) const
+cv::Mat &AdaptiveThresholdFilter::process(cv::Mat &input)
 {
     //TODO implement adaptive threshold
-    switch (input.type()) {
-    case CV_8UC4:
-    case CV_8UC3:
+    if (input.type() != CV_8UC1) {
         // adaptiveThreshold requires 8-bit single-channel input
         cv::cvtColor(input, input, CV_RGB2GRAY);
-    case CV_8UC1:
-        cv::adaptiveThreshold(input, input, m_maxValue, m_adaptiveMethod, m_thresholdType, m_blockSize, m_C);
-        break;
+        m_convertInput = true;
+    } else {
+        m_convertInput = false;
     }
+
+    cv::adaptiveThreshold(input, input, m_maxValue, m_adaptiveMethod, m_thresholdType, m_blockSize, m_C);
 
     return input;
 }

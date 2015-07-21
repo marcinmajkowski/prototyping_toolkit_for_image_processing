@@ -103,7 +103,7 @@ QDialog *DilateFilter::createDialog(QWidget *parent)
     return dialog;
 }
 
-cv::Mat &DilateFilter::process(cv::Mat &input) const
+cv::Mat &DilateFilter::process(cv::Mat &input)
 {
     cv::dilate(input, input, m_kernel, m_anchor, m_iterations, m_borderType, m_borderValue);
 

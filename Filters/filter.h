@@ -18,7 +18,7 @@ public:
     explicit Filter(const QString &name = QString(), FilterObserver *observer = 0, QObject *parent = 0);
     ~Filter();
 
-    virtual cv::Mat &process(cv::Mat &input) const;
+    virtual cv::Mat &process(cv::Mat &input);
 
     virtual QStringList codeSnippet() const;
     virtual QDialog *createDialog(QWidget *parent = 0);

@@ -23,7 +23,7 @@ Filter::~Filter()
     }
 }
 
-cv::Mat &Filter::process(cv::Mat &input) const
+cv::Mat &Filter::process(cv::Mat &input)
 {
     return input;
 }

@@ -12,7 +12,7 @@ public:
     explicit AdaptiveThresholdFilter(FilterObserver *observer = 0, QObject *parent = 0);
     QStringList codeSnippet() const Q_DECL_OVERRIDE;
     QDialog *createDialog(QWidget *parent = 0) Q_DECL_OVERRIDE;
-    cv::Mat &process(cv::Mat &input) const Q_DECL_OVERRIDE;
+    cv::Mat &process(cv::Mat &input) Q_DECL_OVERRIDE;
 
 public slots:
     void setMaxValue(int maxValue);
@@ -27,6 +27,8 @@ private:
     int m_thresholdType;
     int m_blockSize;
     double m_C;
+
+    bool m_convertInput;
 
     QMap<int, QString> m_adaptiveMethodMap;
     QMap<int, QString> m_thresholdTypeMap;

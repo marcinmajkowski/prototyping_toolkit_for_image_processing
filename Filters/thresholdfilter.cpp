@@ -102,7 +102,7 @@ QDialog *ThresholdFilter::createDialog(QWidget *parent)
     return dialog;
 }
 
-cv::Mat &ThresholdFilter::process(cv::Mat &input) const
+cv::Mat &ThresholdFilter::process(cv::Mat &input)
 {
     //TODO add support for images with floats
     switch (input.type()) {

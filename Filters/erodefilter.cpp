@@ -103,7 +103,7 @@ QDialog *ErodeFilter::createDialog(QWidget *parent)
     return dialog;
 }
 
-cv::Mat &ErodeFilter::process(cv::Mat &input) const
+cv::Mat &ErodeFilter::process(cv::Mat &input)
 {
     cv::erode(input, input, m_kernel, m_anchor, m_iterations, m_borderType, m_borderValue);
 
