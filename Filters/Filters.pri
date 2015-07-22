@@ -8,7 +8,8 @@ HEADERS += \
     Filters/filterobserver.h \
     Filters/thresholdfilter.h \
     Filters/dilatefilter.h \
-    Filters/erodefilter.h
+    Filters/erodefilter.h \
+    Filters/blurfitler.h
 
 SOURCES += \
     Filters/filter.cpp \
@@ -17,4 +18,5 @@ SOURCES += \
     Filters/filterobserver.cpp \
     Filters/thresholdfilter.cpp \
     Filters/dilatefilter.cpp \
-    Filters/erodefilter.cpp
+    Filters/erodefilter.cpp \
+    Filters/blurfitler.cpp
