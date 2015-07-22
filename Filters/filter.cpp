@@ -30,7 +30,7 @@ cv::Mat &Filter::process(cv::Mat &input)
 
 QStringList Filter::codeSnippet() const
 {
-    return QStringList("\\\\ Filter");
+    return QStringList("// Filter");
 }
 
 QString Filter::name() const
