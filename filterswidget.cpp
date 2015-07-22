@@ -13,6 +13,7 @@ FiltersWidget::FiltersWidget(QWidget *parent) :
     new QTreeWidgetItem(treeItem, QStringList("Threshold"));
     new QTreeWidgetItem(treeItem, QStringList("Adaptive threshold"));
     new QTreeWidgetItem(treeItem, QStringList("Color space conversion"));
+    new QTreeWidgetItem(treeItem, QStringList("Blur"));
 
     treeItem = new QTreeWidgetItem(this, QStringList("Morphological operations"));
     treeItem->setFlags(treeItem->flags() ^ Qt::ItemIsDragEnabled);

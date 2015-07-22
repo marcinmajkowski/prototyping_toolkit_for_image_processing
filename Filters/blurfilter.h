@@ -1,15 +1,15 @@
-#ifndef BLURFITLER_H
-#define BLURFITLER_H
+#ifndef BLURFILTER_H
+#define BLURFILTER_H
 
 #include <QMap>
 
 #include "filter.h"
 
-class BlurFitler : public Filter
+class BlurFilter : public Filter
 {
     Q_OBJECT
 public:
-    explicit BlurFitler(FilterObserver *observer = 0, QObject *parent = 0);
+    explicit BlurFilter(FilterObserver *observer = 0, QObject *parent = 0);
     QStringList codeSnippet() const Q_DECL_OVERRIDE;
     QDialog *createDialog(QWidget *parent = 0) Q_DECL_OVERRIDE;
     cv::Mat &process(cv::Mat &input) Q_DECL_OVERRIDE;
@@ -24,4 +24,4 @@ private:
     QMap<int, QString> m_borderTypeMap;
 };
 
-#endif // BLURFITLER_H
+#endif // BLURFILTER_H

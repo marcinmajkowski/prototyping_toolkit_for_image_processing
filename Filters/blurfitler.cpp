@@ -1,26 +1,26 @@
-#include "blurfitler.h"
+#include "blurfilter.h"
 
-BlurFitler::BlurFitler(FilterObserver *observer, QObject *parent)
+BlurFilter::BlurFilter(FilterObserver *observer, QObject *parent)
 {
 
 }
 
-QStringList BlurFitler::codeSnippet() const
+QStringList BlurFilter::codeSnippet() const
 {
 
 }
 
-QDialog *BlurFitler::createDialog(QWidget *parent)
+QDialog *BlurFilter::createDialog(QWidget *parent)
 {
 
 }
 
-cv::Mat &BlurFitler::process(cv::Mat &input)
+cv::Mat &BlurFilter::process(cv::Mat &input)
 {
 
 }
 
-void BlurFitler::setBorderType(const QString &type)
+void BlurFilter::setBorderType(const QString &type)
 {
 
 }

@@ -9,7 +9,7 @@ HEADERS += \
     Filters/thresholdfilter.h \
     Filters/dilatefilter.h \
     Filters/erodefilter.h \
-    Filters/blurfitler.h
+    Filters/blurfilter.h
 
 SOURCES += \
     Filters/filter.cpp \
