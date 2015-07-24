@@ -7,7 +7,7 @@
 
 BlurFilter::BlurFilter(FilterObserver *observer, QObject *parent) :
     Filter("Blur", observer, parent),
-    m_size(cv::Size(5, 5)),
+    m_ksize(cv::Size(5, 5)),
     m_anchor(cv::Point(-1, -1)),
     m_borderType(cv::BORDER_DEFAULT)
 {
@@ -33,8 +33,9 @@ QDialog *BlurFilter::createDialog(QWidget *parent)
 
 cv::Mat &BlurFilter::process(cv::Mat &input)
 {
-    //TODO
-    return Filter::process(input);
+    cv::blur(input, input, m_ksize, m_anchor, m_borderType);
+
+    return input;
 }
 
 void BlurFilter::setBorderType(const QString &type)

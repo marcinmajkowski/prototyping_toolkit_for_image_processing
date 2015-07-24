@@ -18,7 +18,7 @@ public slots:
     void setBorderType(const QString &type);
 
 private:
-    cv::Size m_size;
+    cv::Size m_ksize;
     cv::Point m_anchor;
     int m_borderType;
     QMap<int, QString> m_borderTypeMap;
