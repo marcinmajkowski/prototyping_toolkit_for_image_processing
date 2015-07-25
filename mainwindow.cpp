@@ -225,11 +225,16 @@ void MainWindow::createStatusBar()
 void MainWindow::createCentralWidget()
 {
     imageWidget = new ImageWidget;
+    inputImageWidget = new ImageWidget;
+    //TODO synchronize both views
+
     codeWidget = new CodeWidget;
 
     tabWidget = new QTabWidget;
-    tabWidget->addTab(imageWidget, "Image"); //TODO
+    tabWidget->addTab(inputImageWidget, "Input"); //TODO
+    tabWidget->addTab(imageWidget, "Output"); //TODO
     tabWidget->addTab(codeWidget, "Code"); //TODO
+    tabWidget->setCurrentIndex(1);
 
     setCentralWidget(tabWidget);
 }
