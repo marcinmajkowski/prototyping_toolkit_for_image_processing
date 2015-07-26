@@ -47,8 +47,7 @@ private:
 
     QTabWidget *tabWidget;
 
-    ImageWidget *inputImageWidget;
-    ImageWidget *outputImageWidget;
+    ImageWidget *imageWidget;
     CodeWidget *codeWidget;
     PipelineWidget *pipelineWidget;
     FiltersWidget *filtersWidget;

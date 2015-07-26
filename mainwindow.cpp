@@ -28,7 +28,7 @@ MainWindow::MainWindow(QWidget *parent)
             codeWidget, SLOT(setPlainText(QString)));
 
     connect(pipelineWidget, SIGNAL(outputPixmapChanged(QPixmap)),
-            outputImageWidget, SLOT(updatePixmap(QPixmap)));
+            imageWidget, SLOT(updatePixmap(QPixmap)));
 
     setWindowTitle("Prototyping Toolkit for Image Processing");
 
@@ -70,26 +70,23 @@ void MainWindow::openImage()
 
 void MainWindow::zoomIn()
 {
-    double newScaleFactor = outputImageWidget->scaleFactor() * 1.25;
-    inputImageWidget->setScaleFactor(newScaleFactor);
-    outputImageWidget->setScaleFactor(newScaleFactor);
+    double newScaleFactor = imageWidget->scaleFactor() * 1.25;
+    imageWidget->setScaleFactor(newScaleFactor);
 
     updateActions();
 }
 
 void MainWindow::zoomOut()
 {
-    double newScaleFactor = outputImageWidget->scaleFactor() * 0.8;
-    inputImageWidget->setScaleFactor(newScaleFactor);
-    outputImageWidget->setScaleFactor(newScaleFactor);
+    double newScaleFactor = imageWidget->scaleFactor() * 0.8;
+    imageWidget->setScaleFactor(newScaleFactor);
 
     updateActions();
 }
 
 void MainWindow::normalSize()
 {
-    inputImageWidget->setScaleFactor(1.0);
-    outputImageWidget->setScaleFactor(1.0);
+    imageWidget->setScaleFactor(1.0);
 
     updateActions();
 }
@@ -97,8 +94,7 @@ void MainWindow::normalSize()
 void MainWindow::fitToWindow()
 {
     bool fitToWindow = fitToWindowAct->isChecked();
-    inputImageWidget->setFitToWindow(fitToWindow);
-    outputImageWidget->setFitToWindow(fitToWindow);
+    imageWidget->setFitToWindow(fitToWindow);
     updateActions();
 }
 
@@ -228,36 +224,13 @@ void MainWindow::createStatusBar()
 
 void MainWindow::createCentralWidget()
 {
-    outputImageWidget = new ImageWidget;
-    inputImageWidget = new ImageWidget;
-    //TODO synchronize both views
-    connect(outputImageWidget->verticalScrollBar(), SIGNAL(valueChanged(int)),
-            inputImageWidget->verticalScrollBar(), SLOT(setValue(int)));
-    connect(inputImageWidget->verticalScrollBar(), SIGNAL(valueChanged(int)),
-            outputImageWidget->verticalScrollBar(), SLOT(setValue(int)));
-
-    connect(outputImageWidget->horizontalScrollBar(), SIGNAL(valueChanged(int)),
-            inputImageWidget->horizontalScrollBar(), SLOT(setValue(int)));
-    connect(inputImageWidget->horizontalScrollBar(), SIGNAL(valueChanged(int)),
-            outputImageWidget->horizontalScrollBar(), SLOT(setValue(int)));
-
-    connect(outputImageWidget->verticalScrollBar(), SIGNAL(rangeChanged(int, int)),
-            inputImageWidget->verticalScrollBar(), SLOT(setRange(int, int)));
-    connect(inputImageWidget->verticalScrollBar(), SIGNAL(rangeChanged(int, int)),
-            outputImageWidget->verticalScrollBar(), SLOT(setRange(int, int)));
-
-    connect(outputImageWidget->horizontalScrollBar(), SIGNAL(rangeChanged(int, int)),
-            inputImageWidget->horizontalScrollBar(), SLOT(setRange(int, int)));
-    connect(inputImageWidget->horizontalScrollBar(), SIGNAL(rangeChanged(int, int)),
-            outputImageWidget->horizontalScrollBar(), SLOT(setRange(int, int)));
+    imageWidget = new ImageWidget;
 
     codeWidget = new CodeWidget;
 
     tabWidget = new QTabWidget;
-    tabWidget->addTab(inputImageWidget, "Input"); //TODO
-    tabWidget->addTab(outputImageWidget, "Output"); //TODO
+    tabWidget->addTab(imageWidget, "Image"); //TODO
     tabWidget->addTab(codeWidget, "Code"); //TODO
-    tabWidget->setCurrentIndex(1);
 
     setCentralWidget(tabWidget);
 }
@@ -297,7 +270,7 @@ void MainWindow::createUndoView()
 
 void MainWindow::updateActions()
 {
-    double scaleFactor = outputImageWidget->scaleFactor();
+    double scaleFactor = imageWidget->scaleFactor();
     zoomInAct->setEnabled(!fitToWindowAct->isChecked() && scaleFactor < 3.0);
     zoomOutAct->setEnabled(!fitToWindowAct->isChecked() && scaleFactor > 0.333);
     normalSizeAct->setEnabled(!fitToWindowAct->isChecked());
@@ -310,17 +283,14 @@ bool MainWindow::loadImageFile(const QString &fileName)
         QMessageBox::information(this, QGuiApplication::applicationDisplayName(),
                                  tr("Cannot load %1").arg(QDir::toNativeSeparators(fileName)));
         setWindowFilePath(QString());
-        inputImageWidget->setPixmap(QPixmap());
-        outputImageWidget->setPixmap(QPixmap());
+        imageWidget->setPixmap(QPixmap());
         return false;
     }
 
     QPixmap inputImage = QPixmap::fromImage(image);
     pipelineWidget->setInputPixmap(inputImage);
-    inputImageWidget->setPixmap(inputImage);
 
-    inputImageWidget->setScaleFactor(1.0);
-    outputImageWidget->setScaleFactor(1.0);
+    imageWidget->setScaleFactor(1.0);
 
     setWindowFilePath(fileName);
 
