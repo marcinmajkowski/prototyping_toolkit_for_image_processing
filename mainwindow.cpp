@@ -28,7 +28,7 @@ MainWindow::MainWindow(QWidget *parent)
             codeWidget, SLOT(setPlainText(QString)));
 
     connect(pipelineWidget, SIGNAL(outputPixmapChanged(QPixmap)),
-            imageWidget, SLOT(updatePixmap(QPixmap)));
+            outputImageWidget, SLOT(updatePixmap(QPixmap)));
 
     setWindowTitle("Prototyping Toolkit for Image Processing");
 
@@ -70,23 +70,23 @@ void MainWindow::openImage()
 
 void MainWindow::zoomIn()
 {
-    double newScaleFactor = imageWidget->scaleFactor() * 1.25;
-    imageWidget->setScaleFactor(newScaleFactor);
+    double newScaleFactor = outputImageWidget->scaleFactor() * 1.25;
+    outputImageWidget->setScaleFactor(newScaleFactor);
 
     updateActions();
 }
 
 void MainWindow::zoomOut()
 {
-    double newScaleFactor = imageWidget->scaleFactor() * 0.8;
-    imageWidget->setScaleFactor(newScaleFactor);
+    double newScaleFactor = outputImageWidget->scaleFactor() * 0.8;
+    outputImageWidget->setScaleFactor(newScaleFactor);
 
     updateActions();
 }
 
 void MainWindow::normalSize()
 {
-    imageWidget->setScaleFactor(1.0);
+    outputImageWidget->setScaleFactor(1.0);
 
     updateActions();
 }
@@ -94,7 +94,7 @@ void MainWindow::normalSize()
 void MainWindow::fitToWindow()
 {
     bool fitToWindow = fitToWindowAct->isChecked();
-    imageWidget->setFitToWindow(fitToWindow);
+    outputImageWidget->setFitToWindow(fitToWindow);
     updateActions();
 }
 
@@ -224,7 +224,7 @@ void MainWindow::createStatusBar()
 
 void MainWindow::createCentralWidget()
 {
-    imageWidget = new ImageWidget;
+    outputImageWidget = new ImageWidget;
     inputImageWidget = new ImageWidget;
     //TODO synchronize both views
 
@@ -232,7 +232,7 @@ void MainWindow::createCentralWidget()
 
     tabWidget = new QTabWidget;
     tabWidget->addTab(inputImageWidget, "Input"); //TODO
-    tabWidget->addTab(imageWidget, "Output"); //TODO
+    tabWidget->addTab(outputImageWidget, "Output"); //TODO
     tabWidget->addTab(codeWidget, "Code"); //TODO
     tabWidget->setCurrentIndex(1);
 
@@ -274,7 +274,7 @@ void MainWindow::createUndoView()
 
 void MainWindow::updateActions()
 {
-    double scaleFactor = imageWidget->scaleFactor();
+    double scaleFactor = outputImageWidget->scaleFactor();
     zoomInAct->setEnabled(!fitToWindowAct->isChecked() && scaleFactor < 3.0);
     zoomOutAct->setEnabled(!fitToWindowAct->isChecked() && scaleFactor > 0.333);
     normalSizeAct->setEnabled(!fitToWindowAct->isChecked());
@@ -287,13 +287,16 @@ bool MainWindow::loadImageFile(const QString &fileName)
         QMessageBox::information(this, QGuiApplication::applicationDisplayName(),
                                  tr("Cannot load %1").arg(QDir::toNativeSeparators(fileName)));
         setWindowFilePath(QString());
-        imageWidget->setPixmap(QPixmap());
+        outputImageWidget->setPixmap(QPixmap());
         return false;
     }
 
-    pipelineWidget->setInputPixmap(QPixmap::fromImage(image));
+    QPixmap inputImage = QPixmap::fromImage(image);
+    pipelineWidget->setInputPixmap(inputImage);
+    inputImageWidget->setPixmap(inputImage);
 
-    imageWidget->setScaleFactor(1.0);
+    outputImageWidget->setScaleFactor(1.0);
+    inputImageWidget->setScaleFactor(1.0);
 
     setWindowFilePath(fileName);
 
