@@ -71,6 +71,7 @@ void MainWindow::openImage()
 void MainWindow::zoomIn()
 {
     double newScaleFactor = outputImageWidget->scaleFactor() * 1.25;
+    inputImageWidget->setScaleFactor(newScaleFactor);
     outputImageWidget->setScaleFactor(newScaleFactor);
 
     updateActions();
@@ -79,6 +80,7 @@ void MainWindow::zoomIn()
 void MainWindow::zoomOut()
 {
     double newScaleFactor = outputImageWidget->scaleFactor() * 0.8;
+    inputImageWidget->setScaleFactor(newScaleFactor);
     outputImageWidget->setScaleFactor(newScaleFactor);
 
     updateActions();
@@ -86,6 +88,7 @@ void MainWindow::zoomOut()
 
 void MainWindow::normalSize()
 {
+    inputImageWidget->setScaleFactor(1.0);
     outputImageWidget->setScaleFactor(1.0);
 
     updateActions();
@@ -94,6 +97,7 @@ void MainWindow::normalSize()
 void MainWindow::fitToWindow()
 {
     bool fitToWindow = fitToWindowAct->isChecked();
+    inputImageWidget->setFitToWindow(fitToWindow);
     outputImageWidget->setFitToWindow(fitToWindow);
     updateActions();
 }
@@ -227,6 +231,25 @@ void MainWindow::createCentralWidget()
     outputImageWidget = new ImageWidget;
     inputImageWidget = new ImageWidget;
     //TODO synchronize both views
+    connect(outputImageWidget->verticalScrollBar(), SIGNAL(valueChanged(int)),
+            inputImageWidget->verticalScrollBar(), SLOT(setValue(int)));
+    connect(inputImageWidget->verticalScrollBar(), SIGNAL(valueChanged(int)),
+            outputImageWidget->verticalScrollBar(), SLOT(setValue(int)));
+
+    connect(outputImageWidget->horizontalScrollBar(), SIGNAL(valueChanged(int)),
+            inputImageWidget->horizontalScrollBar(), SLOT(setValue(int)));
+    connect(inputImageWidget->horizontalScrollBar(), SIGNAL(valueChanged(int)),
+            outputImageWidget->horizontalScrollBar(), SLOT(setValue(int)));
+
+    connect(outputImageWidget->verticalScrollBar(), SIGNAL(rangeChanged(int, int)),
+            inputImageWidget->verticalScrollBar(), SLOT(setRange(int, int)));
+    connect(inputImageWidget->verticalScrollBar(), SIGNAL(rangeChanged(int, int)),
+            outputImageWidget->verticalScrollBar(), SLOT(setRange(int, int)));
+
+    connect(outputImageWidget->horizontalScrollBar(), SIGNAL(rangeChanged(int, int)),
+            inputImageWidget->horizontalScrollBar(), SLOT(setRange(int, int)));
+    connect(inputImageWidget->horizontalScrollBar(), SIGNAL(rangeChanged(int, int)),
+            outputImageWidget->horizontalScrollBar(), SLOT(setRange(int, int)));
 
     codeWidget = new CodeWidget;
 
@@ -287,6 +310,7 @@ bool MainWindow::loadImageFile(const QString &fileName)
         QMessageBox::information(this, QGuiApplication::applicationDisplayName(),
                                  tr("Cannot load %1").arg(QDir::toNativeSeparators(fileName)));
         setWindowFilePath(QString());
+        inputImageWidget->setPixmap(QPixmap());
         outputImageWidget->setPixmap(QPixmap());
         return false;
     }
@@ -295,8 +319,8 @@ bool MainWindow::loadImageFile(const QString &fileName)
     pipelineWidget->setInputPixmap(inputImage);
     inputImageWidget->setPixmap(inputImage);
 
-    outputImageWidget->setScaleFactor(1.0);
     inputImageWidget->setScaleFactor(1.0);
+    outputImageWidget->setScaleFactor(1.0);
 
     setWindowFilePath(fileName);
 
