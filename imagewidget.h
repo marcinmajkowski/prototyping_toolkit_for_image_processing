@@ -18,6 +18,8 @@ public:
     void setScaleFactor(double newScaleFactor);
     double scaleFactor() const;
 
+    QLabel* imageLabel();
+
 public slots:
     void setPixmap(const QPixmap &pixmap);
     void updatePixmap(const QPixmap &pixmap);
@@ -25,7 +27,7 @@ public slots:
 private:
     void adjustScrollBar(QScrollBar *scrollBar, double factor);
 
-    QLabel *imageLabel;
+    QLabel *m_imageLabel;
     double m_scaleFactor;
     bool m_fitToWindow;
 };

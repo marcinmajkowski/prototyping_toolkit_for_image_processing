@@ -4,16 +4,16 @@
 
 ImageWidget::ImageWidget(QWidget *parent) :
     QScrollArea(parent),
-    imageLabel(new QLabel),
+    m_imageLabel(new QLabel),
     m_scaleFactor(1.0),
     m_fitToWindow(false)
 {
-    imageLabel->setBackgroundRole(QPalette::Base);
-    imageLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-    imageLabel->setScaledContents(true);
+    m_imageLabel->setBackgroundRole(QPalette::Base);
+    m_imageLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    m_imageLabel->setScaledContents(true);
 
     setBackgroundRole(QPalette::Dark);
-    setWidget(imageLabel);
+    setWidget(m_imageLabel);
     setAlignment(Qt::AlignCenter);
 }
 
@@ -24,7 +24,7 @@ void ImageWidget::setFitToWindow(bool value)
     setWidgetResizable(m_fitToWindow);
     if (!m_fitToWindow) {
         // this is normalSize() call from the example
-        imageLabel->adjustSize();
+        m_imageLabel->adjustSize();
         m_scaleFactor = 1.0;
     }
 }
@@ -36,12 +36,12 @@ bool ImageWidget::fitToWindow() const
 
 void ImageWidget::setScaleFactor(double newScaleFactor)
 {
-    Q_ASSERT(imageLabel->pixmap());
+    Q_ASSERT(m_imageLabel->pixmap());
 
     double factor = newScaleFactor / m_scaleFactor;
     m_scaleFactor = newScaleFactor;
 
-    imageLabel->resize(newScaleFactor * imageLabel->pixmap()->size());
+    m_imageLabel->resize(newScaleFactor * m_imageLabel->pixmap()->size());
 
     adjustScrollBar(horizontalScrollBar(), factor);
     adjustScrollBar(verticalScrollBar(), factor);
@@ -52,18 +52,23 @@ double ImageWidget::scaleFactor() const
     return m_scaleFactor;
 }
 
+QLabel *ImageWidget::imageLabel()
+{
+    return m_imageLabel;
+}
+
 void ImageWidget::setPixmap(const QPixmap &pixmap)
 {
-    imageLabel->setPixmap(pixmap);
+    m_imageLabel->setPixmap(pixmap);
     m_scaleFactor = 1.0;
 
     if (!m_fitToWindow) {
-        imageLabel->adjustSize();
+        m_imageLabel->adjustSize();
     }
 }
 
 void ImageWidget::updatePixmap(const QPixmap &pixmap) {
-    imageLabel->setPixmap(pixmap);
+    m_imageLabel->setPixmap(pixmap);
 }
 
 void ImageWidget::adjustScrollBar(QScrollBar *scrollBar, double factor)
