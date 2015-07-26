@@ -36,6 +36,16 @@ PipelineWidget::PipelineWidget(QWidget *parent) :
             this, SLOT(updateOutputPixmap()));
 }
 
+QPixmap PipelineWidget::inputImage()
+{
+    return ASM::cvMatToQPixmap(m_inputImage);
+}
+
+QPixmap PipelineWidget::outputImage()
+{
+    return ASM::cvMatToQPixmap(m_outputImage);
+}
+
 void PipelineWidget::appendItem(QTreeWidgetItem *treeItem)
 {
     if (treeItem->childCount() != 0) {
@@ -56,6 +66,7 @@ void PipelineWidget::appendItem(QTreeWidgetItem *treeItem)
 void PipelineWidget::setInputPixmap(const QPixmap &pixmap)
 {
     m_inputImage =  ASM::QPixmapToCvMat(pixmap);
+    emit inputPixmapChanged(pixmap);
     updateOutputPixmap();
 }
 

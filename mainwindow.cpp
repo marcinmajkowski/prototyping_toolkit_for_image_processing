@@ -121,6 +121,23 @@ void MainWindow::showFilterWidget(QListWidgetItem *item)
     }
 }
 
+void MainWindow::showInputImage(bool show)
+{
+    if (show) {
+        disconnect(pipelineWidget, SIGNAL(outputPixmapChanged(QPixmap)),
+                   imageWidget, SLOT(updatePixmap(QPixmap)));
+        connect(pipelineWidget, SIGNAL(inputPixmapChanged(QPixmap)),
+                   imageWidget, SLOT(updatePixmap(QPixmap)));
+        imageWidget->updatePixmap(pipelineWidget->inputImage());
+    } else {
+        disconnect(pipelineWidget, SIGNAL(inputPixmapChanged(QPixmap)),
+                   imageWidget, SLOT(updatePixmap(QPixmap)));
+        connect(pipelineWidget, SIGNAL(outputPixmapChanged(QPixmap)),
+                   imageWidget, SLOT(updatePixmap(QPixmap)));
+        imageWidget->updatePixmap(pipelineWidget->outputImage());
+    }
+}
+
 void MainWindow::createActions()
 {
     openProjectAct = new QAction(tr("&Open Project..."), this);
@@ -132,6 +149,11 @@ void MainWindow::createActions()
     //TODO setShortcut
     //TODO setStatusTip
     connect(openImageAct, SIGNAL(triggered()), this, SLOT(openImage()));
+
+    showInputImageAct = new QAction(tr("Show Input Image"), this);
+    showInputImageAct->setShortcut(tr("Ctrl+I"));
+    showInputImageAct->setCheckable(true);
+    connect(showInputImageAct, SIGNAL(toggled(bool)), this, SLOT(showInputImage(bool)));
 
     exitAct = new QAction(tr("E&xit"), this);
     exitAct->setShortcuts(QKeySequence::Quit);
@@ -188,6 +210,8 @@ void MainWindow::createMenus()
     editMenu->addAction(redoAct);
 
     viewMenu = new QMenu(tr("&View"), this);
+    viewMenu->addAction(showInputImageAct);
+    viewMenu->addSeparator();
     viewMenu->addAction(zoomInAct);
     viewMenu->addAction(zoomOutAct);
     viewMenu->addAction(normalSizeAct);
@@ -214,6 +238,9 @@ void MainWindow::createToolBars()
 
     editToolBar = addToolBar(tr("Edit"));
     editToolBar->addAction(undoAct);
+
+    viewToolBar = addToolBar(tr("View"));
+    viewToolBar->addAction(showInputImageAct);
 }
 
 void MainWindow::createStatusBar()

@@ -15,9 +15,13 @@ class PipelineWidget : public QListWidget
 public:
     explicit PipelineWidget(QWidget *parent = 0);
 
+    QPixmap inputImage();
+    QPixmap outputImage();
+
 signals:
     void sourceCodeChanged(const QString &sourceCode);
     void outputPixmapChanged(const QPixmap &pixmap);
+    void inputPixmapChanged(const QPixmap &pixmap);
 
 public slots:
     void appendItem(QTreeWidgetItem *item);

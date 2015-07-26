@@ -33,6 +33,7 @@ private slots:
     void fitToWindow();
     void about();
     void showFilterWidget(QListWidgetItem *item);
+    void showInputImage(bool show);
 
 private:
     void createActions();
@@ -57,6 +58,7 @@ private:
 
     QAction *openProjectAct;
     QAction *openImageAct;
+    QAction *showInputImageAct;
     QAction *exitAct;
     QAction *undoAct;
     QAction *redoAct;
@@ -75,6 +77,7 @@ private:
 
     QToolBar *fileToolBar;
     QToolBar *editToolBar;
+    QToolBar *viewToolBar;
 };
 
 #endif // MAINWINDOW_H
