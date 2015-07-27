@@ -32,6 +32,8 @@ PipelineWidget::PipelineWidget(QWidget *parent) :
             this, SLOT(updateOutputPixmap()));
     connect(model(), SIGNAL(dataChanged(QModelIndex,QModelIndex)),
             this, SLOT(updateOutputPixmap()));
+    connect(model(), SIGNAL(modelReset()),
+            this, SLOT(updateOutputPixmap()));
     connect(m_filterObserver, SIGNAL(updated()),
             this, SLOT(updateOutputPixmap()));
 }

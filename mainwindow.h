@@ -27,6 +27,7 @@ public:
 private slots:
     void openProject();
     void openImage();
+    void resetPipeline();
     void zoomIn();
     void zoomOut();
     void normalSize();
@@ -58,6 +59,7 @@ private:
 
     QAction *openProjectAct;
     QAction *openImageAct;
+    QAction *resetPipelineAct;
     QAction *showInputImageAct;
     QAction *exitAct;
     QAction *undoAct;

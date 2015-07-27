@@ -68,6 +68,11 @@ void MainWindow::openImage()
     }
 }
 
+void MainWindow::resetPipeline()
+{
+    pipelineWidget->clear();
+}
+
 void MainWindow::zoomIn()
 {
     double newScaleFactor = imageWidget->scaleFactor() * 1.25;
@@ -150,6 +155,11 @@ void MainWindow::createActions()
     //TODO setStatusTip
     connect(openImageAct, SIGNAL(triggered()), this, SLOT(openImage()));
 
+    resetPipelineAct = new QAction(tr("Reset Pipeline"), this);
+    //TODO setShortcut
+    //TODO setStatusTip
+    connect(resetPipelineAct, SIGNAL(triggered()), this, SLOT(resetPipeline()));
+
     showInputImageAct = new QAction(tr("Show Input Image"), this);
     showInputImageAct->setShortcut(tr("Ctrl+I"));
     showInputImageAct->setCheckable(true);
@@ -208,6 +218,8 @@ void MainWindow::createMenus()
     editMenu = new QMenu(tr("&Edit"), this);
     editMenu->addAction(undoAct);
     editMenu->addAction(redoAct);
+    editMenu->addSeparator();
+    editMenu->addAction(resetPipelineAct);
 
     viewMenu = new QMenu(tr("&View"), this);
     viewMenu->addAction(showInputImageAct);
