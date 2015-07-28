@@ -7,8 +7,6 @@ class QAction;
 class QMenu;
 class QTabWidget;
 class QToolBar;
-class QUndoStack;
-class QUndoView;
 class QTreeWidgetItem;
 class ImageWidget;
 class CodeWidget;
@@ -22,7 +20,6 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = 0);
-    ~MainWindow();
 
 private slots:
     void openProject();
@@ -43,7 +40,6 @@ private:
     void createStatusBar();
     void createCentralWidget();
     void createDockWindows();
-    void createUndoView();
     void updateActions();
     bool loadImageFile(const QString &fileName);
 
@@ -54,16 +50,11 @@ private:
     PipelineWidget *pipelineWidget;
     FiltersWidget *filtersWidget;
 
-    QUndoStack *undoStack;
-    QUndoView *undoView;
-
     QAction *openProjectAct;
     QAction *openImageAct;
     QAction *resetPipelineAct;
     QAction *showInputImageAct;
     QAction *exitAct;
-    QAction *undoAct;
-    QAction *redoAct;
     QAction *zoomInAct;
     QAction *zoomOutAct;
     QAction *normalSizeAct;

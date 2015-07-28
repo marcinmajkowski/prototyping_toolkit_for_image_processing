@@ -12,17 +12,12 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
-    undoStack = new QUndoStack(this);
-
     createActions();
     createMenus();
     createToolBars();
     createStatusBar();
     createCentralWidget();
     createDockWindows();
-#ifndef QT_NO_DEBUG
-    createUndoView();
-#endif
 
     connect(pipelineWidget, SIGNAL(sourceCodeChanged(QString)),
             codeWidget, SLOT(setPlainText(QString)));
@@ -35,11 +30,6 @@ MainWindow::MainWindow(QWidget *parent)
     loadImageFile(":/Images/lena.jpg");
 
     resize(QGuiApplication::primaryScreen()->availableSize() * 3 / 5);
-}
-
-MainWindow::~MainWindow()
-{
-
 }
 
 void MainWindow::openProject()
@@ -170,15 +160,6 @@ void MainWindow::createActions()
     exitAct->setStatusTip(tr("Exit the application"));
     connect(exitAct, SIGNAL(triggered()), this, SLOT(close()));
 
-    undoAct = undoStack->createUndoAction(this, tr("&Undo"));
-    undoAct->setShortcuts(QKeySequence::Undo);
-    undoAct->setStatusTip(tr("Undo the last editing action"));
-
-    redoAct = undoStack->createRedoAction(this, tr("&Redo"));
-    redoAct->setShortcuts(QKeySequence::Redo);
-    //TODO setStatusTip
-//    redoAct->setStatusTip(tr("Undo the last editing action"));
-
     zoomInAct = new QAction(tr("Zoom &In (25%)"), this);
     zoomInAct->setShortcut(tr("Ctrl++"));
     zoomInAct->setEnabled(false);
@@ -216,9 +197,6 @@ void MainWindow::createMenus()
     fileMenu->addAction(exitAct);
 
     editMenu = new QMenu(tr("&Edit"), this);
-    editMenu->addAction(undoAct);
-    editMenu->addAction(redoAct);
-    editMenu->addSeparator();
     editMenu->addAction(resetPipelineAct);
 
     viewMenu = new QMenu(tr("&View"), this);
@@ -249,7 +227,7 @@ void MainWindow::createToolBars()
     fileToolBar->addAction(openImageAct);
 
     editToolBar = addToolBar(tr("Edit"));
-    editToolBar->addAction(undoAct);
+    editToolBar->addAction(resetPipelineAct);
 
     viewToolBar = addToolBar(tr("View"));
     viewToolBar->addAction(showInputImageAct);
@@ -297,14 +275,6 @@ void MainWindow::createDockWindows()
 
     connect(filtersWidget, SIGNAL(itemActivated(QTreeWidgetItem*,int)),
             pipelineWidget, SLOT(appendItem(QTreeWidgetItem*)));
-}
-
-void MainWindow::createUndoView()
-{
-    undoView = new QUndoView(undoStack);
-    undoView->setWindowTitle(tr("Command List"));
-    undoView->show();
-    undoView->setAttribute(Qt::WA_QuitOnClose, false);
 }
 
 void MainWindow::updateActions()
