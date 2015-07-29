@@ -38,6 +38,29 @@ QString Filter::name() const
     return m_name;
 }
 
+void Filter::read(QDataStream &data)
+{
+    qDebug() << "Filter::read() called";
+}
+
+void Filter::write(QDataStream &data) const
+{
+    qDebug() << "Filter::write() called";
+}
+
+void Filter::storeParameters()
+{
+    m_parameters.clear();
+    QDataStream dataStream(&m_parameters, QIODevice::WriteOnly);
+    write(dataStream);
+}
+
+void Filter::restoreParameters()
+{
+    QDataStream dataStream(&m_parameters, QIODevice::ReadOnly);
+    read(dataStream);
+}
+
 QDialog *Filter::createDialog(QWidget *parent)
 {
     QDialog *dialog = new QDialog(parent);

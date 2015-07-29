@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QString>
 #include <QStringList>
+#include <QDataStream>
 #include <opencv2/core/core.hpp>
 
 Q_DECLARE_METATYPE(cv::Mat)
@@ -24,13 +25,20 @@ public:
     virtual QDialog *createDialog(QWidget *parent = 0);
     QString name() const;
 
+    virtual void read(QDataStream &data);
+    virtual void write(QDataStream &data) const;
+
+public slots:
+    void storeParameters();
+    void restoreParameters();
+
 protected:
     QString m_name;
     FilterObserver *m_filterObserver;
+    QByteArray m_parameters;
 
 signals:
     void updated();
-
 };
 
 Q_DECLARE_METATYPE(Filter *)

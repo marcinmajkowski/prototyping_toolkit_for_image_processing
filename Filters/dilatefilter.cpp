@@ -89,6 +89,7 @@ QDialog *DilateFilter::createDialog(QWidget *parent)
 
     connect(buttonBox, SIGNAL(accepted()), dialog, SLOT(accept()));
     connect(buttonBox, SIGNAL(rejected()), dialog, SLOT(reject()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(restoreParameters()));
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
 
@@ -100,6 +101,8 @@ QDialog *DilateFilter::createDialog(QWidget *parent)
 
     dialog->setWindowTitle(tr("%1 %2").arg(m_name).arg("settings"));
 
+    storeParameters(); //TODO should execute on every dialog->exec()
+
     return dialog;
 }
 
@@ -108,6 +111,20 @@ cv::Mat &DilateFilter::process(cv::Mat &input)
     cv::dilate(input, input, m_kernel, m_anchor, m_iterations, m_borderType, m_borderValue);
 
     return input;
+}
+
+void DilateFilter::read(QDataStream &data)
+{
+    //TODO read all parameters
+    data >> m_iterations;
+
+    emit updated();
+}
+
+void DilateFilter::write(QDataStream &data) const
+{
+    //TODO write all parameters
+    data << m_iterations;
 }
 
 void DilateFilter::setBorderType(const QString &borderType)
