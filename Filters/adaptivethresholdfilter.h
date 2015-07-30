@@ -14,6 +14,9 @@ public:
     QDialog *createDialog(QWidget *parent = 0) Q_DECL_OVERRIDE;
     cv::Mat &process(cv::Mat &input) Q_DECL_OVERRIDE;
 
+    virtual void read(QDataStream &data);
+    virtual void write(QDataStream &data) const;
+
 public slots:
     void setMaxValue(int maxValue);
     void setAdaptiveMethod(const QString &adaptiveMethod);

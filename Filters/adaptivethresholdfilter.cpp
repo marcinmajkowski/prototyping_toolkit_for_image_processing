@@ -159,6 +159,7 @@ QDialog *AdaptiveThresholdFilter::createDialog(QWidget *parent)
 
     connect(buttonBox, SIGNAL(accepted()), dialog, SLOT(accept()));
     connect(buttonBox, SIGNAL(rejected()), dialog, SLOT(reject()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(restoreParameters()));
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
 
@@ -169,6 +170,8 @@ QDialog *AdaptiveThresholdFilter::createDialog(QWidget *parent)
     dialog->setLayout(mainLayout);
 
     dialog->setWindowTitle(tr("%1 %2").arg(m_name).arg("settings"));
+
+    storeParameters(); //TODO should execute on every dialog->exec()
 
     return dialog;
 }
@@ -187,4 +190,20 @@ cv::Mat &AdaptiveThresholdFilter::process(cv::Mat &input)
     cv::adaptiveThreshold(input, input, m_maxValue, m_adaptiveMethod, m_thresholdType, m_blockSize, m_C);
 
     return input;
+}
+
+void AdaptiveThresholdFilter::read(QDataStream &data)
+{
+    //TODO read all parameters
+    //TODO cast ints
+    data >> m_maxValue >> m_adaptiveMethod >> m_thresholdType >> m_blockSize >> m_C;
+
+    emit updated();
+}
+
+void AdaptiveThresholdFilter::write(QDataStream &data) const
+{
+    //TODO write all parameters
+    //TODO cast ints
+    data << m_maxValue << m_adaptiveMethod << m_thresholdType << m_blockSize << m_C;
 }
