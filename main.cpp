@@ -9,6 +9,7 @@ int main(int argc, char *argv[])
 {
     qRegisterMetaType<cv::Mat>("cv::Mat");
     QApplication a(argc, argv);
+    a.setApplicationName("Prototyping Toolkit for Image Processing");
     MainWindow w;
 
     // Center a Window on the Screen
