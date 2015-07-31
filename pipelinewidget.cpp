@@ -48,6 +48,28 @@ QPixmap PipelineWidget::outputImage()
     return ASM::cvMatToQPixmap(m_outputImage);
 }
 
+QByteArray PipelineWidget::content()
+{
+    QByteArray data;
+    QDataStream dataStream(&data, QIODevice::WriteOnly);
+
+    for (int i = 0; i < count(); ++i) {
+        QListWidgetItem *widgetItem = item(i);
+        Filter *f = widgetItem->data(PipelineWidgetItem::FilterRole).value<Filter *>();
+
+        // store filter name
+        dataStream << f->name();
+
+        // store filter parameters
+        f->write(dataStream);
+
+        // store item state (checked/unchecked)
+        dataStream << (widgetItem->checkState() == Qt::Checked);
+    }
+
+    return data;
+}
+
 void PipelineWidget::appendItem(QTreeWidgetItem *treeItem)
 {
     if (treeItem->childCount() != 0) {
@@ -70,6 +92,39 @@ void PipelineWidget::setInputPixmap(const QPixmap &pixmap)
     m_inputImage =  ASM::QPixmapToCvMat(pixmap);
     emit inputPixmapChanged(pixmap);
     updateOutputPixmap();
+}
+
+void PipelineWidget::setContent(const QByteArray &data)
+{
+    clear();
+
+    QByteArray dataCopy(data);
+    QDataStream dataStream(&dataCopy, QIODevice::ReadOnly);
+
+    while (!dataStream.atEnd()) {
+        QString filterName;
+
+        // read filter name
+        dataStream >> filterName;
+
+        Filter *filter = m_filterFactory->create(filterName, m_filterObserver);
+
+        // read filter parameters
+        filter->read(dataStream);
+
+        bool checkState;
+
+        // read check state
+        dataStream >> checkState;
+
+        QListWidgetItem *item = new PipelineWidgetItem(filterName);
+        item->setCheckState(checkState ? Qt::Checked : Qt::Unchecked);
+
+        QVariant var;
+        var.setValue(filter);
+        item->setData(PipelineWidgetItem::FilterRole, var);
+        addItem(item);
+    }
 }
 
 void PipelineWidget::deleteSelectedItems()

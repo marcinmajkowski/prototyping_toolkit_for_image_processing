@@ -6,7 +6,7 @@
 #include "erodefilter.h"
 
 ErodeFilter::ErodeFilter(FilterObserver *observer, QObject *parent) :
-    Filter("Dilate", observer, parent),
+    Filter("Erode", observer, parent),
     m_kernel(cv::Mat()),
     m_anchor(cv::Point(-1, - 1)),
     m_iterations(1),

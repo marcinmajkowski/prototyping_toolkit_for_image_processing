@@ -74,7 +74,11 @@ void MainWindow::openImage()
 
 void MainWindow::saveProject()
 {
+    content = pipelineWidget->content();
     //TODO get serialized pipeline from pipelineWidget and store it in file
+
+    QString fileName("TODO");
+    statusBar()->showMessage(tr("Project %1 saved").arg(fileName), showMessageTimout);
 }
 
 void MainWindow::resetPipeline()
@@ -340,5 +344,9 @@ bool MainWindow::loadImageFile(const QString &fileName)
 bool MainWindow::loadProjectFile(const QString &fileName)
 {
     //TODO load file and send it to PipelineWidget to laod
+    pipelineWidget->setContent(content);
+
+    statusBar()->showMessage(tr("Project %1 loaded").arg(fileName), showMessageTimout);
+
     return true;
 }

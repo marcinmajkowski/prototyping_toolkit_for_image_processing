@@ -17,6 +17,7 @@ public:
 
     QPixmap inputImage();
     QPixmap outputImage();
+    QByteArray content();
 
 signals:
     void sourceCodeChanged(const QString &sourceCode);
@@ -26,6 +27,7 @@ signals:
 public slots:
     void appendItem(QTreeWidgetItem *item);
     void setInputPixmap(const QPixmap &pixmap);
+    void setContent(const QByteArray &data);
 
 protected slots:
     void deleteSelectedItems();
