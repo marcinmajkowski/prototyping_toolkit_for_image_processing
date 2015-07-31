@@ -11,6 +11,7 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
+    , showMessageTimout(2000)
 {
     createActions();
     createMenus();
@@ -34,7 +35,20 @@ MainWindow::MainWindow(QWidget *parent)
 
 void MainWindow::openProject()
 {
+    QStringList filters;
+    filters << "Prototyping Toolkit Project files (*.ptp)" << "Any files (*)";
 
+    const QStringList documentsLocations =
+            QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation);
+
+    QFileDialog dialog(this, tr("Open Project"), documentsLocations.isEmpty() ?
+                           QDir::currentPath() : documentsLocations.first());
+    dialog.setAcceptMode(QFileDialog::AcceptOpen);
+    dialog.setNameFilters(filters);
+
+    while (dialog.exec() == QDialog::Accepted &&
+           !loadProjectFile(dialog.selectedFiles().first())) {
+    }
 }
 
 void MainWindow::openImage()
@@ -56,6 +70,11 @@ void MainWindow::openImage()
     while (dialog.exec() == QDialog::Accepted &&
            !loadImageFile(dialog.selectedFiles().first())) {
     }
+}
+
+void MainWindow::saveProject()
+{
+    //TODO get serialized pipeline from pipelineWidget and store it in file
 }
 
 void MainWindow::resetPipeline()
@@ -145,6 +164,11 @@ void MainWindow::createActions()
     //TODO setStatusTip
     connect(openImageAct, SIGNAL(triggered()), this, SLOT(openImage()));
 
+    saveProjectAct = new QAction(tr("&Save Project..."), this);
+    saveProjectAct->setShortcuts(QKeySequence::Save);
+    //TODO setStatusTip
+    connect(saveProjectAct, SIGNAL(triggered()), this, SLOT(saveProject()));
+
     resetPipelineAct = new QAction(tr("Reset Pipeline"), this);
     //TODO setShortcut
     //TODO setStatusTip
@@ -193,6 +217,8 @@ void MainWindow::createMenus()
     fileMenu = new QMenu(tr("&File"), this);
     fileMenu->addAction(openProjectAct);
     fileMenu->addAction(openImageAct);
+    fileMenu->addSeparator();
+    fileMenu->addAction(saveProjectAct);
     fileMenu->addSeparator();
     fileMenu->addAction(exitAct);
 
@@ -306,5 +332,13 @@ bool MainWindow::loadImageFile(const QString &fileName)
     fitToWindowAct->setEnabled(true);
     updateActions();
 
+    statusBar()->showMessage(tr("Image %1 loaded").arg(fileName), showMessageTimout);
+
+    return true;
+}
+
+bool MainWindow::loadProjectFile(const QString &fileName)
+{
+    //TODO load file and send it to PipelineWidget to laod
     return true;
 }

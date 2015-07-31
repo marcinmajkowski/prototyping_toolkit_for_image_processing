@@ -24,6 +24,7 @@ public:
 private slots:
     void openProject();
     void openImage();
+    void saveProject();
     void resetPipeline();
     void zoomIn();
     void zoomOut();
@@ -42,6 +43,7 @@ private:
     void createDockWindows();
     void updateActions();
     bool loadImageFile(const QString &fileName);
+    bool loadProjectFile(const QString &fileName);
 
     QTabWidget *tabWidget;
 
@@ -52,6 +54,7 @@ private:
 
     QAction *openProjectAct;
     QAction *openImageAct;
+    QAction *saveProjectAct;
     QAction *resetPipelineAct;
     QAction *showInputImageAct;
     QAction *exitAct;
@@ -71,6 +74,8 @@ private:
     QToolBar *fileToolBar;
     QToolBar *editToolBar;
     QToolBar *viewToolBar;
+
+    int showMessageTimout;
 };
 
 #endif // MAINWINDOW_H
