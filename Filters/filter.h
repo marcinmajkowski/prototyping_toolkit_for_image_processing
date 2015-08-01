@@ -41,6 +41,4 @@ signals:
     void updated();
 };
 
-Q_DECLARE_METATYPE(Filter *)
-
 #endif // FILTER_H

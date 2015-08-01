@@ -2,12 +2,7 @@
 
 #include "filterfactory.h"
 
-#include "Filters/adaptivethresholdfilter.h"
-#include "Filters/thresholdfilter.h"
-#include "Filters/colorspaceconversionfilter.h"
-#include "Filters/dilatefilter.h"
-#include "Filters/erodefilter.h"
-#include "Filters/blurfilter.h"
+#include "Filters/filter.h"
 
 FilterFactory::FilterFactory(QObject *parent) :
     QObject(parent)
@@ -16,23 +11,19 @@ FilterFactory::FilterFactory(QObject *parent) :
 
 Filter *FilterFactory::create(const QString &type, FilterObserver *observer, QObject *parent)
 {
-    Filter *result = nullptr;
+    Filter *filter = nullptr;
 
-    if (type == "Adaptive threshold") {
-        result = new AdaptiveThresholdFilter(observer, parent);
-    } else if (type == "Threshold") {
-        result = new ThresholdFilter(observer, parent);
-    } else if (type == "Color space conversion") {
-        result = new ColorSpaceConversionFilter(observer, parent);
-    } else if (type == "Dilate") {
-        result = new DilateFilter(observer, parent);
-    } else if (type == "Erode") {
-        result = new ErodeFilter(observer, parent);
-    } else if (type == "Blur") {
-        result = new BlurFilter(observer, parent);
-    } else {
+    int filterType = QMetaType::type(type.toUtf8().constData());
+    if (filterType != QMetaType::UnknownType) {
+        const QMetaObject *metaObject = QMetaType::metaObjectForType(filterType);
+        QObject *object = metaObject->newInstance(
+                    Q_ARG(FilterObserver *, observer), Q_ARG(QObject *, parent));
+        filter = dynamic_cast<Filter *>(object);
+    }
+
+    if (filter == nullptr) {
         qDebug() << "FilterFactory::create(): not known filter type" << type;
     }
 
-    return result;
+    return filter;
 }
