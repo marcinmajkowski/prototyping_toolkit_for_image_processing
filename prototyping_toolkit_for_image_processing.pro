@@ -18,7 +18,6 @@ SOURCES += main.cpp\
     codewidget.cpp \
     filterswidget.cpp \
     imagewidget.cpp \
-    filterfactory.cpp \
     pipelinewidget.cpp \
     pipelinewidgetitem.cpp
 
@@ -26,7 +25,6 @@ HEADERS  += mainwindow.h \
     codewidget.h \
     filterswidget.h \
     imagewidget.h \
-    filterfactory.h \
     asmOpenCV.h \
     pipelinewidget.h \
     pipelinewidgetitem.h

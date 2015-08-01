@@ -5,7 +5,6 @@
 #include <opencv2/core/core.hpp>
 
 class QTreeWidgetItem;
-class FilterFactory;
 class FilterObserver;
 class Filter;
 
@@ -36,7 +35,7 @@ protected slots:
 
 protected:
     bool dropMimeData(int index, const QMimeData *data, Qt::DropAction action) Q_DECL_OVERRIDE;
-    FilterFactory *m_filterFactory;
+    Filter *createFilter(const QString &type, QObject *parent = 0);
     FilterObserver *m_filterObserver;
     cv::Mat m_inputImage;
     cv::Mat m_outputImage;

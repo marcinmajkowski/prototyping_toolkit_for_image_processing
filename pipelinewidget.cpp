@@ -5,14 +5,12 @@
 
 #include "pipelinewidget.h"
 #include "pipelinewidgetitem.h"
-#include "filterfactory.h"
 #include "Filters/filterobserver.h"
 #include "Filters/filter.h"
 #include "asmOpenCV.h"
 
 PipelineWidget::PipelineWidget(QWidget *parent) :
     QListWidget(parent),
-    m_filterFactory(new FilterFactory(this)),
     m_filterObserver(new FilterObserver(this))
 {
     setDropIndicatorShown(true);
@@ -77,7 +75,7 @@ void PipelineWidget::appendItem(QTreeWidgetItem *treeItem)
     }
 
     QString filterName = treeItem->text(0);
-    Filter *filter = m_filterFactory->create(filterName, m_filterObserver);
+    Filter *filter = createFilter(filterName);
     if (filter) {
         QListWidgetItem *item = new PipelineWidgetItem(filterName);
         QVariant var;
@@ -107,7 +105,7 @@ void PipelineWidget::setContent(const QByteArray &data)
         // read filter name
         dataStream >> filterName;
 
-        Filter *filter = m_filterFactory->create(filterName, m_filterObserver);
+        Filter *filter = createFilter(filterName);
 
         // read filter parameters
         filter->read(dataStream);
@@ -189,7 +187,7 @@ bool PipelineWidget::dropMimeData(int index, const QMimeData *data, Qt::DropActi
     stream >> row >> col >> roleDataMap;
     QString filterName = roleDataMap.first().toString();
 
-    Filter *filter = m_filterFactory->create(filterName, m_filterObserver);
+    Filter *filter = createFilter(filterName);
 
     if (!filter) {
         return false;
@@ -203,5 +201,24 @@ bool PipelineWidget::dropMimeData(int index, const QMimeData *data, Qt::DropActi
 
     return true;
     //TODO preserve default behaviour
-//    return QListWidget::dropMimeData(index, data, action);
+    //    return QListWidget::dropMimeData(index, data, action);
+}
+
+Filter *PipelineWidget::createFilter(const QString &type, QObject *parent)
+{
+    Filter *filter = nullptr;
+
+    int filterType = QMetaType::type(type.toUtf8().constData());
+    if (filterType != QMetaType::UnknownType) {
+        const QMetaObject *metaObject = QMetaType::metaObjectForType(filterType);
+        QObject *object = metaObject->newInstance(
+                    Q_ARG(FilterObserver *, m_filterObserver), Q_ARG(QObject *, parent));
+        filter = dynamic_cast<Filter *>(object);
+    }
+
+    if (filter == nullptr) {
+        qDebug() << "PipelineWidget::createFilter(): not known filter type" << type;
+    }
+
+    return filter;
 }
