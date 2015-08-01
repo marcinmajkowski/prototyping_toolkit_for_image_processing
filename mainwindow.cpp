@@ -7,7 +7,6 @@
 #include "imagewidget.h"
 #include "pipelinewidget.h"
 #include "pipelinewidgetitem.h"
-#include "Filters/filter.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -128,11 +127,7 @@ void MainWindow::about() //TODO
 
 void MainWindow::showFilterWidget(QListWidgetItem *item)
 {
-    Filter *filter = item->data(PipelineWidgetItem::FilterRole).value<Filter *>();
-    if (!filter) {
-        return;
-    }
-    QDialog *dialog = filter->createDialog(this);
+    QDialog *dialog = item->data(PipelineWidgetItem::FilterDialogRole).value<QDialog *>();
     if (dialog) {
         dialog->exec();
         delete dialog;

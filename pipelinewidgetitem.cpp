@@ -3,6 +3,9 @@
 #include "pipelinewidgetitem.h"
 #include "Filters/filter.h"
 
+Q_DECLARE_OPAQUE_POINTER(QDialog *)
+Q_DECLARE_METATYPE(QDialog *)
+
 PipelineWidgetItem::PipelineWidgetItem(QListWidget *parent, int type) :
     QListWidgetItem(parent, type),
     m_filter(nullptr)
@@ -38,13 +41,20 @@ PipelineWidgetItem::~PipelineWidgetItem()
 
 QVariant PipelineWidgetItem::data(int role) const
 {
-    if (role == FilterRole) {
-        QVariant var;
+    QVariant var;
+
+    switch (role) {
+    case FilterRole:
         var.setValue(m_filter);
-        return var;
-    } else {
-        return QListWidgetItem::data(role);
+        break;
+    case FilterDialogRole:
+        var.setValue(m_filter->createDialog(listWidget()));
+        break;
+    default:
+        var = QListWidgetItem::data(role);
     }
+
+    return var;
 }
 
 void PipelineWidgetItem::setData(int role, const QVariant &value)

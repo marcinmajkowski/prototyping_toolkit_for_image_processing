@@ -18,7 +18,10 @@ public:
     void setData(int role, const QVariant &value) Q_DECL_OVERRIDE;
 
     enum ItemType { FilterType = QListWidgetItem::ItemType::UserType + 1 };
-    enum { FilterRole = Qt::UserRole + 1 };
+    enum {
+        FilterRole = Qt::UserRole + 1,
+        FilterDialogRole
+    };
 
 private:
     void init();
