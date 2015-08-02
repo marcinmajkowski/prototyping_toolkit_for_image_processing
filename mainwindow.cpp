@@ -10,7 +10,7 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , showMessageTimout(2000)
+    , showMessageTimout(3000)
 {
     createActions();
     createMenus();
@@ -73,11 +73,20 @@ void MainWindow::openImage()
 
 void MainWindow::saveProject()
 {
-    content = pipelineWidget->content();
-    //TODO get serialized pipeline from pipelineWidget and store it in file
+    QStringList filters;
+    filters << "Prototyping Toolkit Project files (*.ptp)" << "Any files (*)";
 
-    QString fileName("TODO");
-    statusBar()->showMessage(tr("Project %1 saved").arg(fileName), showMessageTimout);
+    const QStringList documentsLocations =
+            QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation);
+
+    QFileDialog dialog(this, tr("Open Project"), documentsLocations.isEmpty() ?
+                           QDir::currentPath() : documentsLocations.first());
+    dialog.setAcceptMode(QFileDialog::AcceptSave);
+    dialog.setNameFilters(filters);
+
+    while (dialog.exec() == QDialog::Accepted &&
+           !saveProjectFile(dialog.selectedFiles().first())) {
+    }
 }
 
 void MainWindow::resetPipeline()
@@ -338,10 +347,34 @@ bool MainWindow::loadImageFile(const QString &fileName)
 
 bool MainWindow::loadProjectFile(const QString &fileName)
 {
-    //TODO load file and send it to PipelineWidget to laod
-    pipelineWidget->setContent(content);
+    QFile loadFile(fileName);
+
+    if (!loadFile.open(QIODevice::ReadOnly)) {
+        qWarning("Couldn't open save file.");
+        return false;
+    }
+
+    QByteArray data = loadFile.readAll();
+    pipelineWidget->setContent(data);
 
     statusBar()->showMessage(tr("Project %1 loaded").arg(fileName), showMessageTimout);
+
+    return true;
+}
+
+bool MainWindow::saveProjectFile(const QString &fileName)
+{
+    QFile saveFile(fileName);
+
+    if (!saveFile.open(QIODevice::WriteOnly)) {
+        qWarning("Couldn't open save file.");
+        return false;
+    }
+
+    QByteArray data = pipelineWidget->content();
+    saveFile.write(data);
+
+    statusBar()->showMessage(tr("Project %1 saved").arg(fileName), showMessageTimout);
 
     return true;
 }

@@ -44,9 +44,7 @@ private:
     void updateActions();
     bool loadImageFile(const QString &fileName);
     bool loadProjectFile(const QString &fileName);
-
-    //TODO temporary member:
-    QByteArray content;
+    bool saveProjectFile(const QString &fileName);
 
     QTabWidget *tabWidget;
 
