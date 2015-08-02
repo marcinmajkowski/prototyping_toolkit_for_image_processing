@@ -25,12 +25,6 @@ QStringList BlurFilter::codeSnippet() const
     return Filter::codeSnippet();
 }
 
-QDialog *BlurFilter::createDialog(QWidget *parent)
-{
-    //TODO
-    return Filter::createDialog(parent);
-}
-
 cv::Mat &BlurFilter::process(cv::Mat &input)
 {
     cv::blur(input, input, m_ksize, m_anchor, m_borderType);
@@ -41,4 +35,16 @@ cv::Mat &BlurFilter::process(cv::Mat &input)
 void BlurFilter::setBorderType(const QString &type)
 {
     //TODO
+}
+
+QLayout *BlurFilter::dialogParametersGroupLayout()
+{
+    //TODO
+    return Filter::dialogParametersGroupLayout();
+}
+
+QLabel *BlurFilter::dialogDescriptionLabel()
+{
+    //TODO
+    return Filter::dialogDescriptionLabel();
 }

@@ -87,24 +87,8 @@ void AdaptiveThresholdFilter::setC(double c)
     emit updated();
 }
 
-QDialog *AdaptiveThresholdFilter::createDialog(QWidget *parent)
+QLayout *AdaptiveThresholdFilter::dialogParametersGroupLayout()
 {
-    QDialog *dialog = new QDialog(parent);
-
-    QLabel *signatureLabel = new QLabel;
-
-    signatureLabel->setText("void <b>adaptiveThreshold</b>(<br>\
-                            &nbsp; InputArray <b>src</b>,<br>\
-                            &nbsp; OutputArray <b>dst</b>,<br>\
-                            &nbsp; double <b>maxValue</b>,<br>\
-                            &nbsp; int <b>adaptiveMethod</b>,<br>\
-                            &nbsp; int <b>thresholdType</b>,<br>\
-                            &nbsp; int <b>blockSize</b>,<br>\
-                            &nbsp; double <b>C</b><br>\
-                            )");
-
-    QGroupBox *parametersGroup = new QGroupBox(tr("Parameters"));
-
     QFormLayout *formLayout = new QFormLayout;
 
     //TODO whole section
@@ -152,28 +136,23 @@ QDialog *AdaptiveThresholdFilter::createDialog(QWidget *parent)
     connect(c, SIGNAL(valueChanged(double)),
             this, SLOT(setC(double)));
 
-    parametersGroup->setLayout(formLayout);
+    return formLayout;
+}
 
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok
-                                                       | QDialogButtonBox::Cancel);
+QLabel *AdaptiveThresholdFilter::dialogDescriptionLabel()
+{
+    QLabel *label = new QLabel;
+    label->setText("void <b>adaptiveThreshold</b>(<br>\
+                    &nbsp; InputArray <b>src</b>,<br>\
+                    &nbsp; OutputArray <b>dst</b>,<br>\
+                    &nbsp; double <b>maxValue</b>,<br>\
+                    &nbsp; int <b>adaptiveMethod</b>,<br>\
+                    &nbsp; int <b>thresholdType</b>,<br>\
+                    &nbsp; int <b>blockSize</b>,<br>\
+                    &nbsp; double <b>C</b><br>\
+                    )");
 
-    connect(buttonBox, SIGNAL(accepted()), dialog, SLOT(accept()));
-    connect(buttonBox, SIGNAL(rejected()), dialog, SLOT(reject()));
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(restoreParameters()));
-
-    QVBoxLayout *mainLayout = new QVBoxLayout;
-
-    mainLayout->addWidget(signatureLabel);
-    mainLayout->addWidget(parametersGroup);
-    mainLayout->addWidget(buttonBox);
-
-    dialog->setLayout(mainLayout);
-
-    dialog->setWindowTitle(tr("%1 %2").arg(m_name).arg("settings"));
-
-    storeParameters(); //TODO should execute on every dialog->exec()
-
-    return dialog;
+    return label;
 }
 
 cv::Mat &AdaptiveThresholdFilter::process(cv::Mat &input)

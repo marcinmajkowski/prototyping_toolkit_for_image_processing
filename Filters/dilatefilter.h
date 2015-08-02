@@ -11,7 +11,6 @@ class DilateFilter : public Filter
 public:
     Q_INVOKABLE explicit DilateFilter(FilterObserver *observer = 0, QObject *parent = 0);
     QStringList codeSnippet() const Q_DECL_OVERRIDE;
-    QDialog *createDialog(QWidget *parent = 0) Q_DECL_OVERRIDE;
     cv::Mat &process(cv::Mat &input) Q_DECL_OVERRIDE;
 
     virtual void read(QDataStream &data);
@@ -20,6 +19,10 @@ public:
 public slots:
     void setBorderType(const QString &borderType);
     void setIterations(int iterations);
+
+protected:
+    QLayout *dialogParametersGroupLayout() Q_DECL_OVERRIDE;
+    QLabel *dialogDescriptionLabel() Q_DECL_OVERRIDE;
 
 private:
     cv::Mat m_kernel;

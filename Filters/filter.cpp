@@ -61,24 +61,46 @@ void Filter::restoreParameters()
     read(dataStream);
 }
 
-QDialog *Filter::createDialog(QWidget *parent)
+QLayout *Filter::dialogParametersGroupLayout()
 {
-    QDialog *dialog = new QDialog(parent);
-
     QLabel *message = new QLabel("No settings for this filter.");
 
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok);
+    QLayout *layout = new QVBoxLayout;
+    layout->addWidget(message);
 
-    connect(buttonBox, SIGNAL(accepted()), dialog, SLOT(accept()));
+    return layout;
+}
+
+QLabel *Filter::dialogDescriptionLabel()
+{
+    QLabel *label = new QLabel;
+    label->setText("Default filter (blank).");
+
+    return label;
+}
+
+QDialog *Filter::createDialog(QWidget *parent)
+{
+    QGroupBox *parametersGroup = new QGroupBox(tr("Parameters"));
+    parametersGroup->setLayout(dialogParametersGroupLayout());
+
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok
+                                                       | QDialogButtonBox::Cancel);
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
-
-    mainLayout->addWidget(message);
+    mainLayout->addWidget(dialogDescriptionLabel());
+    mainLayout->addWidget(parametersGroup);
     mainLayout->addWidget(buttonBox);
 
+    QDialog *dialog = new QDialog(parent);
     dialog->setLayout(mainLayout);
-
     dialog->setWindowTitle(tr("%1 %2").arg(m_name).arg("settings"));
+
+    connect(buttonBox, SIGNAL(accepted()), dialog, SLOT(accept()));
+    connect(buttonBox, SIGNAL(rejected()), dialog, SLOT(reject()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(restoreParameters()));
+
+    storeParameters(); //TODO should execute on every dialog->exec()
 
     return dialog;
 }

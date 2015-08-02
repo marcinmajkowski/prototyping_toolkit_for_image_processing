@@ -37,71 +37,6 @@ QStringList ThresholdFilter::codeSnippet() const
     return snippet;
 }
 
-QDialog *ThresholdFilter::createDialog(QWidget *parent)
-{
-    //TODO
-    QDialog *dialog = new QDialog(parent);
-
-    QLabel *signatureLabel = new QLabel;
-
-    signatureLabel->setText("void <b>threshold</b>(<br>\
-                            &nbsp; InputArray <b>src</b>,<br>\
-                            &nbsp; OutputArray <b>dst</b>,<br>\
-                            &nbsp; double <b>threshold</b>,<br>\
-                            &nbsp; double <b>maxValue</b>,<br>\
-                            &nbsp; int <b>type</b>,<br>\
-                            )");
-
-    QGroupBox *parametersGroup = new QGroupBox(tr("Parameters"));
-
-    QFormLayout *formLayout = new QFormLayout;
-
-    //TODO whole section
-    QSlider *threshold = new QSlider(Qt::Horizontal);
-    threshold->setRange(0, 255);
-    threshold->setValue(m_threshold);
-    formLayout->addRow(new QLabel("threshold"), threshold);
-    connect(threshold, SIGNAL(valueChanged(int)),
-            this, SLOT(setThreshold(int)));
-
-    QSlider *maxValue = new QSlider(Qt::Horizontal);
-    maxValue->setRange(0, 255);
-    maxValue->setValue(m_maxValue);
-    formLayout->addRow(new QLabel("maxValue:"), maxValue);
-    connect(maxValue, SIGNAL(valueChanged(int)),
-            this, SLOT(setMaxValue(int)));
-
-    QComboBox *type = new QComboBox;
-    foreach (const QString &s, m_typeMap) {
-        type->addItem(s);
-    }
-
-    type->setCurrentText(m_typeMap[m_type]);
-    formLayout->addRow(new QLabel("type:"), type);
-    connect(type, SIGNAL(currentIndexChanged(QString)),
-            this, SLOT(setType(QString)));
-
-    parametersGroup->setLayout(formLayout);
-
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok
-                                                       | QDialogButtonBox::Cancel);
-
-    connect(buttonBox, SIGNAL(accepted()), dialog, SLOT(accept()));
-    connect(buttonBox, SIGNAL(rejected()), dialog, SLOT(reject()));
-
-    QVBoxLayout *mainLayout = new QVBoxLayout;
-
-    mainLayout->addWidget(signatureLabel);
-    mainLayout->addWidget(parametersGroup);
-    mainLayout->addWidget(buttonBox);
-
-    dialog->setLayout(mainLayout);
-
-    dialog->setWindowTitle(tr("%1 %2").arg(m_name).arg("settings"));
-
-    return dialog;
-}
-
 cv::Mat &ThresholdFilter::process(cv::Mat &input)
 {
     //TODO add support for images with floats
@@ -135,4 +70,51 @@ void ThresholdFilter::setType(const QString &type)
     m_type = m_typeMap.key(type);
 
     emit updated();
+}
+
+QLayout *ThresholdFilter::dialogParametersGroupLayout()
+{
+    QFormLayout *formLayout = new QFormLayout;
+
+    //TODO whole section
+    QSlider *threshold = new QSlider(Qt::Horizontal);
+    threshold->setRange(0, 255);
+    threshold->setValue(m_threshold);
+    formLayout->addRow(new QLabel("threshold"), threshold);
+    connect(threshold, SIGNAL(valueChanged(int)),
+            this, SLOT(setThreshold(int)));
+
+    QSlider *maxValue = new QSlider(Qt::Horizontal);
+    maxValue->setRange(0, 255);
+    maxValue->setValue(m_maxValue);
+    formLayout->addRow(new QLabel("maxValue:"), maxValue);
+    connect(maxValue, SIGNAL(valueChanged(int)),
+            this, SLOT(setMaxValue(int)));
+
+    QComboBox *type = new QComboBox;
+    foreach (const QString &s, m_typeMap) {
+        type->addItem(s);
+    }
+
+    type->setCurrentText(m_typeMap[m_type]);
+    formLayout->addRow(new QLabel("type:"), type);
+    connect(type, SIGNAL(currentIndexChanged(QString)),
+            this, SLOT(setType(QString)));
+
+    return formLayout;
+}
+
+QLabel *ThresholdFilter::dialogDescriptionLabel()
+{
+    QLabel *signatureLabel = new QLabel;
+
+    signatureLabel->setText("void <b>threshold</b>(<br>\
+                            &nbsp; InputArray <b>src</b>,<br>\
+                            &nbsp; OutputArray <b>dst</b>,<br>\
+                            &nbsp; double <b>threshold</b>,<br>\
+                            &nbsp; double <b>maxValue</b>,<br>\
+                            &nbsp; int <b>type</b>,<br>\
+                            )");
+
+    return signatureLabel;
 }

@@ -10,6 +10,8 @@
 Q_DECLARE_METATYPE(cv::Mat)
 
 class QDialog;
+class QLayout;
+class QLabel;
 class FilterObserver;
 
 class Filter : public QObject
@@ -22,7 +24,7 @@ public:
     virtual cv::Mat &process(cv::Mat &input);
 
     virtual QStringList codeSnippet() const;
-    virtual QDialog *createDialog(QWidget *parent = 0);
+    QDialog *createDialog(QWidget *parent = 0);
     QString name() const;
 
     virtual void read(QDataStream &data);
@@ -33,6 +35,8 @@ public slots:
     void restoreParameters();
 
 protected:
+    virtual QLayout *dialogParametersGroupLayout();
+    virtual QLabel *dialogDescriptionLabel();
     QString m_name;
     FilterObserver *m_filterObserver;
     QByteArray m_parameters;

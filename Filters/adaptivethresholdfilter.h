@@ -11,11 +11,10 @@ class AdaptiveThresholdFilter : public Filter
 public:
     Q_INVOKABLE explicit AdaptiveThresholdFilter(FilterObserver *observer = 0, QObject *parent = 0);
     QStringList codeSnippet() const Q_DECL_OVERRIDE;
-    QDialog *createDialog(QWidget *parent = 0) Q_DECL_OVERRIDE;
     cv::Mat &process(cv::Mat &input) Q_DECL_OVERRIDE;
 
-    virtual void read(QDataStream &data);
-    virtual void write(QDataStream &data) const;
+    void read(QDataStream &data) Q_DECL_OVERRIDE;
+    void write(QDataStream &data) const Q_DECL_OVERRIDE;
 
 public slots:
     void setMaxValue(int maxValue);
@@ -23,6 +22,10 @@ public slots:
     void setThresholdType(const QString &thresholdType);
     void setBlockSize(int blockSize);
     void setC(double c);
+
+protected:
+    QLayout *dialogParametersGroupLayout() Q_DECL_OVERRIDE;
+    QLabel *dialogDescriptionLabel() Q_DECL_OVERRIDE;
 
 private:
     double m_maxValue;

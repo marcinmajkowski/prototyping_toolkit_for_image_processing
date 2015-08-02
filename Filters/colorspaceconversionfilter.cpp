@@ -1,4 +1,5 @@
 #include <opencv2/imgproc/imgproc.hpp>
+#include <QLabel>
 
 #include "colorspaceconversionfilter.h"
 
@@ -28,4 +29,14 @@ cv::Mat &ColorSpaceConversionFilter::process(cv::Mat &input)
     }
 
     return input;
+}
+
+QLabel *ColorSpaceConversionFilter::dialogDescriptionLabel()
+{
+    QLabel *label = new QLabel;
+    label->setText("This filter converts 3 and 4-channel images to "
+                   "1-channel image using cv::cvtColor() function.");
+    label->setWordWrap(true);
+
+    return label;
 }

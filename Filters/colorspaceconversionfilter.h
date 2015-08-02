@@ -12,6 +12,9 @@ public:
     QStringList codeSnippet() const Q_DECL_OVERRIDE;
     cv::Mat &process(cv::Mat &input) Q_DECL_OVERRIDE;
 
+protected:
+    QLabel *dialogDescriptionLabel() Q_DECL_OVERRIDE;
+
 signals:
 
 public slots:
