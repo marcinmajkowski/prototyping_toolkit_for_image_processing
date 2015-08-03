@@ -99,7 +99,7 @@ QLayout *ErodeFilter::dialogParametersGroupLayout()
     }
 
     borderType->setCurrentText(m_borderTypeMap[m_borderType]);
-    formLayout->addRow(new QLabel("type:"), borderType);
+    formLayout->addRow(new QLabel("borderType:"), borderType);
     connect(borderType, SIGNAL(currentIndexChanged(QString)),
             this, SLOT(setBorderType(QString)));
 

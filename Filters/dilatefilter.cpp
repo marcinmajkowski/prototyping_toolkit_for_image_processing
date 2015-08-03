@@ -7,24 +7,39 @@
 
 DilateFilter::DilateFilter(FilterObserver *observer, QObject *parent) :
     Filter("Dilate", observer, parent),
-    m_kernel(cv::Mat()),
+    m_kernelShape(cv::MORPH_ELLIPSE),
+    m_kernelSizeWidth(3),
+    m_kernelSizeHeight(3),
+    m_kernelAnchor(cv::Point(-1, -1)),
     m_anchor(cv::Point(-1, -1)),
     m_iterations(1),
     m_borderType(cv::BORDER_CONSTANT),
     m_borderValue(cv::morphologyDefaultBorderValue())
 {
+    m_kernelShapeMap.insert(cv::MORPH_RECT, "cv::MORPH_RECT");
+    m_kernelShapeMap.insert(cv::MORPH_ELLIPSE, "cv::MORPH_ELLIPSE");
+    m_kernelShapeMap.insert(cv::MORPH_CROSS, "cv::MORPH_CROSS");
+
     m_borderTypeMap.insert(cv::BORDER_CONSTANT, "cv::BORDER_CONSTANT");
     m_borderTypeMap.insert(cv::BORDER_DEFAULT, "cv::BORDER_DEFAULT");
     m_borderTypeMap.insert(cv::BORDER_REFLECT, "cv::BORDER_REFLECT");
     m_borderTypeMap.insert(cv::BORDER_REFLECT_101, "cv::BORDER_REFLECT_101");
     m_borderTypeMap.insert(cv::BORDER_REPLICATE, "cv::BORDER_REPLICATE");
-//    m_borderTypeMap.insert(cv::BORDER_WRAP, "cv::BORDER_WRAP");
 }
 
 QStringList DilateFilter::codeSnippet() const
 {
     //TODO
-    QString kernel = "cv::Mat()";
+    QString kernelSize = QString("cv::%1(%2, %3)")
+            .arg("Size")
+            .arg(m_kernelSizeWidth)
+            .arg(m_kernelSizeHeight);
+    QString kernelAnchor = "cv::Point(-1, -1)";
+    QString kernel = QString("cv::%1(%2, %3, %4)")
+            .arg("getStructuringElement")
+            .arg(kernelSize)
+            .arg(m_kernelShapeMap[m_kernelShape])
+            .arg(kernelAnchor);
     QString anchor = "cv::Point(-1, -1)";
     QString borderValue = "cv::morphologyDefaultBorderValue()";
 
@@ -47,7 +62,9 @@ QStringList DilateFilter::codeSnippet() const
 
 cv::Mat &DilateFilter::process(cv::Mat &input)
 {
-    cv::dilate(input, input, m_kernel, m_anchor, m_iterations, m_borderType, m_borderValue);
+    cv::Size kernelSize = cv::Size(m_kernelSizeWidth, m_kernelSizeHeight);
+    cv::Mat kernel = cv::getStructuringElement(m_kernelShape, kernelSize, m_kernelAnchor);
+    cv::dilate(input, input, kernel, m_anchor, m_iterations, m_borderType, m_borderValue);
 
     return input;
 }
@@ -64,6 +81,27 @@ void DilateFilter::write(QDataStream &data) const
 {
     //TODO write all parameters
     data << m_iterations;
+}
+
+void DilateFilter::setKernelShape(const QString &borderType)
+{
+    m_kernelShape = m_kernelShapeMap.key(borderType);
+
+    emit updated();
+}
+
+void DilateFilter::setKernelSizeWidth(int kernelSizeWidth)
+{
+    m_kernelSizeWidth = kernelSizeWidth;
+
+    emit updated();
+}
+
+void DilateFilter::setKernelSizeHeight(int kernelSizeHeight)
+{
+    m_kernelSizeHeight = kernelSizeHeight;
+
+    emit updated();
 }
 
 void DilateFilter::setBorderType(const QString &borderType)
@@ -84,6 +122,32 @@ QLayout *DilateFilter::dialogParametersGroupLayout()
 {
     QFormLayout *formLayout = new QFormLayout;
 
+    formLayout->addRow(new QLabel("kernel:"));
+
+    QComboBox *kernelShape = new QComboBox;
+    foreach (const QString &s, m_kernelShapeMap) {
+        kernelShape->addItem(s);
+    }
+
+    kernelShape->setCurrentText(m_kernelShapeMap[m_kernelShape]);
+    formLayout->addRow(new QLabel("  shape:"), kernelShape);
+    connect(kernelShape, SIGNAL(currentIndexChanged(QString)),
+            this, SLOT(setKernelShape(QString)));
+
+    QSlider *kernelSizeWidth = new QSlider(Qt::Horizontal);
+    kernelSizeWidth->setRange(1, 30);
+    kernelSizeWidth->setValue(m_kernelSizeWidth);
+    formLayout->addRow(new QLabel("  size-width:"), kernelSizeWidth);
+    connect(kernelSizeWidth, SIGNAL(valueChanged(int)),
+            this, SLOT(setKernelSizeWidth(int)));
+
+    QSlider *kernelSizeHeight = new QSlider(Qt::Horizontal);
+    kernelSizeHeight->setRange(1, 30);
+    kernelSizeHeight->setValue(m_kernelSizeHeight);
+    formLayout->addRow(new QLabel("  size-height:"), kernelSizeHeight);
+    connect(kernelSizeHeight, SIGNAL(valueChanged(int)),
+            this, SLOT(setKernelSizeHeight(int)));
+
     QSlider *iterations = new QSlider(Qt::Horizontal);
     iterations->setRange(1, 30);
     iterations->setValue(m_iterations);
@@ -97,7 +161,7 @@ QLayout *DilateFilter::dialogParametersGroupLayout()
     }
 
     borderType->setCurrentText(m_borderTypeMap[m_borderType]);
-    formLayout->addRow(new QLabel("type:"), borderType);
+    formLayout->addRow(new QLabel("borderType:"), borderType);
     connect(borderType, SIGNAL(currentIndexChanged(QString)),
             this, SLOT(setBorderType(QString)));
 

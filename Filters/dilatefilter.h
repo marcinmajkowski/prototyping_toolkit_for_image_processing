@@ -17,6 +17,9 @@ public:
     virtual void write(QDataStream &data) const;
 
 public slots:
+    void setKernelShape(const QString &borderType);
+    void setKernelSizeWidth(int kernelSizeWidth);
+    void setKernelSizeHeight(int kernelSizeHeight);
     void setBorderType(const QString &borderType);
     void setIterations(int iterations);
 
@@ -25,7 +28,11 @@ protected:
     QLabel *dialogDescriptionLabel() Q_DECL_OVERRIDE;
 
 private:
-    cv::Mat m_kernel;
+    int m_kernelShape;
+    QMap<int, QString> m_kernelShapeMap;
+    int m_kernelSizeWidth;
+    int m_kernelSizeHeight;
+    cv::Point m_kernelAnchor;
     cv::Point m_anchor;
     int m_iterations;
     int m_borderType;
