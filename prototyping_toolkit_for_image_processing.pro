@@ -12,6 +12,7 @@ TARGET = prototyping_toolkit_for_image_processing
 TEMPLATE = app
 
 include(Filters/Filters.pri)
+include(Filters/Arguments/Arguments.pri)
 
 SOURCES += main.cpp\
         mainwindow.cpp \

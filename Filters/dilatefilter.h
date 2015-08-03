@@ -3,6 +3,8 @@
 
 #include <QMap>
 
+#include "Arguments/structuringelementargument.h"
+
 #include "filter.h"
 
 class DilateFilter : public Filter
@@ -17,9 +19,6 @@ public:
     virtual void write(QDataStream &data) const;
 
 public slots:
-    void setKernelShape(const QString &borderType);
-    void setKernelSizeWidth(int kernelSizeWidth);
-    void setKernelSizeHeight(int kernelSizeHeight);
     void setBorderType(const QString &borderType);
     void setIterations(int iterations);
 
@@ -28,11 +27,7 @@ protected:
     QLabel *dialogDescriptionLabel() Q_DECL_OVERRIDE;
 
 private:
-    int m_kernelShape;
-    QMap<int, QString> m_kernelShapeMap;
-    int m_kernelSizeWidth;
-    int m_kernelSizeHeight;
-    cv::Point m_kernelAnchor;
+    StructuringElementArgument m_kernel;
     cv::Point m_anchor;
     int m_iterations;
     int m_borderType;
