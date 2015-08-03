@@ -8,6 +8,7 @@
 #include "Filters/dilatefilter.h"
 #include "Filters/erodefilter.h"
 #include "Filters/blurfilter.h"
+#include "Filters/histogramequalizationfilter.h"
 
 FiltersWidget::FiltersWidget(QWidget *parent) :
     QTreeWidget(parent)
@@ -29,6 +30,9 @@ FiltersWidget::FiltersWidget(QWidget *parent) :
 
     new QTreeWidgetItem(treeItem, QStringList("Blur"));
     qRegisterMetaType<BlurFilter *>("Blur");
+
+    new QTreeWidgetItem(treeItem, QStringList("Histogram equalization"));
+    qRegisterMetaType<HistogramEqualizationFilter *>("Histogram equalization");
 
     treeItem = new QTreeWidgetItem(this, QStringList("Morphological operations"));
     treeItem->setFlags(treeItem->flags() ^ Qt::ItemIsDragEnabled);

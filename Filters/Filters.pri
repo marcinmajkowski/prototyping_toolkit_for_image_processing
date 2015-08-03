@@ -9,7 +9,8 @@ HEADERS += \
     Filters/thresholdfilter.h \
     Filters/dilatefilter.h \
     Filters/erodefilter.h \
-    Filters/blurfilter.h
+    Filters/blurfilter.h \
+    Filters/histogramequalizationfilter.h
 
 SOURCES += \
     Filters/filter.cpp \
@@ -19,4 +20,5 @@ SOURCES += \
     Filters/thresholdfilter.cpp \
     Filters/dilatefilter.cpp \
     Filters/erodefilter.cpp \
-    Filters/blurfitler.cpp
+    Filters/blurfitler.cpp \
+    Filters/histogramequalizationfilter.cpp
