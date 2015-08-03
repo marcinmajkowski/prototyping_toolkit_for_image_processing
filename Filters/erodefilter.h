@@ -3,6 +3,8 @@
 
 #include <QMap>
 
+#include "Arguments/structuringelementargument.h"
+
 #include "filter.h"
 
 class ErodeFilter : public Filter
@@ -22,7 +24,7 @@ protected:
     QLabel *dialogDescriptionLabel() Q_DECL_OVERRIDE;
 
 private:
-    cv::Mat m_kernel;
+    StructuringElementArgument m_kernel;
     cv::Point m_anchor;
     int m_iterations;
     int m_borderType;

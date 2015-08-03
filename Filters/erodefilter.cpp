@@ -7,7 +7,7 @@
 
 ErodeFilter::ErodeFilter(FilterObserver *observer, QObject *parent) :
     Filter("Erode", observer, parent),
-    m_kernel(cv::Mat()),
+    m_kernel(cv::MORPH_ELLIPSE, 3, 3),
     m_anchor(cv::Point(-1, - 1)),
     m_iterations(1),
     m_borderType(cv::BORDER_CONSTANT),
@@ -24,7 +24,6 @@ ErodeFilter::ErodeFilter(FilterObserver *observer, QObject *parent) :
 QStringList ErodeFilter::codeSnippet() const
 {
     //TODO
-    QString kernel = "cv::Mat()";
     QString anchor = "cv::Point(-1, -1)";
     QString borderValue = "cv::morphologyDefaultBorderValue()";
 
@@ -34,7 +33,7 @@ QStringList ErodeFilter::codeSnippet() const
             .arg("erode")
             .arg("img")
             .arg("img")
-            .arg(kernel)
+            .arg(m_kernel.text())
             .arg(anchor)
             .arg(m_iterations)
             .arg(m_borderTypeMap[m_borderType])
@@ -47,7 +46,7 @@ QStringList ErodeFilter::codeSnippet() const
 
 cv::Mat &ErodeFilter::process(cv::Mat &input)
 {
-    cv::erode(input, input, m_kernel, m_anchor, m_iterations, m_borderType, m_borderValue);
+    cv::erode(input, input, m_kernel.value(), m_anchor, m_iterations, m_borderType, m_borderValue);
 
     return input;
 }
@@ -85,6 +84,11 @@ QLabel *ErodeFilter::dialogDescriptionLabel()
 QLayout *ErodeFilter::dialogParametersGroupLayout()
 {
     QFormLayout *formLayout = new QFormLayout;
+
+    formLayout->addRow(new QLabel("kernel:"));
+    formLayout->addRow(m_kernel.layout());
+    connect(&m_kernel, SIGNAL(updated()),
+            this, SIGNAL(updated()));
 
     QSlider *iterations = new QSlider(Qt::Horizontal);
     iterations->setRange(1, 30);
