@@ -19,7 +19,6 @@ public:
     void write(QDataStream &data) const Q_DECL_OVERRIDE;
 
 public slots:
-    void setSecondInput(const QString &adaptiveMethod);
     void setAdjustSecondInput(int adjustSecondInput);
     void browse();
 
@@ -37,6 +36,9 @@ private:
         SCALE,
         CROP
     };
+
+    bool m_convertSecondInput;
+    bool m_inputsSizesMatch;
 
     AdjustSecondInput m_adjustSecondInput;
 
