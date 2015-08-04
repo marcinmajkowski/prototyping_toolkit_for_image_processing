@@ -5,6 +5,8 @@
 
 #include "filter.h"
 
+class QLineEdit;
+
 class AbsoluteDifferenceFilter : public Filter
 {
     Q_OBJECT
@@ -18,10 +20,13 @@ public:
 
 public slots:
     void setSecondInput(const QString &adaptiveMethod);
+    void setAdjustSecondInput(int adjustSecondInput);
+    void browse();
 
 protected:
     QLayout *dialogParametersGroupLayout() Q_DECL_OVERRIDE;
     QLabel *dialogDescriptionLabel() Q_DECL_OVERRIDE;
+    bool loadSecondInput(QString fileName);
 
 private:
     QString m_secondInputPath;
@@ -34,6 +39,8 @@ private:
     };
 
     AdjustSecondInput m_adjustSecondInput;
+
+    QLineEdit *m_pathLineEdit;
 };
 
 Q_DECLARE_METATYPE(AbsoluteDifferenceFilter *)
