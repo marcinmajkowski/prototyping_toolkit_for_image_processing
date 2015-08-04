@@ -9,6 +9,7 @@
 #include "Filters/erodefilter.h"
 #include "Filters/blurfilter.h"
 #include "Filters/histogramequalizationfilter.h"
+#include "Filters/absolutedifferencefilter.h"
 
 FiltersWidget::FiltersWidget(QWidget *parent) :
     QTreeWidget(parent)
@@ -43,8 +44,15 @@ FiltersWidget::FiltersWidget(QWidget *parent) :
     new QTreeWidgetItem(treeItem, QStringList("Dilate"));
     qRegisterMetaType<DilateFilter *>("Dilate");
 
+    treeItem = new QTreeWidgetItem(this, QStringList("Array operations"));
+    treeItem->setFlags(treeItem->flags() ^ Qt::ItemIsDragEnabled);
+
+    new QTreeWidgetItem(treeItem, QStringList("Absolute difference"));
+    qRegisterMetaType<AbsoluteDifferenceFilter *>("Absolute difference");
+
     treeItem = new QTreeWidgetItem(this, QStringList("Others"));
     treeItem->setFlags(treeItem->flags() ^ Qt::ItemIsDragEnabled);
+
     new QTreeWidgetItem(treeItem, QStringList("Other filter"));
 
     setDragEnabled(true);

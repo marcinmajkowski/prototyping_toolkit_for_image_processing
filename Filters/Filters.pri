@@ -10,7 +10,8 @@ HEADERS += \
     Filters/dilatefilter.h \
     Filters/erodefilter.h \
     Filters/blurfilter.h \
-    Filters/histogramequalizationfilter.h
+    Filters/histogramequalizationfilter.h \
+    Filters/absolutedifferencefilter.h
 
 SOURCES += \
     Filters/filter.cpp \
@@ -21,4 +22,5 @@ SOURCES += \
     Filters/dilatefilter.cpp \
     Filters/erodefilter.cpp \
     Filters/blurfitler.cpp \
-    Filters/histogramequalizationfilter.cpp
+    Filters/histogramequalizationfilter.cpp \
+    Filters/absolutedifferencefilter.cpp
