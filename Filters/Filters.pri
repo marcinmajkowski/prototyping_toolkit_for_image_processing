@@ -11,7 +11,8 @@ HEADERS += \
     Filters/erodefilter.h \
     Filters/blurfilter.h \
     Filters/histogramequalizationfilter.h \
-    Filters/absolutedifferencefilter.h
+    Filters/absolutedifferencefilter.h \
+    Filters/bitwiseandfilter.h
 
 SOURCES += \
     Filters/filter.cpp \
@@ -23,4 +24,5 @@ SOURCES += \
     Filters/erodefilter.cpp \
     Filters/blurfitler.cpp \
     Filters/histogramequalizationfilter.cpp \
-    Filters/absolutedifferencefilter.cpp
+    Filters/absolutedifferencefilter.cpp \
+    Filters/bitwiseandfilter.cpp

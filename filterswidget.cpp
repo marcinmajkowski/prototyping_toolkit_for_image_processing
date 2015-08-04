@@ -10,6 +10,7 @@
 #include "Filters/blurfilter.h"
 #include "Filters/histogramequalizationfilter.h"
 #include "Filters/absolutedifferencefilter.h"
+#include "Filters/bitwiseandfilter.h"
 
 FiltersWidget::FiltersWidget(QWidget *parent) :
     QTreeWidget(parent)
@@ -49,6 +50,9 @@ FiltersWidget::FiltersWidget(QWidget *parent) :
 
     new QTreeWidgetItem(treeItem, QStringList("Absolute difference"));
     qRegisterMetaType<AbsoluteDifferenceFilter *>("Absolute difference");
+
+    new QTreeWidgetItem(treeItem, QStringList("Bitwise and"));
+    qRegisterMetaType<BitwiseAndFilter *>("Bitwise and");
 
     treeItem = new QTreeWidgetItem(this, QStringList("Others"));
     treeItem->setFlags(treeItem->flags() ^ Qt::ItemIsDragEnabled);
