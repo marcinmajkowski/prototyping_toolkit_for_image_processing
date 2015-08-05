@@ -13,6 +13,10 @@ signals:
 
 public slots:
 
+private:
+    template <class T>
+    void appendFilter(QString name, QTreeWidgetItem *treeItem);
+
 };
 
 #endif // FILTERSWIDGET_H

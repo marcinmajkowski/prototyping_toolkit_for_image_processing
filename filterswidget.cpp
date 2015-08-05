@@ -16,48 +16,34 @@ FiltersWidget::FiltersWidget(QWidget *parent) :
     QTreeWidget(parent)
 {
     header()->close();
+    setDragEnabled(true);
 
     QTreeWidgetItem *treeItem;
     treeItem = new QTreeWidgetItem(this, QStringList("Image transformations"));
     treeItem->setFlags(treeItem->flags() ^ Qt::ItemIsDragEnabled);
 
-    new QTreeWidgetItem(treeItem, QStringList("Threshold"));
-    qRegisterMetaType<ThresholdFilter *>("Threshold");
-
-    new QTreeWidgetItem(treeItem, QStringList("Adaptive threshold"));
-    qRegisterMetaType<AdaptiveThresholdFilter *>("Adaptive threshold");
-
-    new QTreeWidgetItem(treeItem, QStringList("Color space conversion"));
-    qRegisterMetaType<ColorSpaceConversionFilter *>("Color space conversion");
-
-    new QTreeWidgetItem(treeItem, QStringList("Blur"));
-    qRegisterMetaType<BlurFilter *>("Blur");
-
-    new QTreeWidgetItem(treeItem, QStringList("Histogram equalization"));
-    qRegisterMetaType<HistogramEqualizationFilter *>("Histogram equalization");
+    appendFilter<ThresholdFilter>("Threshold", treeItem);
+    appendFilter<AdaptiveThresholdFilter>("Adaptive threshold", treeItem);
+    appendFilter<ColorSpaceConversionFilter>("Color space conversion", treeItem);
+    appendFilter<BlurFilter>("Blur", treeItem);
+    appendFilter<HistogramEqualizationFilter>("Histogram equalization", treeItem);
 
     treeItem = new QTreeWidgetItem(this, QStringList("Morphological operations"));
     treeItem->setFlags(treeItem->flags() ^ Qt::ItemIsDragEnabled);
 
-    new QTreeWidgetItem(treeItem, QStringList("Erode"));
-    qRegisterMetaType<ErodeFilter *>("Erode");
-
-    new QTreeWidgetItem(treeItem, QStringList("Dilate"));
-    qRegisterMetaType<DilateFilter *>("Dilate");
+    appendFilter<ErodeFilter>("Erode", treeItem);
+    appendFilter<DilateFilter>("Dilate", treeItem);
 
     treeItem = new QTreeWidgetItem(this, QStringList("Array operations"));
     treeItem->setFlags(treeItem->flags() ^ Qt::ItemIsDragEnabled);
 
-    new QTreeWidgetItem(treeItem, QStringList("Absolute difference"));
-    qRegisterMetaType<AbsoluteDifferenceFilter *>("Absolute difference");
+    appendFilter<AbsoluteDifferenceFilter>("Absolute difference", treeItem);
+    appendFilter<BitwiseAndFilter>("Bitwise and", treeItem);
+}
 
-    new QTreeWidgetItem(treeItem, QStringList("Bitwise and"));
-    qRegisterMetaType<BitwiseAndFilter *>("Bitwise and");
-
-    treeItem = new QTreeWidgetItem(this, QStringList("Others"));
-    treeItem->setFlags(treeItem->flags() ^ Qt::ItemIsDragEnabled);
-
-    new QTreeWidgetItem(treeItem, QStringList("Other filter"));
-
-    setDragEnabled(true);
+template <class T>
+void FiltersWidget::appendFilter(QString name, QTreeWidgetItem *treeItem)
+{
+    new QTreeWidgetItem(treeItem, QStringList(name));
+    qRegisterMetaType<T *>(name.toUtf8().constData());
 }
