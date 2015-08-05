@@ -16,8 +16,21 @@ BitwiseAndFilter::BitwiseAndFilter(FilterObserver *observer, QObject *parent) :
 
 QStringList BitwiseAndFilter::codeSnippet() const
 {
-    //TODO
-    return Filter::codeSnippet();
+    QString referenceImageName = "reference_image";
+
+    QStringList snippet;
+
+    snippet << QString("%1 = cv::imread(\"%2\", %3);")
+               .arg(referenceImageName)
+               .arg(m_secondInputPath)
+               .arg(m_convertSecondInput ? "CV_LOAD_IMAGE_GRAYSCALE" : "CV_LOAD_IMAGE_COLOR");
+
+    snippet << QString("cv::bitwise_and(%1, %2, %3);")
+               .arg("img")
+               .arg(referenceImageName)
+               .arg("img");
+
+    return snippet;
 }
 
 cv::Mat &BitwiseAndFilter::process(cv::Mat &input)

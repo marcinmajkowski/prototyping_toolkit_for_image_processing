@@ -16,8 +16,21 @@ AbsoluteDifferenceFilter::AbsoluteDifferenceFilter(FilterObserver *observer, QOb
 
 QStringList AbsoluteDifferenceFilter::codeSnippet() const
 {
-    //TODO
-    return Filter::codeSnippet();
+    QString referenceImageName = "reference_image";
+
+    QStringList snippet;
+
+    snippet << QString("%1 = cv::imread(\"%2\", %3);")
+               .arg(referenceImageName)
+               .arg(m_secondInputPath)
+               .arg(m_convertSecondInput ? "CV_LOAD_IMAGE_GRAYSCALE" : "CV_LOAD_IMAGE_COLOR");
+
+    snippet << QString("cv::absdiff(%1, %2, %3);")
+               .arg("img")
+               .arg(referenceImageName)
+               .arg("img");
+
+    return snippet;
 }
 
 cv::Mat &AbsoluteDifferenceFilter::process(cv::Mat &input)
