@@ -29,15 +29,17 @@ QLayout *StructuringElementArgument::layout()
     connect(shape, SIGNAL(currentIndexChanged(QString)),
             this, SLOT(setShape(QString)));
 
+    int maximumDimension = 100;
+
     QSlider *sizeWidth = new QSlider(Qt::Horizontal);
-    sizeWidth->setRange(1, 30);
+    sizeWidth->setRange(1, maximumDimension);
     sizeWidth->setValue(m_sizeWidth);
     formLayout->addRow(new QLabel("  size-width:"), sizeWidth);
     connect(sizeWidth, SIGNAL(valueChanged(int)),
             this, SLOT(setSizeWidth(int)));
 
     QSlider *sizeHeight = new QSlider(Qt::Horizontal);
-    sizeHeight->setRange(1, 30);
+    sizeHeight->setRange(1, maximumDimension);
     sizeHeight->setValue(m_sizeHeight);
     formLayout->addRow(new QLabel("  size-height:"), sizeHeight);
     connect(sizeHeight, SIGNAL(valueChanged(int)),
