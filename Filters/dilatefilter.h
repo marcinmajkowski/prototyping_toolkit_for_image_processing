@@ -18,6 +18,8 @@ public:
     virtual void read(QDataStream &data);
     virtual void write(QDataStream &data) const;
 
+    static QString filterName;
+
 public slots:
     void setBorderType(const QString &borderType);
     void setIterations(int iterations);

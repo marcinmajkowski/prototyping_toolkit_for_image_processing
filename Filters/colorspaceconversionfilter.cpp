@@ -4,9 +4,11 @@
 #include "colorspaceconversionfilter.h"
 
 ColorSpaceConversionFilter::ColorSpaceConversionFilter(FilterObserver *observer, QObject *parent):
-    Filter("Color space conversion", observer, parent)
+    Filter(filterName, observer, parent)
 {
 }
+
+QString ColorSpaceConversionFilter::filterName = "Color space conversion";
 
 QStringList ColorSpaceConversionFilter::codeSnippet() const
 {

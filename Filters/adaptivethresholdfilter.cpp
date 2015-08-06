@@ -6,7 +6,7 @@
 #include "adaptivethresholdfilter.h"
 
 AdaptiveThresholdFilter::AdaptiveThresholdFilter(FilterObserver *observer, QObject *parent) :
-    Filter("Adaptive threshold", observer, parent),
+    Filter(filterName, observer, parent),
     m_maxValue(255),
     m_adaptiveMethod(CV_ADAPTIVE_THRESH_MEAN_C),
     m_thresholdType(CV_THRESH_BINARY),
@@ -20,6 +20,8 @@ AdaptiveThresholdFilter::AdaptiveThresholdFilter(FilterObserver *observer, QObje
     m_thresholdTypeMap.insert(CV_THRESH_BINARY, "CV_THRESH_BINARY");
     m_thresholdTypeMap.insert(CV_THRESH_BINARY_INV, "CV_THRESH_BINARY_INV");
 }
+
+QString AdaptiveThresholdFilter::filterName = "Adaptive threshold";
 
 QStringList AdaptiveThresholdFilter::codeSnippet() const
 {

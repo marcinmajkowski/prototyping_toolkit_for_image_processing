@@ -7,12 +7,14 @@
 #include "bitwiseandfilter.h"
 
 BitwiseAndFilter::BitwiseAndFilter(FilterObserver *observer, QObject *parent) :
-    Filter("Bitwise and", observer, parent),
+    Filter(filterName, observer, parent),
     m_convertSecondInput(false),
     m_inputsSizesMatch(false),
     m_adjustSecondInput(NONE)
 {
 }
+
+QString BitwiseAndFilter::filterName = "Bitwise and";
 
 QStringList BitwiseAndFilter::codeSnippet() const
 {

@@ -22,28 +22,28 @@ FiltersWidget::FiltersWidget(QWidget *parent) :
     treeItem = new QTreeWidgetItem(this, QStringList("Image transformations"));
     treeItem->setFlags(treeItem->flags() ^ Qt::ItemIsDragEnabled);
 
-    appendFilter<ThresholdFilter>("Threshold", treeItem);
-    appendFilter<AdaptiveThresholdFilter>("Adaptive threshold", treeItem);
-    appendFilter<ColorSpaceConversionFilter>("Color space conversion", treeItem);
-    appendFilter<BlurFilter>("Blur", treeItem);
-    appendFilter<HistogramEqualizationFilter>("Histogram equalization", treeItem);
+    appendFilter<ThresholdFilter>(treeItem);
+    appendFilter<AdaptiveThresholdFilter>(treeItem);
+    appendFilter<ColorSpaceConversionFilter>(treeItem);
+    appendFilter<BlurFilter>(treeItem);
+    appendFilter<HistogramEqualizationFilter>(treeItem);
 
     treeItem = new QTreeWidgetItem(this, QStringList("Morphological operations"));
     treeItem->setFlags(treeItem->flags() ^ Qt::ItemIsDragEnabled);
 
-    appendFilter<ErodeFilter>("Erode", treeItem);
-    appendFilter<DilateFilter>("Dilate", treeItem);
+    appendFilter<ErodeFilter>(treeItem);
+    appendFilter<DilateFilter>(treeItem);
 
     treeItem = new QTreeWidgetItem(this, QStringList("Array operations"));
     treeItem->setFlags(treeItem->flags() ^ Qt::ItemIsDragEnabled);
 
-    appendFilter<AbsoluteDifferenceFilter>("Absolute difference", treeItem);
-    appendFilter<BitwiseAndFilter>("Bitwise and", treeItem);
+    appendFilter<AbsoluteDifferenceFilter>(treeItem);
+    appendFilter<BitwiseAndFilter>(treeItem);
 }
 
 template <class T>
-void FiltersWidget::appendFilter(QString name, QTreeWidgetItem *treeItem)
+void FiltersWidget::appendFilter(QTreeWidgetItem *treeItem)
 {
-    new QTreeWidgetItem(treeItem, QStringList(name));
-    qRegisterMetaType<T *>(name.toUtf8().constData());
+    new QTreeWidgetItem(treeItem, QStringList(T::filterName));
+    qRegisterMetaType<T *>(T::filterName.toUtf8().constData());
 }

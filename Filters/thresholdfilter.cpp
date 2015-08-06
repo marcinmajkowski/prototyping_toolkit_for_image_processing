@@ -6,7 +6,7 @@
 #include "thresholdfilter.h"
 
 ThresholdFilter::ThresholdFilter(FilterObserver *observer, QObject *parent) :
-    Filter("Threshold", observer, parent),
+    Filter(filterName, observer, parent),
     m_threshold(127),
     m_maxValue(255),
     m_type(CV_THRESH_BINARY)
@@ -17,6 +17,8 @@ ThresholdFilter::ThresholdFilter(FilterObserver *observer, QObject *parent) :
     m_typeMap.insert(CV_THRESH_TOZERO, "CV_THRESH_TOZERO");
     m_typeMap.insert(CV_THRESH_TOZERO_INV, "CV_THRESH_TOZERO_INV");
 }
+
+QString ThresholdFilter::filterName = "Threshold";
 
 QStringList ThresholdFilter::codeSnippet() const
 {

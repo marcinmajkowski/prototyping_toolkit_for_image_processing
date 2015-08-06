@@ -6,7 +6,7 @@
 #include "dilatefilter.h"
 
 DilateFilter::DilateFilter(FilterObserver *observer, QObject *parent) :
-    Filter("Dilate", observer, parent),
+    Filter(filterName, observer, parent),
     m_kernel(cv::MORPH_ELLIPSE, 3, 3),
     m_anchor(cv::Point(-1, -1)),
     m_iterations(1),
@@ -19,6 +19,8 @@ DilateFilter::DilateFilter(FilterObserver *observer, QObject *parent) :
     m_borderTypeMap.insert(cv::BORDER_REFLECT_101, "cv::BORDER_REFLECT_101");
     m_borderTypeMap.insert(cv::BORDER_REPLICATE, "cv::BORDER_REPLICATE");
 }
+
+QString DilateFilter::filterName = "Dilate";
 
 QStringList DilateFilter::codeSnippet() const
 {

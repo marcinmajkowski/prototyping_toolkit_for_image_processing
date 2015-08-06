@@ -13,6 +13,8 @@ public:
     QStringList codeSnippet() const Q_DECL_OVERRIDE;
     cv::Mat &process(cv::Mat &input) Q_DECL_OVERRIDE;
 
+    static QString filterName;
+
 public slots:
     void setBorderType(const QString &type);
 

@@ -15,7 +15,7 @@ public slots:
 
 private:
     template <class T>
-    void appendFilter(QString name, QTreeWidgetItem *treeItem);
+    void appendFilter(QTreeWidgetItem *treeItem);
 
 };
 

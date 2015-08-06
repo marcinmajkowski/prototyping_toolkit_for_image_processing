@@ -6,7 +6,7 @@
 #include "blurfilter.h"
 
 BlurFilter::BlurFilter(FilterObserver *observer, QObject *parent) :
-    Filter("Blur", observer, parent),
+    Filter(filterName, observer, parent),
     m_ksize(cv::Size(5, 5)),
     m_anchor(cv::Point(-1, -1)),
     m_borderType(cv::BORDER_DEFAULT)
@@ -18,6 +18,8 @@ BlurFilter::BlurFilter(FilterObserver *observer, QObject *parent) :
     m_borderTypeMap.insert(cv::BORDER_REPLICATE, "cv::BORDER_REPLICATE");
     m_borderTypeMap.insert(cv::BORDER_WRAP, "cv::BORDER_WRAP"); // cv::exception
 }
+
+QString BlurFilter::filterName = "Blur";
 
 QStringList BlurFilter::codeSnippet() const
 {

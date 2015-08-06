@@ -6,7 +6,7 @@
 #include "erodefilter.h"
 
 ErodeFilter::ErodeFilter(FilterObserver *observer, QObject *parent) :
-    Filter("Erode", observer, parent),
+    Filter(filterName, observer, parent),
     m_kernel(cv::MORPH_ELLIPSE, 3, 3),
     m_anchor(cv::Point(-1, - 1)),
     m_iterations(1),
@@ -20,6 +20,8 @@ ErodeFilter::ErodeFilter(FilterObserver *observer, QObject *parent) :
     m_borderTypeMap.insert(cv::BORDER_REPLICATE, "cv::BORDER_REPLICATE");
 //    m_borderTypeMap.insert(cv::BORDER_WRAP, "cv::BORDER_WRAP"); // cv::exception
 }
+
+QString ErodeFilter::filterName = "Erode";
 
 QStringList ErodeFilter::codeSnippet() const
 {

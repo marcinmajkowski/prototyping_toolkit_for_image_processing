@@ -5,10 +5,12 @@
 #include "histogramequalizationfilter.h"
 
 HistogramEqualizationFilter::HistogramEqualizationFilter(FilterObserver *observer, QObject *parent) :
-    Filter("Histogram equalization", observer, parent),
+    Filter(filterName, observer, parent),
     m_convertInput(false)
 {
 }
+
+QString HistogramEqualizationFilter::filterName = "Histogram equalization";
 
 QStringList HistogramEqualizationFilter::codeSnippet() const
 {

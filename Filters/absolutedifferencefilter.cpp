@@ -7,12 +7,14 @@
 #include "absolutedifferencefilter.h"
 
 AbsoluteDifferenceFilter::AbsoluteDifferenceFilter(FilterObserver *observer, QObject *parent) :
-    Filter("Absolute difference", observer, parent),
+    Filter(filterName, observer, parent),
     m_convertSecondInput(false),
     m_inputsSizesMatch(false),
     m_adjustSecondInput(NONE)
 {
 }
+
+QString AbsoluteDifferenceFilter::filterName = "Absolute difference";
 
 QStringList AbsoluteDifferenceFilter::codeSnippet() const
 {

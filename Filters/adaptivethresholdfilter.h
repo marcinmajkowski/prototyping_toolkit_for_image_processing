@@ -16,6 +16,8 @@ public:
     void read(QDataStream &data) Q_DECL_OVERRIDE;
     void write(QDataStream &data) const Q_DECL_OVERRIDE;
 
+    static QString filterName;
+
 public slots:
     void setMaxValue(int maxValue);
     void setAdaptiveMethod(const QString &adaptiveMethod);
