@@ -71,16 +71,6 @@ cv::Mat StructuringElementArgument::value()
     return cv::getStructuringElement(m_shape, size, m_anchor);
 }
 
-void StructuringElementArgument::read(QDataStream &data)
-{
-    //TODO
-}
-
-void StructuringElementArgument::write(QDataStream &data) const
-{
-    //TODO
-}
-
 void StructuringElementArgument::setShape(const QString &shape)
 {
     m_shape = m_shapeMap.key(shape);
@@ -100,4 +90,27 @@ void StructuringElementArgument::setSizeHeight(int sizeHeight)
     m_sizeHeight = sizeHeight;
 
     emit updated();
+}
+
+QDataStream &operator<<(QDataStream &dataStream,
+                                   const StructuringElementArgument &structuringElementArgument)
+{
+    dataStream << structuringElementArgument.m_shape
+               << structuringElementArgument.m_sizeWidth
+               << structuringElementArgument.m_sizeHeight
+               << structuringElementArgument.m_anchor.x
+               << structuringElementArgument.m_anchor.y;
+
+    return dataStream;
+}
+QDataStream &operator>>(QDataStream &dataStream,
+                                   StructuringElementArgument &structuringElementArgument)
+{
+    dataStream >> structuringElementArgument.m_shape
+               >> structuringElementArgument.m_sizeWidth
+               >> structuringElementArgument.m_sizeHeight
+               >> structuringElementArgument.m_anchor.x
+               >> structuringElementArgument.m_anchor.y;
+
+    return dataStream;
 }

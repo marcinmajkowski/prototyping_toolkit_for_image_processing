@@ -18,9 +18,10 @@ public:
     QString text() const;
     cv::Mat value();
 
-    //TODO replace with << and >> operators
-    void read(QDataStream &data);
-    void write(QDataStream &data) const;
+    friend QDataStream &operator<<(QDataStream &dataStream,
+                                   const StructuringElementArgument &structuringElementArgument);
+    friend QDataStream &operator>>(QDataStream &dataStream,
+                                   StructuringElementArgument &structuringElementArgument);
 
 signals:
     void updated();
