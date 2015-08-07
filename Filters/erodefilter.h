@@ -15,6 +15,9 @@ public:
     QStringList codeSnippet() const Q_DECL_OVERRIDE;
     cv::Mat &process(cv::Mat &input) Q_DECL_OVERRIDE;
 
+    virtual void read(QDataStream &data);
+    virtual void write(QDataStream &data) const;
+
     static QString filterName;
 
 public slots:

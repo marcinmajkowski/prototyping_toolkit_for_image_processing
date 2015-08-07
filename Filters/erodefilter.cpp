@@ -53,6 +53,34 @@ cv::Mat &ErodeFilter::process(cv::Mat &input)
     return input;
 }
 
+void ErodeFilter::read(QDataStream &data)
+{
+    data >> m_kernel
+         >> m_anchor.x
+         >> m_anchor.y
+         >> m_iterations
+         >> m_borderType
+         >> m_borderValue[0]
+         >> m_borderValue[1]
+         >> m_borderValue[2]
+         >> m_borderValue[3];
+
+    emit updated();
+}
+
+void ErodeFilter::write(QDataStream &data) const
+{
+    data << m_kernel
+         << m_anchor.x
+         << m_anchor.y
+         << m_iterations
+         << m_borderType
+         << m_borderValue[0]
+         << m_borderValue[1]
+         << m_borderValue[2]
+         << m_borderValue[3];
+}
+
 void ErodeFilter::setBorderType(const QString &borderType)
 {
     m_borderType = m_borderTypeMap.key(borderType);
