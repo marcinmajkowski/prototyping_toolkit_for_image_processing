@@ -53,16 +53,30 @@ cv::Mat &DilateFilter::process(cv::Mat &input)
 
 void DilateFilter::read(QDataStream &data)
 {
-    //TODO read all parameters
-    data >> m_iterations;
+    data >> m_kernel
+         >> m_anchor.x
+         >> m_anchor.y
+         >> m_iterations
+         >> m_borderType
+         >> m_borderValue[0]
+         >> m_borderValue[1]
+         >> m_borderValue[2]
+         >> m_borderValue[3];
 
     emit updated();
 }
 
 void DilateFilter::write(QDataStream &data) const
 {
-    //TODO write all parameters
-    data << m_iterations;
+    data << m_kernel
+         << m_anchor.x
+         << m_anchor.y
+         << m_iterations
+         << m_borderType
+         << m_borderValue[0]
+         << m_borderValue[1]
+         << m_borderValue[2]
+         << m_borderValue[3];
 }
 
 void DilateFilter::setBorderType(const QString &borderType)
