@@ -68,12 +68,18 @@ cv::Mat &AbsoluteDifferenceFilter::process(cv::Mat &input)
 
 void AbsoluteDifferenceFilter::read(QDataStream &data)
 {
-    //TODO
+    data >> m_secondInputPath;
+    m_secondInputImage = cv::imread(m_secondInputPath.toUtf8().constData(), CV_LOAD_IMAGE_COLOR);
+    if (m_secondInputImage.empty()) {
+        qDebug() << "File" << m_secondInputPath << "does not exist.";
+    }
+
+    emit updated();
 }
 
 void AbsoluteDifferenceFilter::write(QDataStream &data) const
 {
-    //TODO
+    data << m_secondInputPath;
 }
 
 void AbsoluteDifferenceFilter::setAdjustSecondInput(int adjustSecondInput)
@@ -136,7 +142,9 @@ bool AbsoluteDifferenceFilter::loadSecondInput(QString fileName)
     }
 
     m_secondInputPath = fileName;
-    m_pathLineEdit->setText(m_secondInputPath);
+    if (m_pathLineEdit) {
+        m_pathLineEdit->setText(m_secondInputPath);
+    }
 
     return true;
 }
