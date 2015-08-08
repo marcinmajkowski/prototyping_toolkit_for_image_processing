@@ -13,15 +13,19 @@ class BinaryOperationFilter : public Filter
 
 // protected constructor prevents instantiation - this is an abstract class
 protected:
-    BinaryOperationFilter();
+    explicit BinaryOperationFilter(const QString &name = QString(),
+                                   FilterObserver *observer = 0,
+                                   QObject *parent = 0);
 
 public:
+    virtual ~BinaryOperationFilter();
     virtual QStringList codeSnippet() const Q_DECL_OVERRIDE;
+    virtual cv::Mat &process(cv::Mat &input) Q_DECL_OVERRIDE;
 
     virtual void read(QDataStream &data) Q_DECL_OVERRIDE;
     virtual void write(QDataStream &data) const Q_DECL_OVERRIDE;
 
-    virtual QString binaryOperationName() = 0;
+    virtual QString binaryOperationName() const = 0;
     virtual void binaryOperation(cv::Mat &input,
                                  cv::Mat &secondInput) = 0;
 

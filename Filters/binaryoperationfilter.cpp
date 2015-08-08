@@ -6,9 +6,17 @@
 
 #include "binaryoperationfilter.h"
 
-BinaryOperationFilter::BinaryOperationFilter() :
+BinaryOperationFilter::BinaryOperationFilter(const QString &name,
+                                             FilterObserver *observer,
+                                             QObject *parent) :
+    Filter(name, observer, parent),
     m_convertSecondInput(false),
     m_inputsSizesMatch(false)
+{
+
+}
+
+BinaryOperationFilter::~BinaryOperationFilter()
 {
 }
 
