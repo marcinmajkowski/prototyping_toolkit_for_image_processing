@@ -6,7 +6,8 @@
 
 #include "absolutedifferencefilter.h"
 
-AbsoluteDifferenceFilter::AbsoluteDifferenceFilter(FilterObserver *observer, QObject *parent) :
+AbsoluteDifferenceFilter::AbsoluteDifferenceFilter(FilterObserver *observer,
+                                                   QObject *parent) :
     Filter(filterName, observer, parent),
     m_convertSecondInput(false),
     m_inputsSizesMatch(false),
@@ -25,7 +26,9 @@ QStringList AbsoluteDifferenceFilter::codeSnippet() const
     snippet << QString("%1 = cv::imread(\"%2\", %3);")
                .arg(referenceImageName)
                .arg(m_secondInputPath)
-               .arg(m_convertSecondInput ? "CV_LOAD_IMAGE_GRAYSCALE" : "CV_LOAD_IMAGE_COLOR");
+               .arg(m_convertSecondInput
+                    ? "CV_LOAD_IMAGE_GRAYSCALE"
+                    : "CV_LOAD_IMAGE_COLOR");
 
     snippet << QString("cv::absdiff(%1, %2, %3);")
                .arg("img")
@@ -82,11 +85,6 @@ void AbsoluteDifferenceFilter::write(QDataStream &data) const
     data << m_secondInputPath;
 }
 
-void AbsoluteDifferenceFilter::setAdjustSecondInput(int adjustSecondInput)
-{
-    //TODO
-}
-
 void AbsoluteDifferenceFilter::browse()
 {
     //TODO change with cv::imread supported types
@@ -134,10 +132,13 @@ QLabel *AbsoluteDifferenceFilter::dialogDescriptionLabel()
 
 bool AbsoluteDifferenceFilter::loadSecondInput(QString fileName)
 {
-    m_secondInputImage = cv::imread(fileName.toUtf8().constData(), CV_LOAD_IMAGE_COLOR);
+    m_secondInputImage = cv::imread(fileName.toUtf8().constData(),
+                                    CV_LOAD_IMAGE_COLOR);
     if (m_secondInputImage.empty()) {
-        QMessageBox::information(m_pathLineEdit, QGuiApplication::applicationDisplayName(),
-                                 tr("Cannot load %1").arg(QDir::toNativeSeparators(fileName)));
+        QMessageBox::information(m_pathLineEdit,
+                                 QGuiApplication::applicationDisplayName(),
+                                 tr("Cannot load %1")
+                                 .arg(QDir::toNativeSeparators(fileName)));
         return false;
     }
 
