@@ -17,9 +17,14 @@ class FilterObserver;
 class Filter : public QObject
 {
     Q_OBJECT
+
+// protected constructor prevents instantiation - Filter is an abstract class
+protected:
+    explicit Filter(const QString &name = QString(),
+                    FilterObserver *observer = 0,
+                    QObject *parent = 0);
 public:
-    explicit Filter(const QString &name = QString(), FilterObserver *observer = 0, QObject *parent = 0);
-    ~Filter();
+    virtual ~Filter();
 
     virtual cv::Mat &process(cv::Mat &input);
 
