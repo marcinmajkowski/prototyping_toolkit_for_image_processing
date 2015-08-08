@@ -18,10 +18,12 @@ public:
     QString text() const;
     cv::Mat value();
 
-    friend QDataStream &operator<<(QDataStream &dataStream,
-                                   const StructuringElementArgument &structuringElementArgument);
-    friend QDataStream &operator>>(QDataStream &dataStream,
-                                   StructuringElementArgument &structuringElementArgument);
+    friend QDataStream &operator<<(
+            QDataStream &dataStream,
+            const StructuringElementArgument &structuringElementArgument);
+    friend QDataStream &operator>>(
+            QDataStream &dataStream,
+            StructuringElementArgument &structuringElementArgument);
 
 signals:
     void updated();

@@ -5,7 +5,8 @@
 
 #include "adaptivethresholdfilter.h"
 
-AdaptiveThresholdFilter::AdaptiveThresholdFilter(FilterObserver *observer, QObject *parent) :
+AdaptiveThresholdFilter::AdaptiveThresholdFilter(FilterObserver *observer,
+                                                 QObject *parent) :
     Filter(filterName, observer, parent),
     m_maxValue(255),
     m_adaptiveMethod(CV_ADAPTIVE_THRESH_MEAN_C),
@@ -14,8 +15,10 @@ AdaptiveThresholdFilter::AdaptiveThresholdFilter(FilterObserver *observer, QObje
     m_C(5),
     m_convertInput(false)
 {
-    m_adaptiveMethodMap.insert(CV_ADAPTIVE_THRESH_MEAN_C, "CV_ADAPTIVE_THRESH_MEAN_C");
-    m_adaptiveMethodMap.insert(CV_ADAPTIVE_THRESH_GAUSSIAN_C, "CV_ADAPTIVE_THRESH_GAUSSIAN_C");
+    m_adaptiveMethodMap.insert(CV_ADAPTIVE_THRESH_MEAN_C,
+                               "CV_ADAPTIVE_THRESH_MEAN_C");
+    m_adaptiveMethodMap.insert(CV_ADAPTIVE_THRESH_GAUSSIAN_C,
+                               "CV_ADAPTIVE_THRESH_GAUSSIAN_C");
 
     m_thresholdTypeMap.insert(CV_THRESH_BINARY, "CV_THRESH_BINARY");
     m_thresholdTypeMap.insert(CV_THRESH_BINARY_INV, "CV_THRESH_BINARY_INV");
@@ -93,7 +96,6 @@ QLayout *AdaptiveThresholdFilter::dialogParametersGroupLayout()
 {
     QFormLayout *formLayout = new QFormLayout;
 
-    //TODO whole section
     QSlider *maxValue = new QSlider(Qt::Horizontal);
     maxValue->setRange(0, 255);
     maxValue->setValue(m_maxValue);
@@ -121,7 +123,6 @@ QLayout *AdaptiveThresholdFilter::dialogParametersGroupLayout()
     connect(thresholdType, SIGNAL(currentIndexChanged(QString)),
             this, SLOT(setThresholdType(QString)));
 
-//    QSpinBox blockSize = new QSpinBox;
     QSlider *blockSize = new QSlider(Qt::Horizontal);
     blockSize->setRange(3, 399);
     blockSize->setSingleStep(2);
@@ -159,7 +160,6 @@ QLabel *AdaptiveThresholdFilter::dialogDescriptionLabel()
 
 cv::Mat &AdaptiveThresholdFilter::process(cv::Mat &input)
 {
-    //TODO implement adaptive threshold
     if (input.type() != CV_8UC1) {
         // adaptiveThreshold requires 8-bit single-channel input
         cv::cvtColor(input, input, CV_RGB2GRAY);
@@ -168,23 +168,34 @@ cv::Mat &AdaptiveThresholdFilter::process(cv::Mat &input)
         m_convertInput = false;
     }
 
-    cv::adaptiveThreshold(input, input, m_maxValue, m_adaptiveMethod, m_thresholdType, m_blockSize, m_C);
+    cv::adaptiveThreshold(input,
+                          input,
+                          m_maxValue,
+                          m_adaptiveMethod,
+                          m_thresholdType,
+                          m_blockSize, m_C);
 
     return input;
 }
 
 void AdaptiveThresholdFilter::read(QDataStream &data)
 {
-    //TODO read all parameters
     //TODO cast ints
-    data >> m_maxValue >> m_adaptiveMethod >> m_thresholdType >> m_blockSize >> m_C;
+    data >> m_maxValue
+         >> m_adaptiveMethod
+         >> m_thresholdType
+         >> m_blockSize
+         >> m_C;
 
     emit updated();
 }
 
 void AdaptiveThresholdFilter::write(QDataStream &data) const
 {
-    //TODO write all parameters
     //TODO cast ints
-    data << m_maxValue << m_adaptiveMethod << m_thresholdType << m_blockSize << m_C;
+    data << m_maxValue
+         << m_adaptiveMethod
+         << m_thresholdType
+         << m_blockSize
+         << m_C;
 }

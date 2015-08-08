@@ -3,7 +3,10 @@
 
 #include "structuringelementargument.h"
 
-StructuringElementArgument::StructuringElementArgument(int shape, int sizeWidth, int sizeHeight, QObject *parent) :
+StructuringElementArgument::StructuringElementArgument(int shape,
+                                                       int sizeWidth,
+                                                       int sizeHeight,
+                                                       QObject *parent) :
     QObject(parent),
     m_shape(shape),
     m_sizeWidth(sizeWidth),
@@ -92,8 +95,9 @@ void StructuringElementArgument::setSizeHeight(int sizeHeight)
     emit updated();
 }
 
-QDataStream &operator<<(QDataStream &dataStream,
-                                   const StructuringElementArgument &structuringElementArgument)
+QDataStream &operator<<(
+        QDataStream &dataStream,
+        const StructuringElementArgument &structuringElementArgument)
 {
     dataStream << structuringElementArgument.m_shape
                << structuringElementArgument.m_sizeWidth
@@ -103,8 +107,9 @@ QDataStream &operator<<(QDataStream &dataStream,
 
     return dataStream;
 }
-QDataStream &operator>>(QDataStream &dataStream,
-                                   StructuringElementArgument &structuringElementArgument)
+QDataStream &operator>>(
+        QDataStream &dataStream,
+        StructuringElementArgument &structuringElementArgument)
 {
     dataStream >> structuringElementArgument.m_shape
                >> structuringElementArgument.m_sizeWidth
