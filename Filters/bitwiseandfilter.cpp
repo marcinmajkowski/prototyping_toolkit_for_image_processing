@@ -25,7 +25,9 @@ QStringList BitwiseAndFilter::codeSnippet() const
     snippet << QString("%1 = cv::imread(\"%2\", %3);")
                .arg(referenceImageName)
                .arg(m_secondInputPath)
-               .arg(m_convertSecondInput ? "CV_LOAD_IMAGE_GRAYSCALE" : "CV_LOAD_IMAGE_COLOR");
+               .arg(m_convertSecondInput
+                    ? "CV_LOAD_IMAGE_GRAYSCALE"
+                    : "CV_LOAD_IMAGE_COLOR");
 
     snippet << QString("cv::bitwise_and(%1, %2, %3);")
                .arg("img")
@@ -68,17 +70,18 @@ cv::Mat &BitwiseAndFilter::process(cv::Mat &input)
 
 void BitwiseAndFilter::read(QDataStream &data)
 {
-    //TODO
+    data >> m_secondInputPath;
+    m_secondInputImage = cv::imread(m_secondInputPath.toUtf8().constData(), CV_LOAD_IMAGE_COLOR);
+    if (m_secondInputImage.empty()) {
+        qDebug() << "File" << m_secondInputPath << "does not exist.";
+    }
+
+    emit updated();
 }
 
 void BitwiseAndFilter::write(QDataStream &data) const
 {
-    //TODO
-}
-
-void BitwiseAndFilter::setAdjustSecondInput(int adjustSecondInput)
-{
-    //TODO
+    data << m_secondInputPath;
 }
 
 void BitwiseAndFilter::browse()
