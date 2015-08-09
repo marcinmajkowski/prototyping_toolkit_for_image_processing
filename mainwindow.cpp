@@ -131,7 +131,8 @@ void MainWindow::about() //TODO
                        tr("About Prototyping Toolkit for Image Processing"),
                        tr("<p>The <b>Prototyping Toolkit for Image Processing"
                           "</b> is built with OpenCV and Qt libraries.</p>"
-                          "<p>It's not finished yet...</p>"));
+                          "<p>Author: Marcin Majkowski</p>"
+                          "<p>Cranfield University 2015</p>"));
 }
 
 void MainWindow::showFilterWidget(QListWidgetItem *item)
