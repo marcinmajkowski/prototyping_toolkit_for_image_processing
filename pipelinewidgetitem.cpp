@@ -1,9 +1,10 @@
 #include <QDebug>
+#include <QDialog>
 
 #include "pipelinewidgetitem.h"
 #include "Filters/filter.h"
 
-Q_DECLARE_OPAQUE_POINTER(QDialog *)
+//Q_DECLARE_OPAQUE_POINTER(QDialog *)
 Q_DECLARE_METATYPE(QDialog *)
 
 PipelineWidgetItem::PipelineWidgetItem(QListWidget *parent, int type) :
