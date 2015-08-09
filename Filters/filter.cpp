@@ -84,8 +84,8 @@ QDialog *Filter::createDialog(QWidget *parent)
     QGroupBox *parametersGroup = new QGroupBox(tr("Parameters"));
     parametersGroup->setLayout(dialogParametersGroupLayout());
 
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok
-                                                       | QDialogButtonBox::Cancel);
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(
+                QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(dialogDescriptionLabel());

@@ -12,7 +12,6 @@ QString ColorSpaceConversionFilter::filterName = "Color space conversion";
 
 QStringList ColorSpaceConversionFilter::codeSnippet() const
 {
-    //TODO
     QStringList snippet;
     snippet << "cv::cvtColor(img, img, CV_RGB2GRAY);";
     return snippet;
@@ -20,7 +19,6 @@ QStringList ColorSpaceConversionFilter::codeSnippet() const
 
 cv::Mat &ColorSpaceConversionFilter::process(cv::Mat &input)
 {
-    //TODO checking m_input format etc.
     switch (input.type()) {
     case CV_8UC4:
     case CV_8UC3:

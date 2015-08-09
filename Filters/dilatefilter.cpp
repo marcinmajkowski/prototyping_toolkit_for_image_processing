@@ -46,7 +46,8 @@ QStringList DilateFilter::codeSnippet() const
 
 cv::Mat &DilateFilter::process(cv::Mat &input)
 {
-    cv::dilate(input, input, m_kernel.value(), m_anchor, m_iterations, m_borderType, m_borderValue);
+    cv::dilate(input, input, m_kernel.value(), m_anchor, m_iterations,
+               m_borderType, m_borderValue);
 
     return input;
 }

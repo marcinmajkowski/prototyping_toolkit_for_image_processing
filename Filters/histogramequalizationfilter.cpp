@@ -4,7 +4,8 @@
 
 #include "histogramequalizationfilter.h"
 
-HistogramEqualizationFilter::HistogramEqualizationFilter(FilterObserver *observer, QObject *parent) :
+HistogramEqualizationFilter::HistogramEqualizationFilter(
+        FilterObserver *observer, QObject *parent) :
     Filter(filterName, observer, parent),
     m_convertInput(false)
 {

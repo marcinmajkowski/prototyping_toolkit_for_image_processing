@@ -11,7 +11,8 @@ class ErodeFilter : public Filter
 {
     Q_OBJECT
 public:
-    Q_INVOKABLE explicit ErodeFilter(FilterObserver *observer = 0, QObject *parent = 0);
+    Q_INVOKABLE explicit ErodeFilter(FilterObserver *observer = 0,
+                                     QObject *parent = 0);
     QStringList codeSnippet() const Q_DECL_OVERRIDE;
     cv::Mat &process(cv::Mat &input) Q_DECL_OVERRIDE;
 

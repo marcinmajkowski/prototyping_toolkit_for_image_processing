@@ -18,14 +18,12 @@ ErodeFilter::ErodeFilter(FilterObserver *observer, QObject *parent) :
     m_borderTypeMap.insert(cv::BORDER_REFLECT, "cv::BORDER_REFLECT");
     m_borderTypeMap.insert(cv::BORDER_REFLECT_101, "cv::BORDER_REFLECT_101");
     m_borderTypeMap.insert(cv::BORDER_REPLICATE, "cv::BORDER_REPLICATE");
-//    m_borderTypeMap.insert(cv::BORDER_WRAP, "cv::BORDER_WRAP"); // cv::exception
 }
 
 QString ErodeFilter::filterName = "Erode";
 
 QStringList ErodeFilter::codeSnippet() const
 {
-    //TODO
     QString anchor = "cv::Point(-1, -1)";
     QString borderValue = "cv::morphologyDefaultBorderValue()";
 
@@ -48,7 +46,8 @@ QStringList ErodeFilter::codeSnippet() const
 
 cv::Mat &ErodeFilter::process(cv::Mat &input)
 {
-    cv::erode(input, input, m_kernel.value(), m_anchor, m_iterations, m_borderType, m_borderValue);
+    cv::erode(input, input, m_kernel.value(), m_anchor, m_iterations,
+              m_borderType, m_borderValue);
 
     return input;
 }

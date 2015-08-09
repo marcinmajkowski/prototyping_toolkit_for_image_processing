@@ -9,8 +9,10 @@ class PipelineWidgetItem : public QListWidgetItem
 {
 public:
     PipelineWidgetItem(QListWidget *parent = 0, int type = FilterType);
-    PipelineWidgetItem(const QString &text, QListWidget *parent = 0, int type = FilterType);
-    PipelineWidgetItem(const QIcon &icon, const QString &text, QListWidget *parent = 0, int type = FilterType);
+    PipelineWidgetItem(const QString &text, QListWidget *parent = 0,
+                       int type = FilterType);
+    PipelineWidgetItem(const QIcon &icon, const QString &text,
+                       QListWidget *parent = 0, int type = FilterType);
     PipelineWidgetItem(const QListWidgetItem &other);
     ~PipelineWidgetItem();
 

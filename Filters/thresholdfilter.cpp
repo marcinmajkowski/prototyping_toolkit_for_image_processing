@@ -41,7 +41,6 @@ QStringList ThresholdFilter::codeSnippet() const
 
 cv::Mat &ThresholdFilter::process(cv::Mat &input)
 {
-    //TODO add support for images with floats
     switch (input.type()) {
     case CV_8UC4:
     case CV_8UC3:
@@ -78,7 +77,6 @@ QLayout *ThresholdFilter::dialogParametersGroupLayout()
 {
     QFormLayout *formLayout = new QFormLayout;
 
-    //TODO whole section
     QSlider *threshold = new QSlider(Qt::Horizontal);
     threshold->setRange(0, 255);
     threshold->setValue(m_threshold);
