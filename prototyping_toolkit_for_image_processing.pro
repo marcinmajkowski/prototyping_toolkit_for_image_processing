@@ -38,8 +38,8 @@ win32 {
             -lopencv_core249d \
             -lopencv_highgui249d \
             -lopencv_imgproc249d \
-            -lopencv_features2d249d \
-            -lopencv_calib3d249d
+#            -lopencv_features2d249d \
+#            -lopencv_calib3d249d
     }
 
     CONFIG(release,debug|release) {
@@ -48,8 +48,8 @@ win32 {
             -lopencv_core249 \
             -lopencv_highgui249 \
             -lopencv_imgproc249 \
-            -lopencv_features2d249 \
-            -lopencv_calib3d249
+#            -lopencv_features2d249 \
+#            -lopencv_calib3d249
     }
 }
 
