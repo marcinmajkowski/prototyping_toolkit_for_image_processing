@@ -16,16 +16,12 @@ BlurFilter::BlurFilter(FilterObserver *observer, QObject *parent) :
     m_borderTypeMap.insert(cv::BORDER_REFLECT, "cv::BORDER_REFLECT");
     m_borderTypeMap.insert(cv::BORDER_REFLECT_101, "cv::BORDER_REFLECT_101");
     m_borderTypeMap.insert(cv::BORDER_REPLICATE, "cv::BORDER_REPLICATE");
-    m_borderTypeMap.insert(cv::BORDER_WRAP, "cv::BORDER_WRAP"); // cv::exception
+
+    // might trow cv::exception
+    m_borderTypeMap.insert(cv::BORDER_WRAP, "cv::BORDER_WRAP");
 }
 
 QString BlurFilter::filterName = "Blur";
-
-QStringList BlurFilter::codeSnippet() const
-{
-    //TODO
-    return Filter::codeSnippet();
-}
 
 cv::Mat &BlurFilter::process(cv::Mat &input)
 {
@@ -34,19 +30,13 @@ cv::Mat &BlurFilter::process(cv::Mat &input)
     return input;
 }
 
-void BlurFilter::setBorderType(const QString &type)
+QStringList BlurFilter::codeSnippet() const
 {
-    //TODO
-}
-
-QLayout *BlurFilter::dialogParametersGroupLayout()
-{
-    //TODO
-    return Filter::dialogParametersGroupLayout();
-}
-
-QLabel *BlurFilter::dialogDescriptionLabel()
-{
-    //TODO
-    return Filter::dialogDescriptionLabel();
+    QStringList snippet;
+    QString line = QString("cv::blur(img, img, %1, %2, %3);")
+            .arg("cv::Size(5, 5)")
+            .arg("cv::Point(-1, -1)")
+            .arg(m_borderTypeMap[m_borderType]);
+    snippet << line;
+    return snippet;
 }

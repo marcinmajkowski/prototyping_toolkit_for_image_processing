@@ -9,18 +9,16 @@ class BlurFilter : public Filter
 {
     Q_OBJECT
 public:
-    Q_INVOKABLE explicit BlurFilter(FilterObserver *observer = 0, QObject *parent = 0);
-    QStringList codeSnippet() const Q_DECL_OVERRIDE;
+    Q_INVOKABLE explicit BlurFilter(FilterObserver *observer = 0,
+                                    QObject *parent = 0);
     cv::Mat &process(cv::Mat &input) Q_DECL_OVERRIDE;
+    QStringList codeSnippet() const Q_DECL_OVERRIDE;
 
     static QString filterName;
 
 public slots:
-    void setBorderType(const QString &type);
 
 protected:
-    QLayout *dialogParametersGroupLayout() Q_DECL_OVERRIDE;
-    QLabel *dialogDescriptionLabel() Q_DECL_OVERRIDE;
 
 private:
     cv::Size m_ksize;
